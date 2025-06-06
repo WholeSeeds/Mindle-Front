@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mindle/controllers/bottom_nav_controller.dart';
+import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
+import 'package:get/get.dart';
 
 void main() {
+  Get.put(BottomNavController());
   runApp(const MyApp());
 }
 
@@ -9,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -60,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: MindleBottomNavigationBar(),
     );
   }
 }
