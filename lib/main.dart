@@ -39,7 +39,7 @@ class RootPage extends StatelessWidget {
     return Obx(
       () => Scaffold(
         body: pages[controller.currentIndex.value],
-        bottomNavigationBar: MindleBottomNavigationBar(),
+        bottomNavigationBar: MindleBottomNavigationBar(controller: controller),
       ),
     );
   }

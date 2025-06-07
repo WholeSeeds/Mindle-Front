@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
 
 class MindleBottomNavigationBar extends StatelessWidget {
-  const MindleBottomNavigationBar({super.key});
+  final BottomNavController controller;
+
+  const MindleBottomNavigationBar({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<BottomNavController>();
-
     return Obx(
       () => BottomNavigationBar(
         currentIndex: controller.currentIndex.value,
