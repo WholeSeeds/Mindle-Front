@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
-import 'package:mindle/pages.dart';
-import 'package:mindle/pages/home_page.dart';
-import 'package:mindle/pages/list_page.dart';
-import 'package:mindle/pages/map_page.dart';
-import 'package:mindle/pages/profile_page.dart';
-import 'package:mindle/pages/stats_page.dart';
+import 'package:mindle/bottom_nav_items.dart';
+import 'package:mindle/route_pages.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -33,21 +29,13 @@ class MyApp extends StatelessWidget {
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
-  final List<Widget> pages = const [
-    HomePage(),
-    StatsPage(),
-    MapPage(),
-    ListPage(),
-    ProfilePage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<BottomNavController>();
 
     return Obx(
       () => Scaffold(
-        body: pages[controller.currentIndex.value],
+        body: bottomNavItems[controller.currentIndex.value].page,
         bottomNavigationBar: MindleBottomNavigationBar(controller: controller),
       ),
     );

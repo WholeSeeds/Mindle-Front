@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
+import 'package:mindle/bottom_nav_items.dart';
 
 class MindleBottomNavigationBar extends StatelessWidget {
   final BottomNavController controller;
@@ -15,13 +16,14 @@ class MindleBottomNavigationBar extends StatelessWidget {
         onTap: controller.changeIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: '통계'),
-          BottomNavigationBarItem(icon: Icon(Icons.back_hand), label: '민원작성'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: '민원목록'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '내 정보'),
-        ],
+        items: bottomNavItems
+            .map(
+              (item) => BottomNavigationBarItem(
+                icon: Icon(item.icon),
+                label: item.label,
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -13,7 +13,7 @@ class MapPage extends StatelessWidget {
           children: [
             const Text('민원작성'),
             TextButton(
-              onPressed: () => Get.toNamed('/tmp'),
+              onPressed: () => Get.toNamed('/inside'),
               child: const Text('다음 페이지'),
             ),
           ],
