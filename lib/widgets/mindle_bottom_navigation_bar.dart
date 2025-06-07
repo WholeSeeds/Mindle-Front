@@ -11,7 +11,7 @@ class MindleBottomNavigationBar extends StatelessWidget {
 
     return Obx(
       () => BottomNavigationBar(
-        currentIndex: controller.getCurrentIndex(),
+        currentIndex: controller.currentIndex.value,
         onTap: controller.changeIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,

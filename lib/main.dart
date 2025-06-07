@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
+import 'package:mindle/pages.dart';
+import 'package:mindle/pages/home_page.dart';
+import 'package:mindle/pages/profile_page.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -14,57 +17,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'WholeSeeds',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // initialRoute는 명시하지 않으면 자동으로 '/'로 지정됨
+      getPages: allPages,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class RootPage extends StatelessWidget {
+  const RootPage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final List<Widget> pages = const [HomePage(), ProfilePage()];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+    final controller = Get.find<BottomNavController>();
+
+    return Obx(
+      () => Scaffold(
+        body: pages[controller.currentIndex.value],
+        bottomNavigationBar: MindleBottomNavigationBar(),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: MindleBottomNavigationBar(),
     );
   }
 }
