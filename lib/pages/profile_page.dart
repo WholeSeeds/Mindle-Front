@@ -5,6 +5,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('내 정보')));
+    return Scaffold(body: Center(child: const Text('내 정보')));
   }
 }

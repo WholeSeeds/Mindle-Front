@@ -17,6 +17,9 @@ class MindleBottomNavigationBar extends StatelessWidget {
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.query_stats), label: '통계'),
+          BottomNavigationBarItem(icon: Icon(Icons.back_hand), label: '민원작성'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: '민원목록'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: '내 정보'),
         ],
       ),
