@@ -94,11 +94,10 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     width: 300,
                     height: 48,
-                    child: OutlinedButton(
+                    child: ElevatedButton(
                       onPressed: signInWithGoogle,
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.black,
-                        side: BorderSide(color: Colors.grey, width: 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -107,10 +106,10 @@ class _LoginState extends State<Login> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.network(
-                            'https://developers.google.com/identity/images/g-logo.png',
-                            width: 24,
-                            height: 24,
+                          Image.asset(
+                            'lib/assets/google_icon.jpeg',
+                            width: 40,
+                            height: 40,
                           ),
                           SizedBox(width: 8),
                           Text('Google로 시작하기'),
