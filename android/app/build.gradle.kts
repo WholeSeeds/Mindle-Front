@@ -1,3 +1,22 @@
+import java.util.Properties
+import java.io.File
+
+fun loadDotEnv(): Properties {
+    val env = Properties()
+    val envFile = rootProject.file("../.env")
+    if (envFile.exists()) {
+        envFile.forEachLine { line ->
+            if (line.trim().startsWith("#").not() && line.contains("=")) {
+                val (key, value) = line.split("=", limit = 2)
+                env.setProperty(key.trim(), value.trim())
+            }
+        }
+    } 
+    return env
+}
+
+val dotenv = loadDotEnv()
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -41,6 +60,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] =
+            dotenv.getProperty("KAKAO_NATIVE_APP_KEY") ?: ""
     }
 
     buildTypes {

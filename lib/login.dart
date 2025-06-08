@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -33,13 +34,34 @@ class _LoginState extends State<Login> {
     // TODO: 서버로 토큰 전송 ...
   }
 
+  // 카카오로 시작하기
+  Future<void> signInWithKakao() async {
+    if (await kakao.isKakaoTalkInstalled()) {
+      try {
+        kakao.OAuthToken token = await kakao.UserApi.instance
+            .loginWithKakaoTalk();
+        print('카카오톡으로 로그인 성공 ${token.accessToken}');
+      } catch (error) {
+        print('카카오톡으로 로그인 실패 $error');
+      }
+    } else {
+      try {
+        kakao.OAuthToken token = await kakao.UserApi.instance
+            .loginWithKakaoAccount();
+        print('카카오 계정으로 로그인 성공 ${token.accessToken}');
+      } catch (error) {
+        print('카카오 계정으로 로그인 실패 $error');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            // 로고
+            // 앱 로고
             Center(
               child: Container(
                 width: 70,
@@ -65,34 +87,65 @@ class _LoginState extends State<Login> {
               left: 0,
               right: 0,
               bottom: 40,
-              child: Center(
-                child: SizedBox(
-                  width: 300,
-                  height: 48,
-                  child: OutlinedButton(
-                    onPressed: signInWithGoogle,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      side: BorderSide(color: Colors.grey, width: 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          'https://developers.google.com/identity/images/g-logo.png',
-                          width: 24,
-                          height: 24,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    height: 48,
+                    child: OutlinedButton(
+                      onPressed: signInWithGoogle,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        side: BorderSide(color: Colors.grey, width: 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        SizedBox(width: 8),
-                        Text('Google로 시작하기'),
-                      ],
+                        backgroundColor: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            'https://developers.google.com/identity/images/g-logo.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text('Google로 시작하기'),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(height: 12),
+                  SizedBox(
+                    width: 300,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: signInWithKakao,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xfffee500),
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'lib/assets/kakao_icon.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text('카카오로 시작하기'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
