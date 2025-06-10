@@ -30,17 +30,33 @@ class _LoginState extends State<Login> {
     final userCredential = await FirebaseAuth.instance.signInWithCredential(
       credential,
     );
+    // 유저의 ID 토큰 요청
+    final idToken = await userCredential.user?.getIdToken();
+    // print(idToken);
 
-    // TODO: 서버로 토큰 전송 ...
+    // TODO: 서버로  ID 토큰 전송 ...
   }
 
   // 카카오로 시작하기
   Future<void> signInWithKakao() async {
+    var provider = OAuthProvider('oidc.kakao'); // 제공업체 id
+
     if (await kakao.isKakaoTalkInstalled()) {
       try {
         kakao.OAuthToken token = await kakao.UserApi.instance
             .loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공 ${token.accessToken}');
+
+        // Firebase에 로그인 요청 및 ID 토큰 획득
+        var credential = provider.credential(
+          idToken: token.idToken,
+          accessToken: token.accessToken,
+        );
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(
+          credential,
+        );
+        final idToken = await userCredential.user?.getIdToken();
+
+        // TODO: 서버로  ID 토큰 전송 ...
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
       }
@@ -48,7 +64,18 @@ class _LoginState extends State<Login> {
       try {
         kakao.OAuthToken token = await kakao.UserApi.instance
             .loginWithKakaoAccount();
-        print('카카오 계정으로 로그인 성공 ${token.accessToken}');
+
+        // Firebase에 로그인 요청 및 ID 토큰 획득
+        var credential = provider.credential(
+          idToken: token.idToken,
+          accessToken: token.accessToken,
+        );
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(
+          credential,
+        );
+        final idToken = await userCredential.user?.getIdToken();
+
+        // TODO: 서버로  ID 토큰 전송 ...
       } catch (error) {
         print('카카오 계정으로 로그인 실패 $error');
       }
