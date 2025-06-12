@@ -3,11 +3,59 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class LocationController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   final address = ''.obs;
+
+  // 주소 데이터 관련 변수들
+  final selectedCity = ''.obs; // 2-depth
+  final selectedNbhd = ''.obs; // 3-depth
+  final cities = <String>[].obs;
+  final nbhds = <String>[].obs;
+  Map<String, dynamic>? addressData;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadAddressData();
+  }
+
+  // JSON 파일에서 주소 데이터 로드
+  Future<void> loadAddressData() async {
+    try {
+      final String jsonString = await rootBundle.loadString(
+        'assets/address_data.json',
+      );
+      addressData = json.decode(jsonString);
+
+      // 경기도의 모든 하위 행정구역(2-depth) 가져오기
+      if (addressData != null && addressData!['경기도'] != null) {
+        cities.value = addressData!['경기도'].keys.toList();
+      }
+    } catch (e) {
+      print('주소 데이터 로드 실패: $e');
+    }
+  }
+
+  // 2-depth 선택
+  void selectCity(String city) {
+    selectedCity.value = city;
+    // 그 아래 행정구역(3-depth) 목록 업데이트
+    if (addressData != null && addressData!['경기도'][city] != null) {
+      nbhds.value = List<String>.from(addressData!['경기도'][city]);
+    }
+    selectedNbhd.value = ''; // 2-depth가 변경되면 3-depth 선택 초기화
+  }
+
+  // 3-depth 선택
+  void selectNbhd(String nbhd) {
+    selectedNbhd.value = nbhd;
+    // 선택된 주소로 address 업데이트
+    address.value = '경기도 ${selectedCity.value} ${selectedNbhd.value}';
+  }
 
   // 현재 위치(위도, 경도) 가져오기
   Future getCurrentPosition() async {
