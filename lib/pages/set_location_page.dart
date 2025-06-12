@@ -17,7 +17,7 @@ class SetLocationPage extends StatelessWidget {
       body: Center(
         child: Obx(() {
           return Text(
-            '위도: ${controller.latitude.value}\n경도: ${controller.longitude.value}',
+            '거주하고 계신 행정동이 \n${controller.address.value}이신가요? \n 아니라면 행정동을 선택해주세요.',
             style: TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           );

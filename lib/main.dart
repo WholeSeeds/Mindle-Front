@@ -5,8 +5,12 @@ import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  // .env 파일 로드
+  await dotenv.load();
+
   Get.put(BottomNavController());
   Get.put(LocationController());
   runApp(const MyApp());
