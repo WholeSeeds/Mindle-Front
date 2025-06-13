@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 네이버 맵에서 현 위치 탐색 기능을 사용하기 위한 권한 -->
+    <!-- GPS로 위치 체크 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- 네트워크로 위치 체크 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:label="mindle"
         android:name="${applicationName}"
