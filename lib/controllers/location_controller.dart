@@ -11,10 +11,12 @@ class LocationController extends GetxController {
   final address = ''.obs;
 
   // 주소 데이터 관련 변수들
-  final selectedCity = ''.obs; // 2-depth
-  final selectedNbhd = ''.obs; // 3-depth
-  final cities = <String>[].obs;
-  final nbhds = <String>[].obs;
+  final selectedFirst = ''.obs; // 1-depth
+  final selectedSecond = ''.obs; // 2-depth
+  final selectedThird = ''.obs; // 2-depth
+  final firstList = <String>[].obs;
+  final secondList = <String>[].obs;
+  final thirdList = <String>[].obs;
   Map<String, dynamic>? addressData;
 
   @override
@@ -31,30 +33,57 @@ class LocationController extends GetxController {
       );
       addressData = json.decode(jsonString);
 
-      // 경기도의 모든 하위 행정구역(2-depth) 가져오기
+      // 경기도의 모든 하위 행정구역(1-depth) 가져오기
       if (addressData != null && addressData!['경기도'] != null) {
-        cities.value = addressData!['경기도'].keys.toList();
+        firstList.value = addressData!['경기도'].keys.toList();
       }
     } catch (e) {
       print('주소 데이터 로드 실패: $e');
     }
   }
 
-  // 2-depth 선택
-  void selectCity(String city) {
-    selectedCity.value = city;
-    // 그 아래 행정구역(3-depth) 목록 업데이트
-    if (addressData != null && addressData!['경기도'][city] != null) {
-      nbhds.value = List<String>.from(addressData!['경기도'][city]);
+  // 1-depth 선택
+  void selectFirst(String first) {
+    selectedFirst.value = first;
+    // 그 아래 행정구역(2-depth) 목록 업데이트
+    if (addressData != null && addressData!['경기도'][first] != null) {
+      final data = addressData!['경기도'][first];
+      if (data is List) {
+        secondList.value = List<String>.from(data);
+        thirdList.clear();
+      } else if (data is Map) {
+        secondList.value = List<String>.from(
+          data.keys.map((key) => key.toString()),
+        );
+      }
     }
-    selectedNbhd.value = ''; // 2-depth가 변경되면 3-depth 선택 초기화
+    // 2-depth, 3-depth 선택 초기화
+    selectedSecond.value = '';
+    selectedThird.value = '';
+  }
+
+  // 2-depth 선택
+  void selectSecond(String second) {
+    selectedSecond.value = second;
+
+    // 3-depth가 존재하는 경우
+    if (addressData!['경기도'][selectedFirst] is Map) {
+      thirdList.value = List<String>.from(
+        addressData!['경기도'][selectedFirst][second],
+      );
+      selectedThird.value = ''; // 3-depth 선택 초기화
+    } else {
+      // 선택된 주소로 address 업데이트
+      address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
+    }
   }
 
   // 3-depth 선택
-  void selectNbhd(String nbhd) {
-    selectedNbhd.value = nbhd;
+  void selectThird(String third) {
+    selectedThird.value = third;
+
     // 선택된 주소로 address 업데이트
-    address.value = '경기도 ${selectedCity.value} ${selectedNbhd.value}';
+    address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value} $third';
   }
 
   // 현재 위치(위도, 경도) 가져오기

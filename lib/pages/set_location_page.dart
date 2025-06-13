@@ -2,6 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/location_controller.dart';
 
+class DropdownField extends StatelessWidget {
+  final String hint;
+  final String? value;
+  final List<String> items;
+  final Function(String) onChanged;
+
+  const DropdownField({
+    super.key,
+    required this.hint,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: DropdownButton<String>(
+        isExpanded: true,
+        underline: SizedBox(),
+        value: value == null || value!.isEmpty ? null : value,
+        hint: Text(hint),
+        items: items.map((String item) {
+          return DropdownMenuItem<String>(value: item, child: Text(item));
+        }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            onChanged(newValue);
+          }
+        },
+      ),
+    );
+  }
+}
+
 class SetLocationPage extends StatelessWidget {
   final controller = Get.find<LocationController>();
 
@@ -30,84 +70,58 @@ class SetLocationPage extends StatelessWidget {
           // 주소 선택 UI
           Row(
             children: [
-              // 1번 필드: '경기도' 텍스트
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
                 child: Text('경기도', style: TextStyle(fontSize: 16)),
               ),
 
               SizedBox(width: 8),
 
-              // 2번 필드: 시/군 선택
+              // 1번 필드: 시/군 선택
               Expanded(
                 child: Obx(() {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      value: controller.selectedCity.value.isEmpty
-                          ? null
-                          : controller.selectedCity.value,
-                      hint: Text('시/군 선택'),
-                      items: controller.cities.map((String city) {
-                        return DropdownMenuItem<String>(
-                          value: city,
-                          child: Text(city),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          controller.selectCity(newValue);
-                        }
-                      },
-                    ),
+                  return DropdownField(
+                    hint: '시/군 선택',
+                    value: controller.selectedFirst.value,
+                    items: controller.firstList,
+                    onChanged: controller.selectFirst,
                   );
                 }),
               ),
 
               SizedBox(width: 8),
 
-              // 3번 필드: 읍/면/동 선택
-              Expanded(
-                child: Obx(() {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      value: controller.selectedNbhd.value.isEmpty
-                          ? null
-                          : controller.selectedNbhd.value,
-                      hint: Text('읍/면/동 선택'),
-                      items: controller.nbhds.map((String nbhd) {
-                        return DropdownMenuItem<String>(
-                          value: nbhd,
-                          child: Text(nbhd),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          controller.selectNbhd(newValue);
-                        }
-                      },
-                    ),
-                  );
-                }),
+              // 2번 필드: 구/읍/면/동 선택
+              Obx(
+                () => Expanded(
+                  child: DropdownField(
+                    hint: '구/읍/면/동 선택',
+                    value: controller.selectedSecond.value,
+                    items: controller.secondList,
+                    onChanged: controller.selectSecond,
+                  ),
+                ),
               ),
             ],
+          ),
+
+          // 3번 필드: 동 선택
+          Obx(
+            () => Visibility(
+              visible: controller.thirdList.isNotEmpty,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: SizedBox(
+                width: 150,
+                child: DropdownField(
+                  hint: '동 선택',
+                  value: controller.selectedThird.value,
+                  items: controller.thirdList,
+                  onChanged: controller.selectThird,
+                ),
+              ),
+            ),
           ),
         ],
       ),
