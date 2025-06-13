@@ -45,6 +45,7 @@ class LocationController extends GetxController {
   // 1-depth 선택
   void selectFirst(String first) {
     selectedFirst.value = first;
+
     // 그 아래 행정구역(2-depth) 목록 업데이트
     if (addressData != null && addressData!['경기도'][first] != null) {
       final data = addressData!['경기도'][first];
@@ -66,13 +67,12 @@ class LocationController extends GetxController {
   void selectSecond(String second) {
     selectedSecond.value = second;
 
+    final data = addressData!['경기도'][selectedFirst];
     // 3-depth가 존재하는 경우
-    if (addressData!['경기도'][selectedFirst] is Map) {
-      thirdList.value = List<String>.from(
-        addressData!['경기도'][selectedFirst][second],
-      );
+    if (data is Map) {
+      thirdList.value = List<String>.from(data[second]);
       selectedThird.value = ''; // 3-depth 선택 초기화
-    } else {
+    } else if (data is List) {
       // 선택된 주소로 address 업데이트
       address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
     }
