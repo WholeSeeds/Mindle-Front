@@ -72,10 +72,11 @@ class LocationController extends GetxController {
     if (data is Map) {
       thirdList.value = List<String>.from(data[second]);
       selectedThird.value = ''; // 3-depth 선택 초기화
-    } else if (data is List) {
-      // 선택된 주소로 address 업데이트
-      address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
     }
+    // else if (data is List) {
+    //   // 선택된 주소로 address 업데이트
+    //   address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
+    // }
   }
 
   // 3-depth 선택
@@ -83,7 +84,7 @@ class LocationController extends GetxController {
     selectedThird.value = third;
 
     // 선택된 주소로 address 업데이트
-    address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value} $third';
+    // address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value} $third';
   }
 
   // 현재 위치(위도, 경도) 가져오기
