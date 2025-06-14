@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class ReportCard extends StatelessWidget {
   final String title;
   final String content;
-  final String tags;
   final int numLikes;
   final int numComments;
   final String status;
@@ -13,7 +12,6 @@ class ReportCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
-    required this.tags,
     required this.numLikes,
     required this.numComments,
     required this.status,
@@ -51,8 +49,6 @@ class ReportCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(content, maxLines: 3, overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 8),
-            Text(tags, style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 8),
             if (hasImage)
               Container(

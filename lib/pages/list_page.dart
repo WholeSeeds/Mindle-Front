@@ -78,15 +78,14 @@ class ListPage extends StatelessWidget {
                   title: "횡단보도 선이 거의 지워졌어요",
                   content:
                       "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
-                  tags: '',
                   numLikes: 45,
                   numComments: 2,
                   status: "no",
+                  hasImage: true,
                 ),
                 ReportCard(
                   title: "Test",
                   content: "test",
-                  tags: '',
                   numLikes: 100,
                   numComments: 21,
                   status: "solved",
@@ -94,7 +93,6 @@ class ListPage extends StatelessWidget {
                 ReportCard(
                   title: "Test 2",
                   content: "test",
-                  tags: '',
                   numLikes: 10,
                   numComments: 1,
                   status: "accepted",
@@ -103,7 +101,6 @@ class ListPage extends StatelessWidget {
                   title: "횡단보도 선이 거의 지워졌어요",
                   content:
                       "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
-                  tags: '',
                   numLikes: 45,
                   numComments: 2,
                   status: "no",
