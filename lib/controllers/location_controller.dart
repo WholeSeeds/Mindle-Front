@@ -19,17 +19,6 @@ class LocationController extends GetxController {
   // 네이버 지도 준비 상태
   bool _isMapReady = false;
 
-  // 네이버맵 컨트롤러를 받아와서 세팅하는 메소드
-  void setMapController(NaverMapController controller) async {
-    _mapController = controller;
-    _locationOverlay = _mapController.getLocationOverlay();
-    _isMapReady = true;
-
-    _mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
-    print('네이버맵 컨트롤러가 설정되었습니다.');
-    _startLocationStream();
-  }
-
   // 권한 여부를 반환하는 메소드
   Future<bool> _handlePermission() async {
     // 기기의 위치 서비스가 활성화되어 있는지 확인
@@ -68,6 +57,19 @@ class LocationController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  // 네이버맵 컨트롤러를 받아와서 세팅하는 메소드
+  void setMapController(NaverMapController controller) async {
+    _mapController = controller;
+    _locationOverlay = _mapController.getLocationOverlay();
+    _isMapReady = true;
+
+    // 이거 없애면 위치 오버레이가 안 보임...
+    _mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
+    
+    print('네이버맵 컨트롤러가 설정되었습니다.');
+    _startLocationStream();
   }
 
   // 위치 스트림을 시작하는 메소드
@@ -110,7 +112,7 @@ class LocationController extends GetxController {
     });
   }
 
-  moveCameraToCurrentPosition() {
+  void moveCameraToCurrentPosition() {
     if (currentPosition.value != null) {
       _mapController.updateCamera(
         NCameraUpdate.withParams(
