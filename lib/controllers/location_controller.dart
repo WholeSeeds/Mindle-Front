@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mindle/services/naver_local_search_service.dart';
 
 class LocationController extends GetxController {
   // 현재 위치를 저장할 변수
@@ -81,6 +82,10 @@ class LocationController extends GetxController {
     // 해당 위치로 카메라 이동
     moveCameraToCurrentPosition();
 
+    // 시청 마커 추가
+    // 마커 확인 위한 임시 메소드, 나중에 api나 로직 변경 가능
+    addCityHallMarker();
+
     // 위치 스트림을 시작
     _positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
@@ -118,6 +123,31 @@ class LocationController extends GetxController {
     } else {
       print("현재 위치 정보가 없습니다.");
     }
+  }
+
+  // 시청 관련 기관을 검색하여 마커 추가
+  Future<void> addCityHallMarker() async {
+    // 네이버 지역 검색 서비스에서 '시청' 관련 기관 검색
+    final institutions = await Get.find<NaverLocalSearchService>().searchPlace(
+      '시청',
+    );
+    // for (final institution in institutions) {
+    //   final marker = NMarker(
+    //     id: 'marker_${institution.name}',
+    //     position: NLatLng(institution.latitude, institution.longitude),
+    //   );
+    //
+    //   final infoWindow = NInfoWindow.onMarker(
+    //     id: 'info_${institution.name}',
+    //     text: institution.name,
+    //   );
+    //
+    //   // marker.setOnTapListener((_) {
+    //   //   infoWindow.open(marker);
+    //   // });
+    //
+    //   _mapController.addOverlay(marker);
+    // }
   }
 
   @override
