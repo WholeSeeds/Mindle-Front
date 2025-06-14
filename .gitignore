@@ -44,5 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# 추가
 devtools_options.yaml
 .env
