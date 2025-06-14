@@ -11,17 +11,14 @@ class SetLocationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 현재 위치 가져오기
-    controller.getCurrentPosition();
-
     return Scaffold(
       appBar: AppBar(title: Text('동네 설정'), centerTitle: true),
       body: Column(
         children: [
-          // 현재 위치 확인 텍스트
+          // 안내 문구
           Obx(() {
             return Text(
-              '거주하고 계신 동네가 \n${controller.currentAddress.value}이신가요? \n 아니라면 거주하고 계신 동네를 선택해주세요.',
+              '거주하고 계신 동네를 선택해주세요.',
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             );
