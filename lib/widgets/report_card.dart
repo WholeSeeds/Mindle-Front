@@ -21,17 +21,17 @@ class ReportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String statusText;
-    int statusColor;
+    Color statusColor;
 
     if (status == "accepted") {
       statusText = "접수완료";
-      statusColor = 0xffEB5757;
+      statusColor = Color(0xffEB5757);
     } else if (status == "solved") {
       statusText = "해결완료";
-      statusColor = 0xff40D139;
+      statusColor = Color(0xff40D139);
     } else {
       statusText = "접수 전";
-      statusColor = 0xff838383;
+      statusColor = Color(0xff838383);
     }
 
     return SizedBox(
@@ -97,7 +97,7 @@ class ReportCard extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Color(statusColor),
+                      color: statusColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
