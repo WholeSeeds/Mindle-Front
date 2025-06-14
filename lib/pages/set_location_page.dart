@@ -45,7 +45,7 @@ class SetLocationPage extends StatelessWidget {
                   return DropdownField(
                     hint: '시/군 선택',
                     value: controller.selectedFirst.value,
-                    items: controller.firstList,
+                    items: controller.firstList.toList(),
                     onChanged: controller.selectFirst,
                   );
                 }),
@@ -59,7 +59,7 @@ class SetLocationPage extends StatelessWidget {
                   child: DropdownField(
                     hint: '구/읍/면/동 선택',
                     value: controller.selectedSecond.value,
-                    items: controller.secondList,
+                    items: controller.secondList.toList(),
                     onChanged: controller.selectSecond,
                   ),
                 ),
@@ -78,7 +78,7 @@ class SetLocationPage extends StatelessWidget {
                 child: DropdownField(
                   hint: '동 선택',
                   value: controller.selectedThird.value,
-                  items: controller.thirdList,
+                  items: controller.thirdList.toList(),
                   onChanged: controller.selectThird,
                 ),
               ),
