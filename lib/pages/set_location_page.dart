@@ -21,7 +21,7 @@ class SetLocationPage extends StatelessWidget {
           // 현재 위치 확인 텍스트
           Obx(() {
             return Text(
-              '거주하고 계신 동네가 \n${controller.address.value}이신가요? \n 아니라면 거주하고 계신 동네를 선택해주세요.',
+              '거주하고 계신 동네가 \n${controller.currentAddress.value}이신가요? \n 아니라면 거주하고 계신 동네를 선택해주세요.',
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             );
@@ -66,7 +66,6 @@ class SetLocationPage extends StatelessWidget {
               ),
             ],
           ),
-
           // 3번 필드: 동 선택
           Obx(
             () => Visibility(
@@ -84,6 +83,11 @@ class SetLocationPage extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+
+          FilledButton(
+            onPressed: () => Get.toNamed('/'),
+            child: const Text('완료'),
           ),
         ],
       ),
