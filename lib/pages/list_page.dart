@@ -5,6 +5,44 @@ import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
 import 'package:mindle/widgets/report_card.dart';
 
+// 임시 민원 데이터
+final List<Map<String, dynamic>> _reportData = const [
+  {
+    "title": "횡단보도 선이 거의 지워졌어요",
+    "content":
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    "numLikes": 45,
+    "numComments": 2,
+    "status": "no",
+    "hasImage": true,
+  },
+  {
+    "title": "Test",
+    "content": "test",
+    "numLikes": 100,
+    "numComments": 21,
+    "status": "solved",
+    "hasImage": false,
+  },
+  {
+    "title": "Test 2",
+    "content": "test",
+    "numLikes": 10,
+    "numComments": 1,
+    "status": "accepted",
+    "hasImage": false,
+  },
+  {
+    "title": "횡단보도 선이 거의 지워졌어요",
+    "content":
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    "numLikes": 45,
+    "numComments": 2,
+    "status": "no",
+    "hasImage": false,
+  },
+];
+
 class ListPage extends StatelessWidget {
   final controller = Get.find<NbhdController>();
 
@@ -85,40 +123,19 @@ class ListPage extends StatelessWidget {
           // 민원 목록
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.75,
-            child: ListView(
-              children: [
-                ReportCard(
-                  title: "횡단보도 선이 거의 지워졌어요",
-                  content:
-                      "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
-                  numLikes: 45,
-                  numComments: 2,
-                  status: "no",
-                  hasImage: true,
-                ),
-                ReportCard(
-                  title: "Test",
-                  content: "test",
-                  numLikes: 100,
-                  numComments: 21,
-                  status: "solved",
-                ),
-                ReportCard(
-                  title: "Test 2",
-                  content: "test",
-                  numLikes: 10,
-                  numComments: 1,
-                  status: "accepted",
-                ),
-                ReportCard(
-                  title: "횡단보도 선이 거의 지워졌어요",
-                  content:
-                      "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
-                  numLikes: 45,
-                  numComments: 2,
-                  status: "no",
-                ),
-              ],
+            child: ListView.builder(
+              itemCount: _reportData.length,
+              itemBuilder: (BuildContext context, int index) {
+                final report = _reportData[index];
+                return ReportCard(
+                  title: report["title"] as String,
+                  content: report["content"] as String,
+                  numLikes: report["numLikes"] as int,
+                  numComments: report["numComments"] as int,
+                  status: report["status"] as String,
+                  hasImage: report["hasImage"] as bool,
+                );
+              },
             ),
           ),
         ],
