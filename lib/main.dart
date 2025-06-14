@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
-import 'package:mindle/controllers/location_controller.dart';
+import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
@@ -12,7 +12,7 @@ void main() async {
   await dotenv.load();
 
   Get.put(BottomNavController());
-  Get.put(LocationController());
+  Get.put(NbhdController());
   runApp(const MyApp());
 }
 
