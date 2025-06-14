@@ -6,9 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class LocationController extends GetxController {
-  final latitude = 0.0.obs;
-  final longitude = 0.0.obs;
-  final address = ''.obs;
+  final currentAddress = ''.obs;
 
   // 주소 데이터 관련 변수들
   final selectedFirst = ''.obs; // 1-depth
@@ -74,8 +72,8 @@ class LocationController extends GetxController {
       selectedThird.value = ''; // 3-depth 선택 초기화
     }
     // else if (data is List) {
-    //   // 선택된 주소로 address 업데이트
-    //   address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
+    //   // 선택된 주소로 currentAddress 업데이트
+    //   currentAddress.value = '경기도 ${selectedFirst.value} ${selectedSecond.value}';
     // }
   }
 
@@ -83,8 +81,8 @@ class LocationController extends GetxController {
   void selectThird(String third) {
     selectedThird.value = third;
 
-    // 선택된 주소로 address 업데이트
-    // address.value = '경기도 ${selectedFirst.value} ${selectedSecond.value} $third';
+    // 선택된 주소로 currentAddress 업데이트
+    // currentAddress.value = '경기도 ${selectedFirst.value} ${selectedSecond.value} $third';
   }
 
   // 현재 위치(위도, 경도) 가져오기
@@ -117,9 +115,6 @@ class LocationController extends GetxController {
     // 현재 위치 구하기
     Position position = await Geolocator.getCurrentPosition();
 
-    latitude.value = position.latitude;
-    longitude.value = position.longitude;
-
     // 현재 위치좌표로 주소 가져오기
     await getAddressFromLatLng(position.latitude, position.longitude);
   }
@@ -140,7 +135,7 @@ class LocationController extends GetxController {
         final data = json.decode(response.body);
         if (data['documents'].isNotEmpty) {
           final address = data['documents'][0]['address'];
-          this.address.value =
+          currentAddress.value =
               '${address['region_1depth_name']} ${address['region_2depth_name']} ${address['region_3depth_name']}';
         }
       } else {
