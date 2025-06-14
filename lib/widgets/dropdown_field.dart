@@ -17,6 +17,8 @@ class DropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 120,
+      margin: EdgeInsets.all(5),
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
