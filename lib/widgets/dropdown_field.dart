@@ -17,7 +17,7 @@ class DropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120,
+      constraints: BoxConstraints(minWidth: 120),
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
@@ -25,7 +25,6 @@ class DropdownField extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: DropdownButton<String>(
-        isExpanded: true,
         underline: SizedBox(),
         value: value == null || value!.isEmpty ? null : value,
         hint: Text(hint),
