@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:mindle/services/naver_local_search_service.dart';
+import 'package:mindle/widgets/institution_bottomsheet.dart';
 
 class LocationController extends GetxController {
   // 현재 위치를 저장할 변수
@@ -67,7 +69,7 @@ class LocationController extends GetxController {
 
     // 이거 없애면 위치 오버레이가 안 보임...
     _mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
-    
+
     print('네이버맵 컨트롤러가 설정되었습니다.');
     _startLocationStream();
   }
@@ -139,22 +141,27 @@ class LocationController extends GetxController {
     for (final institution in institutions) {
       final markerId =
           'marker_${institution.latitude}_${institution.longitude}';
-      final infoWindowId =
-          'info_${institution.latitude}_${institution.longitude}';
 
       final marker = NMarker(
         id: markerId,
         position: NLatLng(institution.latitude, institution.longitude),
       );
 
-      final infoWindow = NInfoWindow.onMarker(
-        id: infoWindowId,
-        text: institution.name,
-      );
-
-      // 마커 클릭 시 말풍선 표시
+      // 마커 탭했을 시
       marker.setOnTapListener((overlay) {
-        marker.openInfoWindow(infoWindow);
+        final context = Get.context!;
+        // 바텀 시트 열기
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          showDragHandle: true,
+          builder: (_) {
+            return InstitutionBottomSheet(institution: institution);
+          },
+        );
       });
 
       markers.add(marker);
