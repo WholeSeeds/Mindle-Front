@@ -107,7 +107,7 @@ class LocationController extends GetxController {
     });
   }
 
-  moveCameraToCurrentPosition() {
+  void moveCameraToCurrentPosition() {
     if (currentPosition.value != null) {
       _mapController.updateCamera(
         NCameraUpdate.withParams(
