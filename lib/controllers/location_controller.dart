@@ -187,8 +187,7 @@ class LocationController extends GetxController {
     }
   }
 
-
-  // ---------네이버맵 관련 메소드들---------
+  // ---------네이버맵에 필요한 메소드들---------
 
   // 네이버맵 컨트롤러를 받아와서 세팅하는 메소드
   void setMapController(NaverMapController controller) async {
@@ -196,7 +195,9 @@ class LocationController extends GetxController {
     _locationOverlay = _mapController.getLocationOverlay();
     _isMapReady = true;
 
+    // 이거 없애면 위치 오버레이가 안 보임...
     _mapController.setLocationTrackingMode(NLocationTrackingMode.follow);
+
     print('네이버맵 컨트롤러가 설정되었습니다.');
     _startLocationStream();
   }
@@ -259,5 +260,5 @@ class LocationController extends GetxController {
     super.onClose();
   }
 
-  // -- 네이버맵 관련 메소드들 끝 -----------
+  // -- 네이버맵에 필요한 메소드들 끝 -----------
 }
