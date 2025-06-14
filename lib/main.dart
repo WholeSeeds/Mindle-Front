@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
+import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/route_pages.dart';
@@ -28,7 +29,7 @@ void main() async {
 
   Get.put(BottomNavController());
   Get.put(LocationController());
-
+  Get.put(NbhdController());
   runApp(const MyApp());
 }
 
