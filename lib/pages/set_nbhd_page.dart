@@ -17,13 +17,11 @@ class SetNbhdPage extends StatelessWidget {
       body: Column(
         children: [
           // 안내 문구
-          Obx(() {
-            return Text(
-              '거주하고 계신 동네를 선택해주세요.',
-              style: TextStyle(fontSize: 20),
-              textAlign: TextAlign.center,
-            );
-          }),
+          Text(
+            '거주하고 계신 동네를 선택해주세요.',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
 
           SizedBox(height: 30),
 
