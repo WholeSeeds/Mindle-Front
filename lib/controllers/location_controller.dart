@@ -8,6 +8,8 @@ class LocationController extends GetxController {
   final Rx<Position?> currentPosition = Rx<Position?>(null);
   // 위치 스트림을 저장할 변수
   Stream<Position> _positionStream = Stream.empty();
+  // 위치 스트림 구독 저장할 변수
+  late StreamSubscription<Position> _positionSubscription;
 
   // 네이버 지도 컨트롤러
   late NaverMapController _mapController;
@@ -73,17 +75,23 @@ class LocationController extends GetxController {
     final hasPermission = await _handlePermission();
     if (!hasPermission) return;
 
+    // 일단 1회 위치 정보를 가져옴
+    currentPosition.value = await Geolocator.getCurrentPosition();
+
+    // 해당 위치로 카메라 이동
+    moveCameraToCurrentPosition();
+
     // 위치 스트림을 시작
     _positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.best,
         // distanceFilter: 10, // 10미터 이상 이동 시 업데이트
-        distanceFilter: 0, // 테스트용
+        distanceFilter: 0, // 테스트용: 이동 여부와 관계없이 일정 초마다 업데이트
       ),
     );
 
     // 위치 스트림을 구독하여 위치 업데이트를 처리
-    _positionStream.listen((Position? position) {
+    _positionSubscription = _positionStream.listen((Position? position) {
       currentPosition.value = position;
       if (_isMapReady && position != null) {
         // print(
@@ -95,5 +103,27 @@ class LocationController extends GetxController {
         );
       }
     });
+  }
+
+  moveCameraToCurrentPosition() {
+    if (currentPosition.value != null) {
+      _mapController.updateCamera(
+        NCameraUpdate.withParams(
+          target: NLatLng(
+            currentPosition.value!.latitude,
+            currentPosition.value!.longitude,
+          ),
+        ),
+      );
+    } else {
+      print("현재 위치 정보가 없습니다.");
+    }
+  }
+
+  @override
+  void onClose() {
+    // 위치 스트림 구독 취소
+    _positionSubscription.cancel();
+    super.onClose();
   }
 }
