@@ -127,27 +127,40 @@ class LocationController extends GetxController {
 
   // 시청 관련 기관을 검색하여 마커 추가
   Future<void> addCityHallMarker() async {
+    final Set<NMarker> markers = {};
+
     // 네이버 지역 검색 서비스에서 '시청' 관련 기관 검색
     final institutions = await Get.find<NaverLocalSearchService>().searchPlace(
       '시청',
     );
-    // for (final institution in institutions) {
-    //   final marker = NMarker(
-    //     id: 'marker_${institution.name}',
-    //     position: NLatLng(institution.latitude, institution.longitude),
-    //   );
-    //
-    //   final infoWindow = NInfoWindow.onMarker(
-    //     id: 'info_${institution.name}',
-    //     text: institution.name,
-    //   );
-    //
-    //   // marker.setOnTapListener((_) {
-    //   //   infoWindow.open(marker);
-    //   // });
-    //
-    //   _mapController.addOverlay(marker);
-    // }
+
+    for (final institution in institutions) {
+      final markerId =
+          'marker_${institution.latitude}_${institution.longitude}';
+      final infoWindowId =
+          'info_${institution.latitude}_${institution.longitude}';
+
+      final marker = NMarker(
+        id: markerId,
+        position: NLatLng(institution.latitude, institution.longitude),
+      );
+
+      final infoWindow = NInfoWindow.onMarker(
+        id: infoWindowId,
+        text: institution.name,
+      );
+
+      // 마커 클릭 시 말풍선 표시
+      marker.setOnTapListener((overlay) {
+        marker.openInfoWindow(infoWindow);
+      });
+
+      markers.add(marker);
+    }
+
+    // 마커 추가
+    _mapController.addOverlayAll(markers);
+    // print('시청 관련 기관 마커가 추가되었습니다: ${institutions.length}개');
   }
 
   @override

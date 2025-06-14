@@ -24,7 +24,9 @@ class NaverLocalSearchService extends GetxService {
       if (response.statusCode == 200) {
         final items = response.data['items'] as List;
         print('검색 결과: $items');
-        return items.map((item) => PublicInstitution.fromJson(item)).toList();
+        return items
+            .map((item) => PublicInstitution.fromConvertedJson(item))
+            .toList();
       } else {
         print('검색 실패: ${response.statusCode} ${response.statusMessage}');
         return [];

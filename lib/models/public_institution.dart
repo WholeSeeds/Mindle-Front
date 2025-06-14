@@ -11,7 +11,7 @@ class PublicInstitution {
 
   factory PublicInstitution.fromJson(Map<String, dynamic> json) {
     return PublicInstitution(
-      name: json['title'],
+      name: json['title'].replaceAll(RegExp(r'<[^>]*>'), ''), // HTML 태그 제거
       latitude: double.parse(json['mapy']),
       longitude: double.parse(json['mapx']),
     );
@@ -19,7 +19,7 @@ class PublicInstitution {
 
   factory PublicInstitution.fromConvertedJson(Map<String, dynamic> json) {
     return PublicInstitution(
-      name: json['title'],
+      name: json['title'].replaceAll(RegExp(r'<[^>]*>'), ''), // HTML 태그 제거
       latitude: double.parse(json['mapy']) / 1e7,
       longitude: double.parse(json['mapx']) / 1e7,
     );
