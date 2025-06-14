@@ -27,5 +27,5 @@ class PublicInstitution {
 
   @override
   String toString() =>
-      'PublicOffice(name: $name, lat: $latitude, lng: $longitude)';
+      'PublicInstitution(name: $name, lat: $latitude, lng: $longitude)';
 }
