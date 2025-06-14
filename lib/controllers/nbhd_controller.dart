@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-class LocationController extends GetxController {
+class NbhdController extends GetxController {
   Map<String, dynamic>? addressData;
 
   final selectedFirst = ''.obs; // 1-depth

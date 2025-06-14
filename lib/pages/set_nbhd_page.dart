@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:mindle/controllers/location_controller.dart';
+import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
 
-class SetLocationPage extends StatelessWidget {
-  final controller = Get.find<LocationController>();
+// 동네 설정 페이지
+class SetNbhdPage extends StatelessWidget {
+  final controller = Get.find<NbhdController>();
 
-  SetLocationPage({super.key});
+  SetNbhdPage({super.key});
 
   @override
   Widget build(BuildContext context) {
