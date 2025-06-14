@@ -17,13 +17,14 @@ class DropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(minWidth: 120),
+      margin: EdgeInsets.all(5),
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
       ),
       child: DropdownButton<String>(
-        isExpanded: true,
         underline: SizedBox(),
         value: value == null || value!.isEmpty ? null : value,
         hint: Text(hint),

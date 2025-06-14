@@ -26,59 +26,53 @@ class SetNbhdPage extends StatelessWidget {
           SizedBox(height: 30),
 
           // 주소 선택 UI
-          Row(
+          Wrap(
+            alignment: WrapAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: Text('경기도', style: TextStyle(fontSize: 16)),
               ),
 
-              SizedBox(width: 8),
-
               // 1번 필드: 시/군 선택
-              Expanded(
-                child: Obx(() {
-                  return DropdownField(
-                    hint: '시/군 선택',
-                    value: controller.selectedFirst.value,
-                    items: controller.firstList.toList(),
-                    onChanged: controller.selectFirst,
-                  );
-                }),
+              Obx(
+                () => DropdownField(
+                  hint: '시/군 선택',
+                  value: controller.selectedFirst.value,
+                  items: controller.firstList.toList(),
+                  onChanged: controller.selectFirst,
+                ),
               ),
-
-              SizedBox(width: 8),
 
               // 2번 필드: 구/읍/면/동 선택
               Obx(
-                () => Expanded(
-                  child: DropdownField(
-                    hint: '구/읍/면/동 선택',
-                    value: controller.selectedSecond.value,
-                    items: controller.secondList.toList(),
-                    onChanged: controller.selectSecond,
+                () => DropdownField(
+                  hint: '구/읍/면/동 선택',
+                  value: controller.selectedSecond.value,
+                  items: controller.secondList.toList(),
+                  onChanged: controller.selectSecond,
+                ),
+              ),
+
+              // 3번 필드: 동 선택
+              Obx(
+                () => Visibility(
+                  visible: controller.thirdList.isNotEmpty,
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  child: SizedBox(
+                    width: 150,
+                    child: DropdownField(
+                      hint: '동 선택',
+                      value: controller.selectedThird.value,
+                      items: controller.thirdList.toList(),
+                      onChanged: controller.selectThird,
+                    ),
                   ),
                 ),
               ),
             ],
-          ),
-          // 3번 필드: 동 선택
-          Obx(
-            () => Visibility(
-              visible: controller.thirdList.isNotEmpty,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: SizedBox(
-                width: 150,
-                child: DropdownField(
-                  hint: '동 선택',
-                  value: controller.selectedThird.value,
-                  items: controller.thirdList.toList(),
-                  onChanged: controller.selectThird,
-                ),
-              ),
-            ),
           ),
 
           FilledButton(

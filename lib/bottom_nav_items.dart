@@ -21,7 +21,7 @@ class BottomNavItem {
   });
 }
 
-const List<BottomNavItem> bottomNavItems = [
+final List<BottomNavItem> bottomNavItems = [
   BottomNavItem(page: HomePage(), icon: Icons.home, label: '홈'),
   BottomNavItem(page: StatsPage(), icon: Icons.query_stats, label: '통계'),
   BottomNavItem(page: MapPage(), icon: Icons.back_hand, label: '민원작성'),
