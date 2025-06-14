@@ -66,7 +66,6 @@ class SetLocationPage extends StatelessWidget {
               ),
             ],
           ),
-
           // 3번 필드: 동 선택
           Obx(
             () => Visibility(
@@ -84,6 +83,11 @@ class SetLocationPage extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+
+          FilledButton(
+            onPressed: () => Get.toNamed('/'),
+            child: const Text('완료'),
           ),
         ],
       ),
