@@ -65,9 +65,22 @@ class ListPage extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 10),
           // 정렬
-          Row(children: [Icon(Icons.sort), Text("최신순")]),
+          Align(
+            alignment: Alignment.topRight,
+            child: TextButton.icon(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return _SortOptionsBottomSheet();
+                  },
+                );
+              },
+              icon: Icon(Icons.sort),
+              label: Text('최신순'),
+            ),
+          ),
 
           // 민원 목록
           SizedBox(
@@ -110,6 +123,43 @@ class ListPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SortOptionsBottomSheet extends StatelessWidget {
+  const _SortOptionsBottomSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: Icon(Icons.access_time),
+          title: Text('최신순'),
+          onTap: () {
+            // 최신순 정렬 로직 추가
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.favorite_border),
+          title: Text('공감순'),
+          onTap: () {
+            // 공감순 정렬 로직 추가
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.comment_outlined),
+          title: Text('댓글순'),
+          onTap: () {
+            // 댓글순 정렬 로직 추가
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 }
