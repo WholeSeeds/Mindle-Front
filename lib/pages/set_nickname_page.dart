@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mindle/pages/set_nbhd_page.dart';
 
 class SetNicknamePage extends StatelessWidget {
   const SetNicknamePage({super.key});
@@ -55,7 +58,7 @@ class SetNicknamePage extends StatelessWidget {
               height: 50,
               child: FilledButton(
                 onPressed: () {
-                  // 완료 로직 추가
+                  Get.to(SetNbhdPage());
                 },
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
