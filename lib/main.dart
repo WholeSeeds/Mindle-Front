@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // initialRoute는 명시하지 않으면 자동으로 '/'로 지정됨
-      // initialRoute: "/init",
+      initialRoute: "/init",
       getPages: allPages,
     );
   }
