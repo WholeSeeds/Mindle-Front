@@ -9,6 +9,7 @@ import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/route_pages.dart';
+import 'package:mindle/services/naver_local_search_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -40,7 +41,9 @@ void main() async {
 
   Get.put(BottomNavController());
   Get.put(LocationController());
-  Get.put(NbhdController());
+  Get.put(NbhdController());  
+  Get.put(NaverLocalSearchService());
+
   runApp(const MyApp());
 }
 
@@ -55,7 +58,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // initialRoute는 명시하지 않으면 자동으로 '/'로 지정됨
-      // initialRoute: "/init",
+      initialRoute: "/init",
       getPages: allPages,
     );
   }
