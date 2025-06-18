@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+import 'package:mindle/pages/set_nickname_page.dart';
 
-  @override
-  State<Login> createState() => _LoginState();
-}
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
-class _LoginState extends State<Login> {
   // 구글로 시작하기 (firebase)
   Future<void> signInWithGoogle() async {
     // 구글 로그인, 사용자 계정 정보 획득
@@ -35,6 +33,7 @@ class _LoginState extends State<Login> {
     // print(idToken);
 
     // TODO: 서버로  ID 토큰 전송 ...
+    Get.to(SetNicknamePage());
   }
 
   // 카카오로 시작하기
@@ -57,6 +56,7 @@ class _LoginState extends State<Login> {
         final idToken = await userCredential.user?.getIdToken();
 
         // TODO: 서버로  ID 토큰 전송 ...
+        Get.to(SetNicknamePage());
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
       }
@@ -76,6 +76,7 @@ class _LoginState extends State<Login> {
         final idToken = await userCredential.user?.getIdToken();
 
         // TODO: 서버로  ID 토큰 전송 ...
+        Get.to(SetNicknamePage());
       } catch (error) {
         print('카카오 계정으로 로그인 실패 $error');
       }

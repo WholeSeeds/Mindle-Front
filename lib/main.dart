@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
 import 'package:mindle/controllers/nbhd_controller.dart';
@@ -12,8 +12,6 @@ import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/naver_local_search_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
-
-import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +39,7 @@ void main() async {
 
   Get.put(BottomNavController());
   Get.put(LocationController());
-  Get.put(NbhdController());  
+  Get.put(NbhdController());
   Get.put(NaverLocalSearchService());
 
   runApp(const MyApp());
