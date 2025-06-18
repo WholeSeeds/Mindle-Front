@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'lib/assets/google_icon.jpeg',
+                            'assets/images/google_icon.jpeg',
                             width: 40,
                             height: 40,
                           ),
@@ -161,7 +161,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'lib/assets/kakao_icon.png',
+                            'assets/images/kakao_icon.png',
                             width: 24,
                             height: 24,
                           ),
