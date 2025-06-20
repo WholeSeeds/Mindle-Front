@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mindle/controllers/nbhd_controller.dart';
+import 'package:mindle/widgets/align_options_button.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
 import 'package:mindle/widgets/report_card.dart';
 
@@ -104,21 +105,7 @@ class ListPage extends StatelessWidget {
           ),
 
           // 정렬
-          Align(
-            alignment: Alignment.topRight,
-            child: TextButton.icon(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return _SortOptionsBottomSheet();
-                  },
-                );
-              },
-              icon: Icon(Icons.sort),
-              label: Text('최신순'),
-            ),
-          ),
+          AlignOptionsButton(),
 
           // 민원 목록
           SizedBox(
@@ -140,43 +127,6 @@ class ListPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _SortOptionsBottomSheet extends StatelessWidget {
-  const _SortOptionsBottomSheet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          leading: Icon(Icons.access_time),
-          title: Text('최신순'),
-          onTap: () {
-            // 최신순 정렬 로직 추가
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.favorite_border),
-          title: Text('공감순'),
-          onTap: () {
-            // 공감순 정렬 로직 추가
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.comment_outlined),
-          title: Text('댓글순'),
-          onTap: () {
-            // 댓글순 정렬 로직 추가
-            Navigator.pop(context);
-          },
-        ),
-      ],
     );
   }
 }
