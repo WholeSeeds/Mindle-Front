@@ -1,5 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/models/public_place.dart';
+import 'package:mindle/widgets/report_card.dart';
+
+// 임시 민원 데이터
+final List<Map<String, dynamic>> _reportData = const [
+  {
+    "title": "횡단보도 선이 거의 지워졌어요",
+    "content":
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    "numLikes": 45,
+    "numComments": 2,
+    "status": "no",
+    "hasImage": true,
+  },
+  {
+    "title": "Test",
+    "content": "test",
+    "numLikes": 100,
+    "numComments": 21,
+    "status": "solved",
+    "hasImage": false,
+  },
+  {
+    "title": "Test 2",
+    "content": "test",
+    "numLikes": 10,
+    "numComments": 1,
+    "status": "accepted",
+    "hasImage": false,
+  },
+  {
+    "title": "횡단보도 선이 거의 지워졌어요",
+    "content":
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    "numLikes": 45,
+    "numComments": 2,
+    "status": "no",
+    "hasImage": false,
+  },
+];
 
 class ComplaintStatCard extends StatelessWidget {
   final String label; // ex) "오늘의 민원"
@@ -45,6 +84,7 @@ class PlaceBottomSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return Stack(
           children: [
+            // 스크롤 가능한 컨테이너
             SingleChildScrollView(
               controller: scrollController,
               child: Container(
@@ -82,15 +122,24 @@ class PlaceBottomSheet extends StatelessWidget {
                         ComplaintStatCard(label: "나의 민원", count: 10000),
                       ],
                     ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      '민원글목록입니다민원글목록입니다민원글목록입니다민원글목록입니다민원글목록입니다민원글목록입니다',
-                      style: TextStyle(fontSize: 60),
+                    const SizedBox(height: 10),
+                    Column(
+                      children: _reportData.map((report) {
+                        return ReportCard(
+                          title: report["title"] as String,
+                          content: report["content"] as String,
+                          numLikes: report["numLikes"] as int,
+                          numComments: report["numComments"] as int,
+                          status: report["status"] as String,
+                          hasImage: report["hasImage"] as bool,
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
               ),
             ),
+            // 민원 작성 버튼
             Positioned(
               left: 20,
               right: 20,
