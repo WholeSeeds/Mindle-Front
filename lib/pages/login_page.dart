@@ -11,29 +11,38 @@ class LoginPage extends StatelessWidget {
 
   // 구글로 시작하기 (firebase)
   Future<void> signInWithGoogle() async {
-    // 구글 로그인, 사용자 계정 정보 획득
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      // 구글 로그인, 사용자 계정 정보 획득
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // googleUser에서 액세스 토큰과 ID 토큰 가져오기
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      if (googleUser == null) {
+        print('구글 로그인 실패!');
+        return;
+      }
 
-    // Firebase에서 사용 가능한 구글 로그인용 credential(자격 증명) 생성
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // googleUser에서 액세스 토큰과 ID 토큰 가져오기
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    // credential을 Firebase에 넘겨서 로그인 요청, 성공하면 유저정보 포함된 UserCredential 객체 반환
-    final userCredential = await FirebaseAuth.instance.signInWithCredential(
-      credential,
-    );
-    // 유저의 ID 토큰 요청
-    final idToken = await userCredential.user?.getIdToken();
-    // print(idToken);
+      // Firebase에서 사용 가능한 구글 로그인용 credential(자격 증명) 생성
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    // TODO: 서버로  ID 토큰 전송 ...
-    Get.to(SetNicknamePage());
+      // credential을 Firebase에 넘겨서 로그인 요청, 성공하면 유저정보 포함된 UserCredential 객체 반환
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+      // 유저의 ID 토큰 요청
+      final idToken = await userCredential.user?.getIdToken();
+      // print(idToken);
+
+      // TODO: 서버로  ID 토큰 전송 ...
+      Get.to(SetNicknamePage());
+    } catch (error) {
+      print("구글 로그인 실패 $error");
+    }
   }
 
   // 카카오로 시작하기
