@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mindle/pages/home_page.dart';
 import 'package:mindle/pages/list_page.dart';
 import 'package:mindle/pages/map_page.dart';
-import 'package:mindle/pages/profile_page.dart';
+import 'package:mindle/pages/mypage/profile_page.dart';
 import 'package:mindle/pages/stats_page.dart';
 
 class BottomNavItem {

@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:mindle/pages/mypage/my_complaints_page.dart';
+import 'package:mindle/pages/mypage/liked_comlaints_page.dart';
+import 'package:mindle/pages/mypage/commented_complaints_page.dart';
+import 'package:mindle/pages/mypage/settings_page.dart';
+import 'package:mindle/pages/set_nbhd_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -7,7 +14,14 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(() => SettingsPage());
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -92,25 +106,33 @@ class ProfilePage extends StatelessWidget {
                 leading: Icon(Icons.edit),
                 title: Text('내가 작성한 민원'),
                 trailing: Icon(Icons.chevron_right),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => MyComplaintsPage());
+                },
               ),
               ListTile(
                 leading: Icon(Icons.favorite_border),
                 title: Text('내가 공감한 민원'),
                 trailing: Icon(Icons.chevron_right),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => LikedComlaintsPage());
+                },
               ),
               ListTile(
                 leading: Icon(Icons.comment),
-                title: Text('내가 댓글단 글'),
+                title: Text('내가 댓글 단 민원'),
                 trailing: Icon(Icons.chevron_right),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => CommentedComplaintsPage());
+                },
               ),
               ListTile(
                 leading: Icon(Icons.location_on),
                 title: Text('동네 설정'),
                 trailing: Icon(Icons.chevron_right),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => SetNbhdPage());
+                },
               ),
             ],
           ),
