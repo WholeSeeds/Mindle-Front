@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:mindle/models/public_institution.dart';
+import 'package:mindle/models/public_place.dart';
 
 // google place api로 주변 공공기관 검색
 class GooglePlaceService extends GetxService {
@@ -17,11 +17,10 @@ class GooglePlaceService extends GetxService {
     ),
   );
 
-  Future<List<PublicInstitution>> searchPlace(
+  Future<List<PublicPlace>> searchPlace(
     double latitude,
     double longitude,
   ) async {
-    print('api key: ${dotenv.env['GOOGLE_MAPS_PLATFORM_API_KEY']}');
     try {
       final response = await _dio.post(
         'places:searchNearby',
@@ -44,10 +43,16 @@ class GooglePlaceService extends GetxService {
       );
       if (response.statusCode == 200) {
         final places = response.data['places'] as List;
-        print(places);
         return places
-            .map((place) => PublicInstitution.fromGoogleJson(place))
+            .map((place) => PublicPlace.fromGoogleJson(place))
             .toList();
+        // if (response.statusCode == 200) {
+        //   final places = response.data['places'] as List;
+        //   return places.map((place) {
+        //     final publicPlace = PublicPlace.fromGoogleJson(place);
+        //     print('📸 Photo URL: ${publicPlace.photoUrl}');
+        //     return publicPlace;
+        //   }).toList();
       } else {
         print('검색 실패: ${response.statusCode} ${response.statusMessage}');
         return [];
