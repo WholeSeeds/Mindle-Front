@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:mindle/widgets/align_options_button.dart';
 import 'package:mindle/widgets/report_card.dart';
 
 class MyComplaintsPage extends StatelessWidget {
@@ -10,6 +12,7 @@ class MyComplaintsPage extends StatelessWidget {
       appBar: AppBar(title: Text("내가 작성한 민원"), centerTitle: true),
       body: Column(
         children: [
+          AlignOptionsButton(),
           ReportCard(
             title: "불만사항 1",
             content: "그냥 짜증나요;;",
