@@ -6,7 +6,7 @@ import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/route_pages.dart';
-import 'package:mindle/services/naver_local_search_service.dart';
+import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -30,8 +30,9 @@ void main() async {
 
   Get.put(BottomNavController());
   Get.put(LocationController());
-  Get.put(NbhdController());  
-  Get.put(NaverLocalSearchService());
+  Get.put(NbhdController());
+  // Get.put(NaverLocalSearchService());
+  Get.put(GooglePlaceService());
 
   runApp(const MyApp());
 }

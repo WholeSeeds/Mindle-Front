@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:mindle/services/naver_local_search_service.dart';
+import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/widgets/institution_bottomsheet.dart';
 
 class LocationController extends GetxController {
@@ -133,9 +133,10 @@ class LocationController extends GetxController {
   Future<void> addCityHallMarker() async {
     final Set<NMarker> markers = {};
 
-    // 네이버 지역 검색 서비스에서 '시청' 관련 기관 검색
-    final institutions = await Get.find<NaverLocalSearchService>().searchPlace(
-      '시청',
+    // google place api 이용해 공공기관 검색
+    final institutions = await Get.find<GooglePlaceService>().searchPlace(
+      currentPosition.value!.latitude,
+      currentPosition.value!.longitude,
     );
 
     for (final institution in institutions) {
@@ -169,7 +170,7 @@ class LocationController extends GetxController {
 
     // 마커 추가
     _mapController.addOverlayAll(markers);
-    // print('시청 관련 기관 마커가 추가되었습니다: ${institutions.length}개');
+    print('공공기관 마커가 추가되었습니다: ${institutions.length}개');
   }
 
   @override

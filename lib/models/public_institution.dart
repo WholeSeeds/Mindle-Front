@@ -25,6 +25,14 @@ class PublicInstitution {
     );
   }
 
+  factory PublicInstitution.fromGoogleJson(Map<String, dynamic> json) {
+    return PublicInstitution(
+      name: json['displayName']['text'],
+      latitude: json['location']['latitude'],
+      longitude: json['location']['longitude'],
+    );
+  }
+
   @override
   String toString() =>
       'PublicInstitution(name: $name, lat: $latitude, lng: $longitude)';
