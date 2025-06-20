@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/widgets/report_card.dart';
 
-class LikedComlaintsPage extends StatelessWidget {
-  const LikedComlaintsPage({super.key});
+class LikedComplaintsPage extends StatelessWidget {
+  const LikedComplaintsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

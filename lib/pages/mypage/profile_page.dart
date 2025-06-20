@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mindle/pages/mypage/my_complaints_page.dart';
-import 'package:mindle/pages/mypage/liked_comlaints_page.dart';
+import 'package:mindle/pages/mypage/liked_complaints_page.dart';
 import 'package:mindle/pages/mypage/commented_complaints_page.dart';
 import 'package:mindle/pages/mypage/settings_page.dart';
 import 'package:mindle/pages/set_nbhd_page.dart';
@@ -115,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                 title: Text('내가 공감한 민원'),
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
-                  Get.to(() => LikedComlaintsPage());
+                  Get.to(() => LikedComplaintsPage());
                 },
               ),
               ListTile(
