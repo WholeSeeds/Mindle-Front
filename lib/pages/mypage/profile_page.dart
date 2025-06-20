@@ -105,7 +105,7 @@ class ProfilePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.edit),
                 title: Text('내가 작성한 민원'),
-                trailing: Icon(Icons.chevron_right),
+                trailing: Text("119개", style: TextStyle(fontSize: 16)),
                 onTap: () {
                   Get.to(() => MyComplaintsPage());
                 },
@@ -113,7 +113,7 @@ class ProfilePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.favorite_border),
                 title: Text('내가 공감한 민원'),
-                trailing: Icon(Icons.chevron_right),
+                trailing: Text("3개", style: TextStyle(fontSize: 16)),
                 onTap: () {
                   Get.to(() => LikedComplaintsPage());
                 },
@@ -121,7 +121,7 @@ class ProfilePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.comment),
                 title: Text('내가 댓글 단 민원'),
-                trailing: Icon(Icons.chevron_right),
+                trailing: Text("27개", style: TextStyle(fontSize: 16)),
                 onTap: () {
                   Get.to(() => CommentedComplaintsPage());
                 },
