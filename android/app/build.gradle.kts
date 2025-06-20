@@ -1,9 +1,27 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// local.properties 파일 읽어서 Google Maps API 키 가져오기
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val googleMapsPlatformApiKey: String = localProperties.getProperty("flutter.GoogleMapsPlatformAPIKey") ?: ""
+
+android {
+    defaultConfig {
+        // manifest에 전달할 placeholder 설정
+        manifestPlaceholders["GOOGLE_MAPS_PLATFORM_API_KEY"] = googleMapsPlatformApiKey
+    }
+}
+
 
 android {
     namespace = "com.example.mindle"
