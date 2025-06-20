@@ -39,6 +39,7 @@ class GooglePlaceService extends GetxService {
               "radius": 2000, // meters
             },
           },
+          "languageCode": "ko",
         },
       );
       if (response.statusCode == 200) {
