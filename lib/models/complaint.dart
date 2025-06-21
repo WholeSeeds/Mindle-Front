@@ -1,4 +1,4 @@
-class Report {
+class Complaint {
   final String title;
   final String content;
   final int numLikes;
@@ -6,7 +6,7 @@ class Report {
   final String status; // 'no', 'solved', 'accepted'
   final bool hasImage;
 
-  Report({
+  Complaint({
     required this.title,
     required this.content,
     required this.numLikes,
@@ -15,8 +15,8 @@ class Report {
     required this.hasImage,
   });
 
-  factory Report.fromJson(Map<String, dynamic> json) {
-    return Report(
+  factory Complaint.fromJson(Map<String, dynamic> json) {
+    return Complaint(
       title: json['title'],
       content: json['content'],
       numLikes: json['numLikes'],

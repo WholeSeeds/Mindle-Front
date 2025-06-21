@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 
 import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
-import 'package:mindle/widgets/report_card.dart';
+import 'package:mindle/widgets/complaint_card.dart';
 
 // 임시 민원 데이터
-final List<Map<String, dynamic>> _reportData = const [
+final List<Map<String, dynamic>> _complaintData = const [
   {
     "title": "횡단보도 선이 거의 지워졌어요",
     "content":
@@ -124,16 +124,16 @@ class ListPage extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.75,
             child: ListView.builder(
-              itemCount: _reportData.length,
+              itemCount: _complaintData.length,
               itemBuilder: (BuildContext context, int index) {
-                final report = _reportData[index];
-                return ReportCard(
-                  title: report["title"] as String,
-                  content: report["content"] as String,
-                  numLikes: report["numLikes"] as int,
-                  numComments: report["numComments"] as int,
-                  status: report["status"] as String,
-                  hasImage: report["hasImage"] as bool,
+                final complaint = _complaintData[index];
+                return ComplaintCard(
+                  title: complaint["title"] as String,
+                  content: complaint["content"] as String,
+                  numLikes: complaint["numLikes"] as int,
+                  numComments: complaint["numComments"] as int,
+                  status: complaint["status"] as String,
+                  hasImage: complaint["hasImage"] as bool,
                 );
               },
             ),

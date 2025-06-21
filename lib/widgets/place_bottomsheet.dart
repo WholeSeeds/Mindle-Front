@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/models/public_place.dart';
-import 'package:mindle/widgets/report_card.dart';
+import 'package:mindle/widgets/complaint_card.dart';
 
 // 임시 민원 데이터
-final List<Map<String, dynamic>> _reportData = const [
+final List<Map<String, dynamic>> _complaintData = const [
   {
     "title": "횡단보도 선이 거의 지워졌어요",
     "content":
@@ -135,14 +135,14 @@ class PlaceBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Column(
-                      children: _reportData.map((report) {
-                        return ReportCard(
-                          title: report["title"] as String,
-                          content: report["content"] as String,
-                          numLikes: report["numLikes"] as int,
-                          numComments: report["numComments"] as int,
-                          status: report["status"] as String,
-                          hasImage: report["hasImage"] as bool,
+                      children: _complaintData.map((complaint) {
+                        return ComplaintCard(
+                          title: complaint["title"] as String,
+                          content: complaint["content"] as String,
+                          numLikes: complaint["numLikes"] as int,
+                          numComments: complaint["numComments"] as int,
+                          status: complaint["status"] as String,
+                          hasImage: complaint["hasImage"] as bool,
                         );
                       }).toList(),
                     ),
