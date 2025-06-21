@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "438878395174",
+    "project_id": "mindle-953ac",
+    "storage_bucket": "mindle-953ac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438878395174:android:23f3e4cc9d1dbd5d683fe7",
+        "android_client_info": {
+          "package_name": "com.example.mindle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwKRs-aipWWPtig4BGjsi47v5eXCiRiCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
