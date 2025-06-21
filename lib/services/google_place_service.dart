@@ -32,7 +32,7 @@ class GooglePlaceService extends GetxService {
             "city_hall",
             "courthouse",
           ],
-          "maxResultCount": 20,
+          "maxResultCount": 3, // 최대 3개 결과로 제한
           "locationRestriction": {
             "circle": {
               "center": {"latitude": latitude, "longitude": longitude},
