@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/models/public_place.dart';
+import 'package:mindle/pages/complaint_form_page.dart';
 import 'package:mindle/widgets/complaint_card.dart';
+import 'package:get/get.dart';
 
 // 임시 민원 데이터
 final List<Map<String, dynamic>> _complaintData = const [
@@ -160,6 +162,7 @@ class PlaceBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // 민원 작성 로직
+                    Get.to(() => ComplaintFormPage(place: place));
                   },
                   child: const Text('민원 작성하기', style: TextStyle(fontSize: 16)),
                 ),
