@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/models/public_place.dart';
@@ -46,7 +47,48 @@ class ComplaintFormPage extends StatelessWidget {
               onChanged: (v) => controller.content.value = v,
             ),
             const SizedBox(height: 20),
-            // 이미지 업로드 부분 추가하기
+
+            // 이미지 업로드 영역
+            SizedBox(
+              // ListView를 SizeBox로 감싸서 사이즈를 강제로 지정해야 함,
+              height: 200, // 이미지 업로드 영역의 높이 설정
+              child: Obx(() {
+                final imgs = controller.images;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ...imgs.map(
+                      (img) => Stack(
+                        children: [
+                          Image.file(
+                            File(img!.path),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: IconButton(
+                              icon: const Icon(Icons.close, color: Colors.red),
+                              onPressed: () => controller.images.remove(img),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (imgs.length < 3) // 최대 3개 이미지 업로드 가능
+                      IconButton(
+                        icon: const Icon(Icons.add_a_photo),
+                        onPressed: () {
+                          _showPickOptions(context, controller);
+                        },
+                      ),
+                  ],
+                );
+              }),
+            ),
+
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => controller.submitComplaint(place),
@@ -57,4 +99,33 @@ class ComplaintFormPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showPickOptions(BuildContext context, ComplaintController controller) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text('카메라로 촬영'),
+            onTap: () {
+              controller.pickImageFromCamera();
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library),
+            title: const Text('갤러리에서 선택'),
+            onTap: () {
+              controller.pickImagesFromGallery();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
