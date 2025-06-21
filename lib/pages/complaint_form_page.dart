@@ -36,12 +36,19 @@ class ComplaintFormPage extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             TextField(
-              decoration: const InputDecoration(labelText: '제목'),
+              decoration: const InputDecoration(
+                labelText: '제목을 입력해주세요 (필수)',
+                alignLabelWithHint: true,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+              ),
               onChanged: (v) => controller.title.value = v,
             ),
             const SizedBox(height: 15),
             TextField(
-              decoration: const InputDecoration(labelText: '내용'),
+              decoration: const InputDecoration(
+                labelText: '어떤 점이 불편하셨나요?',
+                alignLabelWithHint: true,
+              ),
               maxLines: 5,
               maxLength: 200, // 최대 글자수 제한
               onChanged: (v) => controller.content.value = v,
