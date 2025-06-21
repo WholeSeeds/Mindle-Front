@@ -106,12 +106,23 @@ class PlaceBottomSheet extends StatelessWidget {
                     const SizedBox(height: 20),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        place.photoUrl,
-                        width: double.infinity,
-                        height: 200,
-                        fit: BoxFit.cover, // 비율 변경 X, 설정한 크기를 덮는다
-                      ),
+                      child: (place.photoUrl.isEmpty)
+                          ?
+                            // 사진이 없을 경우 대체 컨테이너
+                            Container(
+                              width: double.infinity,
+                              height: 200,
+                              color: Colors.grey.shade300,
+                              child: const Center(
+                                child: Icon(Icons.no_sim, size: 30),
+                              ),
+                            )
+                          : Image.network(
+                              place.photoUrl,
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.cover, // 비율 변경 X, 설정한 크기를 덮는다
+                            ),
                     ),
                     const SizedBox(height: 15),
                     Row(
