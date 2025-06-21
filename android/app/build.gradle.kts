@@ -61,6 +61,8 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
+        // manifest에 전달할 placeholder 설정
+        manifestPlaceholders["GOOGLE_MAPS_PLATFORM_API_KEY"] = dotenv.getProperty("GOOGLE_MAPS_PLATFORM_API_KEY") ?: ""
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] =
             dotenv.getProperty("KAKAO_NATIVE_APP_KEY") ?: ""
     }
