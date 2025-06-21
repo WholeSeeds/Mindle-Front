@@ -28,7 +28,7 @@ class NbhdController extends GetxController {
 
       // 경기도의 모든 하위 행정구역(1-depth) 가져오기
       if (addressData != null && addressData!['경기도'] != null) {
-        firstList.value = addressData!['경기도'].keys.toList();
+        firstList.assignAll(addressData!['경기도'].keys.toList());
       }
     } catch (e) {
       print('주소 데이터 로드 실패: $e');
@@ -43,11 +43,11 @@ class NbhdController extends GetxController {
     if (addressData != null && addressData!['경기도'][first] != null) {
       final data = addressData!['경기도'][first];
       if (data is List) {
-        secondList.value = List<String>.from(data);
+        secondList.assignAll(List<String>.from(data));
         thirdList.clear();
       } else if (data is Map) {
-        secondList.value = List<String>.from(
-          data.keys.map((key) => key.toString()),
+        secondList.assignAll(
+          List<String>.from(data.keys.map((key) => key.toString())),
         );
       }
     }
@@ -63,7 +63,7 @@ class NbhdController extends GetxController {
     final data = addressData!['경기도'][selectedFirst];
     // 3-depth가 존재하는 경우
     if (data is Map) {
-      thirdList.value = List<String>.from(data[second]);
+      thirdList.assignAll(List<String>.from(data[second]));
       selectedThird.value = ''; // 3-depth 선택 초기화
     }
     // else if (data is List) {
