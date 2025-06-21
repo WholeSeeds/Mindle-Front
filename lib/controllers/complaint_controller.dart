@@ -43,12 +43,6 @@ class ComplaintController extends GetxController {
     }
   }
 
-  void removeImage(int index) {
-    if (index >= 0 && index < images.length) {
-      images.removeAt(index);
-    }
-  }
-
   void submitComplaint(PublicPlace place) {
     if (selectedCategory.value.isEmpty ||
         title.value.isEmpty ||
