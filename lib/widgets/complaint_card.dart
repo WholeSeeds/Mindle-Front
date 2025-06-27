@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReportCard extends StatelessWidget {
+class ComplaintCard extends StatelessWidget {
   final String title;
   final String content;
   final int numLikes;
@@ -8,7 +8,7 @@ class ReportCard extends StatelessWidget {
   final String status;
   final bool hasImage;
 
-  const ReportCard({
+  const ComplaintCard({
     super.key,
     required this.title,
     required this.content,
@@ -55,6 +55,8 @@ class ReportCard extends StatelessWidget {
                         children: [
                           Text(
                             title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
