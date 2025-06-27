@@ -39,7 +39,7 @@ class SetNbhdPage extends StatelessWidget {
                 () => DropdownField(
                   hint: '시/군 선택',
                   value: controller.selectedFirst.value,
-                  items: controller.firstList.toList(),
+                  items: controller.firstList,
                   onChanged: controller.selectFirst,
                 ),
               ),
@@ -49,7 +49,7 @@ class SetNbhdPage extends StatelessWidget {
                 () => DropdownField(
                   hint: '구/읍/면/동 선택',
                   value: controller.selectedSecond.value,
-                  items: controller.secondList.toList(),
+                  items: controller.secondList,
                   onChanged: controller.selectSecond,
                 ),
               ),
@@ -66,7 +66,7 @@ class SetNbhdPage extends StatelessWidget {
                     child: DropdownField(
                       hint: '동 선택',
                       value: controller.selectedThird.value,
-                      items: controller.thirdList.toList(),
+                      items: controller.thirdList,
                       onChanged: controller.selectThird,
                     ),
                   ),
