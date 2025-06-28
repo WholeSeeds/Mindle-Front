@@ -5,6 +5,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
+import 'package:mindle/controllers/login_controller.dart';
 import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
@@ -42,6 +43,7 @@ void main() async {
   Get.put(NbhdController());
   // Get.put(NaverLocalSearchService());
   Get.put(GooglePlaceService());
+  Get.put(LoginController());
 
   runApp(const MyApp());
 }
