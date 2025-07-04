@@ -20,7 +20,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // 구글 로그인을 위한 Firebase 초기화
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().then((_) => Get.put(LoginController()));
 
   // 카카오 로그인을 위한 카카오 SDK 초기화
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
@@ -43,7 +43,6 @@ void main() async {
   Get.put(NbhdController());
   // Get.put(NaverLocalSearchService());
   Get.put(GooglePlaceService());
-  Get.put(LoginController());
 
   runApp(const MyApp());
 }
