@@ -7,7 +7,7 @@ import 'package:mindle/main.dart';
 import 'package:mindle/pages/login_page.dart';
 import 'package:mindle/pages/set_nickname_page.dart';
 
-class LoginController extends GetxController {
+class AuthController extends GetxController {
   late Rx<User?> _user; // FirebaseAuth로 로그인한 User 객체
   FirebaseAuth authentication = FirebaseAuth.instance;
 
@@ -107,5 +107,10 @@ class LoginController extends GetxController {
         print('카카오 계정으로 로그인 실패 $error');
       }
     }
+  }
+
+  // 로그아웃
+  void signOut() {
+    authentication.signOut();
   }
 }

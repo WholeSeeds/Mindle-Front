@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mindle/controllers/login_controller.dart';
+import 'package:mindle/controllers/auth_controller.dart';
 
 class LoginPage extends StatelessWidget {
-  final controller = Get.find<LoginController>();
+  final controller = Get.find<AuthController>();
 
   LoginPage({super.key});
 

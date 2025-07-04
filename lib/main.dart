@@ -5,7 +5,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
-import 'package:mindle/controllers/login_controller.dart';
+import 'package:mindle/controllers/auth_controller.dart';
 import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
@@ -20,7 +20,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // 구글 로그인을 위한 Firebase 초기화
-  await Firebase.initializeApp().then((_) => Get.put(LoginController()));
+  await Firebase.initializeApp().then((_) => Get.put(AuthController()));
 
   // 카카오 로그인을 위한 카카오 SDK 초기화
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
