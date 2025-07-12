@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,8 @@ class LoginPage extends StatelessWidget {
     // googleUser에서 액세스 토큰과 ID 토큰 가져오기
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
+
+    log("[테스트용 ID 토큰] : ${googleAuth!.idToken!}");
 
     // Firebase에서 사용 가능한 구글 로그인용 credential(자격 증명) 생성
     final credential = GoogleAuthProvider.credential(
@@ -55,6 +59,8 @@ class LoginPage extends StatelessWidget {
         );
         final idToken = await userCredential.user?.getIdToken();
 
+        log("[테스트용 ID 토큰] : ${idToken!}");
+
         // TODO: 서버로  ID 토큰 전송 ...
         Get.to(SetNicknamePage());
       } catch (error) {
@@ -74,6 +80,8 @@ class LoginPage extends StatelessWidget {
           credential,
         );
         final idToken = await userCredential.user?.getIdToken();
+
+        log("[테스트용 ID 토큰] : ${idToken!}");
 
         // TODO: 서버로  ID 토큰 전송 ...
         Get.to(SetNicknamePage());
