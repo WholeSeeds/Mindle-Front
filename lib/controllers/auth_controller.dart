@@ -4,8 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 
 import 'package:mindle/main.dart';
-import 'package:mindle/pages/login_page.dart';
-import 'package:mindle/pages/set_nickname_page.dart';
+import 'package:mindle/pages/init/login_page.dart';
+import 'package:mindle/pages/init/phone_number_page.dart';
+import 'package:mindle/pages/init/set_nickname_page.dart';
 
 class AuthController extends GetxController {
   late Rx<User?> _user; // FirebaseAuth로 로그인한 User 객체
@@ -16,16 +17,37 @@ class AuthController extends GetxController {
     super.onReady();
     _user = Rx<User?>(authentication.currentUser);
     _user.bindStream(authentication.userChanges());
-    ever(_user, _moveToPage);
+    ever(_user, _handleUserChange);
   }
 
-  _moveToPage(User? user) {
+  _handleUserChange(User? user) {
+    print("⚠️ user changed !!!");
+
     if (user == null) {
+      // 0. 로그아웃
       Get.offAll(() => LoginPage());
+    } else if (user.providerData.any((p) => p.providerId == 'phone')) {
+      // 1. 전화번호 인증으로 로그인
+      if (user.providerData.length == 1) {
+        // 회원가입
+        // TODO: 계정 연동
+        Get.to(() => SetNicknamePage());
+      } else {
+        // TODO: 연동된 계정 안내 & 선택
+        Get.offAll(() => RootPage());
+      }
     } else {
-      // 첫 로그인이면
-      // Get.to(() => SetNicknamePage());
-      Get.offAll(() => RootPage());
+      // 2. 소셜 계정으로 로그인
+      final creation = user.metadata.creationTime!;
+      final lastSignIn = user.metadata.lastSignInTime!;
+      final isFirstLogin = creation.difference(lastSignIn).inSeconds.abs() < 1;
+
+      if (isFirstLogin) {
+        // 전화번호 인증
+        Get.to(() => PhoneNumberPage());
+      } else {
+        Get.offAll(() => RootPage());
+      }
     }
   }
 
@@ -52,10 +74,7 @@ class AuthController extends GetxController {
 
       // 유저의 ID 토큰 요청
       final idToken = await userCredential.user?.getIdToken();
-      // print(idToken);
-
-      // TODO: 서버로  ID 토큰 전송 ...
-      // Get.to(SetNicknamePage());
+      // TODO: 요청 헤더에 ID 토큰 저장
     } catch (error) {
       print("Login Error: $error");
       Get.snackbar("로그인 실패", "구글 로그인에 실패하였습니다.");
@@ -80,9 +99,7 @@ class AuthController extends GetxController {
           credential,
         );
         final idToken = await userCredential.user?.getIdToken();
-
-        // TODO: 서버로  ID 토큰 전송 ...
-        // Get.to(SetNicknamePage());
+        // TODO: 요청 헤더에 ID 토큰 저장
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
       }
@@ -100,9 +117,7 @@ class AuthController extends GetxController {
           credential,
         );
         final idToken = await userCredential.user?.getIdToken();
-
-        // TODO: 서버로  ID 토큰 전송 ...
-        // Get.to(SetNicknamePage());
+        // TODO: 요청 헤더에 ID 토큰 저장
       } catch (error) {
         print('카카오 계정으로 로그인 실패 $error');
       }

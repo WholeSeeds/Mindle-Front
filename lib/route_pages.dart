@@ -5,7 +5,7 @@
 import 'package:get/get.dart';
 import 'package:mindle/main.dart';
 import 'package:mindle/pages/inside_page.dart';
-import 'package:mindle/pages/init_page.dart';
+import 'package:mindle/pages/init/init_page.dart';
 
 List<GetPage> allPages = [
   GetPage(name: '/init', page: () => const InitPage()),

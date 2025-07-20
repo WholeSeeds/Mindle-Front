@@ -9,6 +9,7 @@ import 'package:mindle/controllers/auth_controller.dart';
 import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
+import 'package:mindle/controllers/phone_auth_controller.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
@@ -20,7 +21,10 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   // 구글 로그인을 위한 Firebase 초기화
-  await Firebase.initializeApp().then((_) => Get.put(AuthController()));
+  await Firebase.initializeApp().then((_) {
+    Get.put(AuthController());
+    Get.put(PhoneAuthController());
+  });
 
   // 카카오 로그인을 위한 카카오 SDK 초기화
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
