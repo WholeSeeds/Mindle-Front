@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/models/public_place.dart';
+import 'package:mindle/models/region_info.dart';
 import 'package:mindle/pages/complaint_form_page.dart';
+import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/complaint_card.dart';
 import 'package:get/get.dart';
 
@@ -104,7 +106,26 @@ class PlaceBottomSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(place.address),
+                    // Text(place.address),
+                    FutureBuilder<RegionInfo?>(
+                      future: Get.find<NaverMapsService>().reverseGeoCode(
+                        place.latitude,
+                        place.longitude,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Text('주소를 불러오는 중...');
+                        } else if (snapshot.hasError) {
+                          return const Text('주소를 불러오는 데 실패했습니다.');
+                        } else if (!snapshot.hasData || snapshot.data == null) {
+                          return const Text('주소 정보가 없습니다.');
+                        } else {
+                          final region = snapshot.data!;
+                          return Text(region.fullAddressString());
+                        }
+                      },
+                    ),
                     const SizedBox(height: 20),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),

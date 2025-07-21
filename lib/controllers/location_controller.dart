@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mindle/models/region_info.dart';
 import 'package:mindle/services/google_place_service.dart';
+import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/place_bottomsheet.dart';
 
 class LocationController extends GetxController {
@@ -170,6 +172,20 @@ class LocationController extends GetxController {
     // 마커 추가
     _mapController.addOverlayAll(markers);
     print('공공기관 마커가 추가되었습니다: ${places.length}개');
+  }
+
+  // NLatLng을 도로명주소로 바꿔주는 메소드
+  Future<RegionInfo?> getRegionFromLatLng(NLatLng latLng) async {
+    try {
+      final region = await Get.find<NaverMapsService>().reverseGeoCode(
+        latLng.latitude,
+        latLng.longitude,
+      );
+      return region;
+    } catch (e) {
+      print('도로명 주소 변환 실패: $e');
+    }
+    return null;
   }
 
   @override
