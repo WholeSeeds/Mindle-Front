@@ -16,6 +16,11 @@ class LocationController extends GetxController {
   // 위치 스트림 구독 저장할 변수
   late StreamSubscription<Position> _positionSubscription;
 
+  RxBool isSelectingLocation = false.obs; // 위치 선택 모드 여부
+
+  // 선택된 위치를 저장할 변수 필요: place 혹은 regionInfo 객체를 넣어야 하는데...둘 중 하나만 들어가도록 해야함
+  // final Rx<NLatLng?> selectedLocation = Rx<NLatLng?>(null);
+
   // 네이버 지도 컨트롤러
   late NaverMapController _mapController;
   // 네이버 지도 위치 오버레이
