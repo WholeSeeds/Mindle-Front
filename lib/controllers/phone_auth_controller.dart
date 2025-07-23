@@ -79,6 +79,19 @@ class PhoneAuthController extends GetxController {
     );
   }
 
+  // 인증 완료 후
+  void onVerificationComplete(PhoneAuthCredential credential) async {
+    // AuthController의 Account Linking 시도
+    bool linkingSuccess = await Get.find<AuthController>().tryAccountLinking(
+      credential,
+    );
+
+    if (!linkingSuccess) {
+      // Account Linking 실패 시 추가 처리가 필요할 수 있음
+      print("Account Linking 실패 - 계정 병합 프로세스 진행");
+    }
+  }
+
   // 전화번호 인증으로 로그인
   Future<void> signInWithPhoneNumber(String smsCode) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
