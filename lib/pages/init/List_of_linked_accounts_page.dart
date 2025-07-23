@@ -9,12 +9,12 @@ class LinkedAccountInfo {
   LinkedAccountInfo({required this.providerId, this.email, this.displayName});
 }
 
-class ListOfLinkedAccounts extends StatelessWidget {
+class ListOfLinkedAccountsPage extends StatelessWidget {
   final String phoneNumber;
   final List<LinkedAccountInfo> existingAccounts;
   final Map<String, dynamic> currentSocialUser;
 
-  const ListOfLinkedAccounts({
+  const ListOfLinkedAccountsPage({
     Key? key,
     required this.phoneNumber,
     required this.existingAccounts,

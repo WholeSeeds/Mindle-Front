@@ -7,7 +7,23 @@ import 'package:mindle/main.dart';
 import 'package:mindle/pages/init/login_page.dart';
 import 'package:mindle/pages/init/phone_number_page.dart';
 import 'package:mindle/pages/init/set_nickname_page.dart';
-import 'package:mindle/pages/init/List_of_linked_accounts.dart';
+import 'package:mindle/pages/init/List_of_linked_accounts_page.dart';
+
+class ProviderInfo {
+  final String id;
+  final String name;
+  final String displayName;
+  final String iconPath;
+  final Function credential;
+
+  const ProviderInfo({
+    required this.id,
+    required this.name,
+    required this.displayName,
+    required this.iconPath,
+    required this.credential,
+  });
+}
 
 class AuthController extends GetxController {
   late Rx<User?> _user; // FirebaseAuth로 로그인한 User 객체
@@ -108,7 +124,7 @@ class AuthController extends GetxController {
 
         // 리스트 호출(연동된 계정)
         Get.to(
-          () => ListOfLinkedAccounts(
+          () => ListOfLinkedAccountsPage(
             phoneNumber: phoneUser.phoneNumber ?? '',
             existingAccounts: existingAccounts,
             currentSocialUser: socialUserInfo,
@@ -123,18 +139,8 @@ class AuthController extends GetxController {
   // 구글로 시작하기 (firebase)
   Future<void> signInWithGoogle() async {
     try {
-      // 구글 로그인, 사용자 계정 정보 획득
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // googleUser에서 액세스 토큰과 ID 토큰 가져오기
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Firebase에서 사용 가능한 구글 로그인용 credential(자격 증명) 생성
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      AuthCredential? credential = await getSocialCredential('google.com');
+      if (credential == null) return;
 
       // credential을 Firebase에 넘겨서 로그인 요청, 성공하면 유저정보 포함된 UserCredential 객체 반환
       final userCredential = await authentication.signInWithCredential(
@@ -152,18 +158,11 @@ class AuthController extends GetxController {
 
   // 카카오로 시작하기
   Future<void> signInWithKakao() async {
-    var provider = OAuthProvider('oidc.kakao'); // 제공업체 id
-
     if (await kakao.isKakaoTalkInstalled()) {
       try {
-        kakao.OAuthToken token = await kakao.UserApi.instance
-            .loginWithKakaoTalk();
+        AuthCredential? credential = await getSocialCredential('oidc.kakao');
+        if (credential == null) return;
 
-        // Firebase에 로그인 요청 및 ID 토큰 획득
-        var credential = provider.credential(
-          idToken: token.idToken,
-          accessToken: token.accessToken,
-        );
         final userCredential = await authentication.signInWithCredential(
           credential,
         );
@@ -174,14 +173,9 @@ class AuthController extends GetxController {
       }
     } else {
       try {
-        kakao.OAuthToken token = await kakao.UserApi.instance
-            .loginWithKakaoAccount();
+        AuthCredential? credential = await getSocialCredential('oidc.kakao');
+        if (credential == null) return;
 
-        // Firebase에 로그인 요청 및 ID 토큰 획득
-        var credential = provider.credential(
-          idToken: token.idToken,
-          accessToken: token.accessToken,
-        );
         final userCredential = await authentication.signInWithCredential(
           credential,
         );
@@ -196,21 +190,28 @@ class AuthController extends GetxController {
   // 헬퍼 함수
   Future<AuthCredential?> getSocialCredential(String providerId) async {
     if (providerId == 'google.com') {
+      // 구글 로그인, 사용자 계정 정보 획득
       final googleUser = await GoogleSignIn().signIn();
+
       if (googleUser == null) return null;
+
+      // googleUser에서 액세스 토큰과 ID 토큰 가져오기
       final googleAuth = await googleUser.authentication;
+
+      // Firebase에서 사용 가능한 구글 로그인용 credential(자격 증명) 생성
       return GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
     } else if (providerId == 'oidc.kakao') {
-      var provider = OAuthProvider('oidc.kakao');
+      var provider = OAuthProvider('oidc.kakao'); // 제공업체 id
       kakao.OAuthToken token;
       if (await kakao.isKakaoTalkInstalled()) {
         token = await kakao.UserApi.instance.loginWithKakaoTalk();
       } else {
         token = await kakao.UserApi.instance.loginWithKakaoAccount();
       }
+      // Firebase에 로그인 요청 및 ID 토큰 획득
       return provider.credential(
         idToken: token.idToken,
         accessToken: token.accessToken,
