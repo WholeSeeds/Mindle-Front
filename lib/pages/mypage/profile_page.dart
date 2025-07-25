@@ -5,7 +5,7 @@ import 'package:mindle/pages/mypage/my_complaints_page.dart';
 import 'package:mindle/pages/mypage/liked_complaints_page.dart';
 import 'package:mindle/pages/mypage/commented_complaints_page.dart';
 import 'package:mindle/pages/mypage/settings_page.dart';
-import 'package:mindle/pages/set_nbhd_page.dart';
+import 'package:mindle/pages/init/set_nbhd_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

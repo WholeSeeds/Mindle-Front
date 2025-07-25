@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mindle/pages/set_nbhd_page.dart';
+import 'package:mindle/pages/init/set_nbhd_page.dart';
 
 class SetNicknamePage extends StatelessWidget {
   const SetNicknamePage({super.key});
