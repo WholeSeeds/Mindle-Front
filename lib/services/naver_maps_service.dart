@@ -18,7 +18,7 @@ class NaverMapsService extends GetxService {
     ),
   );
 
-  Future<RegionInfo?> reverseGeoCode(double latitude, double longitude) async {
+  Future<RegionInfo> reverseGeoCode(double latitude, double longitude) async {
     final coordsStr = '$longitude,$latitude';
     try {
       final response = await _dio.get(
@@ -36,11 +36,11 @@ class NaverMapsService extends GetxService {
         return region;
       } else {
         print('도로명 주소 변환 실패: ${response.statusCode} ${response.statusMessage}');
-        return null;
+        return RegionInfo.empty();
       }
     } catch (e) {
       print('도로명 주소 변환 실패: $e');
-      return null;
+      return RegionInfo.empty();
     }
   }
 }

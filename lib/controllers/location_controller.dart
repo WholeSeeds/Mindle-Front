@@ -175,7 +175,7 @@ class LocationController extends GetxController {
   }
 
   // NLatLng을 도로명주소로 바꿔주는 메소드
-  Future<RegionInfo?> getRegionFromLatLng(NLatLng latLng) async {
+  Future<RegionInfo> getRegionFromLatLng(NLatLng latLng) async {
     try {
       final region = await Get.find<NaverMapsService>().reverseGeoCode(
         latLng.latitude,
@@ -185,7 +185,7 @@ class LocationController extends GetxController {
     } catch (e) {
       print('도로명 주소 변환 실패: $e');
     }
-    return null;
+    return RegionInfo.empty();
   }
 
   @override
