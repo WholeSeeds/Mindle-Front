@@ -86,9 +86,8 @@ class LocationController extends GetxController {
     // 해당 위치로 카메라 이동
     moveCameraToCurrentPosition();
 
-    // 시청 마커 추가
-    // 마커 확인 위한 임시 메소드, 나중에 api나 로직 변경 가능
-    addCityHallMarker();
+    // 주변 공공기관 검색하여 지도에 마커 추가
+    addMarker();
 
     // 위치 스트림을 시작
     _positionStream = Geolocator.getPositionStream(
@@ -129,11 +128,10 @@ class LocationController extends GetxController {
     }
   }
 
-  // 시청 관련 기관을 검색하여 마커 추가
-  Future<void> addCityHallMarker() async {
+  // google place api 이용해 주변 공공기관을 검색하여 지도에 마커 추가
+  Future<void> addMarker() async {
     final Set<NMarker> markers = {};
 
-    // google place api 이용해 공공기관 검색
     final places = await Get.find<GooglePlaceService>().searchPlace(
       currentPosition.value!.latitude,
       currentPosition.value!.longitude,
@@ -141,6 +139,7 @@ class LocationController extends GetxController {
 
     for (final place in places) {
       final markerId = 'marker_${place.latitude}_${place.longitude}';
+      // print('마커 ID: $markerId, 이름: ${place.name}, 주소: ${place.address}');
 
       final marker = NClusterableMarker(
         id: markerId,
