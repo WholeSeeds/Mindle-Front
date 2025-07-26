@@ -142,7 +142,7 @@ class LocationController extends GetxController {
     for (final place in places) {
       final markerId = 'marker_${place.latitude}_${place.longitude}';
 
-      final marker = NMarker(
+      final marker = NClusterableMarker(
         id: markerId,
         position: NLatLng(place.latitude, place.longitude),
       );
