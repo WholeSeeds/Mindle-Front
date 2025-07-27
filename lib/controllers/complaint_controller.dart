@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart' as dio;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mindle/models/public_place.dart';
@@ -43,7 +48,7 @@ class ComplaintController extends GetxController {
     }
   }
 
-  void submitComplaint(PublicPlace place) {
+  void submitComplaint(PublicPlace place) async {
     if (selectedCategory.value.isEmpty ||
         title.value.isEmpty ||
         content.value.isEmpty) {
@@ -51,14 +56,53 @@ class ComplaintController extends GetxController {
       return;
     }
 
-    // 등록 요청로직 추가하기
-    print('_____________민원 등록 요청______________');
-    print('카테고리: ${selectedCategory.value}');
-    print('제목: ${title.value}');
-    print('내용: ${content.value}');
-    print('이미지: ${images.map((img) => img?.name).join(', ')}');
-    print("______________________________________");
-    Get.snackbar('성공!', '민원이 등록되었습니다');
-    return;
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final dio.Dio _dio = dio.Dio(
+      dio.BaseOptions(
+        baseUrl:
+            "http://${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    );
+
+    final meta = {
+      // 'categoryId': 1, // 예시
+      'categoryId': categoryList.indexOf(selectedCategory.value),
+      'memberId': 1,
+      'cityName': place.address,
+      'districtName': null,
+      'subDistrictName': null,
+      // 'placeId': 'uniqueid', // 예시
+      'placeId': place.uniqueId,
+      'title': title.value,
+      'content': content.value,
+      'latitude': place.latitude,
+      'longitude': place.longitude,
+    };
+
+    List<dio.MultipartFile> fileList = [];
+    for (var image in images) {
+      if (image != null) {
+        final file = await dio.MultipartFile.fromFile(
+          image.path,
+          filename: image.name,
+        );
+        fileList.add(file);
+      }
+    }
+
+    final formData = dio.FormData.fromMap({
+      'meta': jsonEncode(meta),
+      'files': fileList,
+    });
+
+    final response = await _dio.post('/complaint/save', data: formData);
+    if (response.statusCode == 200) {
+      print('민원 등록 응답: ${response.statusCode} ${response.data}');
+      Get.snackbar('성공!', '민원이 등록되었습니다');
+    } else {
+      print('민원 등록 실패: ${response.statusCode} ${response.data}');
+      Get.snackbar('오류!', '민원 등록에 실패했습니다');
+    }
   }
 }
