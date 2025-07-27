@@ -48,6 +48,9 @@ class PublicPlace {
       final types = json['types'] is List
           ? List<String>.from(json['types'])
           : <String>[];
+      if (json['types'] is! List) {
+        print('‼️경고: types 필드가 List가 아닙니다. 빈 리스트로 초기화되었습니다.');
+      }
 
       final latitude = json['location']?['latitude'] ?? 0.0;
       final longitude = json['location']?['longitude'] ?? 0.0;
