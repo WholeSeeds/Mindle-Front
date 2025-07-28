@@ -13,6 +13,7 @@ import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/google_place_service.dart';
+import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +48,7 @@ void main() async {
   Get.put(LocationController());
   Get.put(NbhdController());
   Get.put(ComplaintController());
-  // Get.put(NaverLocalSearchService());
+  Get.put(NaverMapsService());
   Get.put(GooglePlaceService());
 
   runApp(const MyApp());

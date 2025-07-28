@@ -47,6 +47,7 @@ class GooglePlaceService extends GetxService {
         return places
             .map((place) => PublicPlace.fromGoogleJson(place))
             .toList();
+        // photo url 확인용 코드
         // if (response.statusCode == 200) {
         //   final places = response.data['places'] as List;
         //   return places.map((place) {
