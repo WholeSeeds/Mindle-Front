@@ -13,42 +13,61 @@ class RegionInfo {
     this.doroNumber,
   });
 
-  factory RegionInfo.fromNaverJson(Map<String, dynamic> data) {
-    final results = data['results'] as List<dynamic>;
-
-    // 시/구
-    final siguStr = results[0]['region']['area2']['name'] as String;
-    String si;
-    String? gu;
-
-    if (siguStr.contains(' ')) {
-      final parts = siguStr.split(' ');
-      si = parts[0];
-      gu = parts[1];
-    } else {
-      si = siguStr;
-      gu = null;
-    }
-
-    // 동
-    final dong = results[0]['region']['area3']['name'] as String;
-
-    // 도로명, 도로번호 (results 길이에 따라 존재할 수도, 없을 수도 있음)
-    String? doroName;
-    String? doroNumber;
-
-    if (results.length >= 2) {
-      doroName = results[1]['land']['name'] as String?;
-      doroNumber = results[1]['land']['number1'] as String?;
-    }
-
+  factory RegionInfo.empty() {
     return RegionInfo(
-      si: si,
-      gu: gu,
-      dong: dong,
-      doroName: doroName,
-      doroNumber: doroNumber,
+      si: '',
+      gu: null,
+      dong: '',
+      doroName: null,
+      doroNumber: null,
     );
+  }
+
+  factory RegionInfo.fromNaverJson(Map<String, dynamic> data) {
+    try {
+      final results = data['results'];
+      if (results is! List || results.isEmpty) {
+        return RegionInfo.empty();
+      }
+      // 시/구
+      final area2 = results[0]['region']?['area2'];
+      final siguStr = area2 is Map ? area2['name'] as String? : null;
+      String si = '';
+      String? gu;
+      if (siguStr != null && siguStr.contains(' ')) {
+        final parts = siguStr.split(' ');
+        si = parts[0];
+        gu = parts[1];
+      } else if (siguStr != null) {
+        si = siguStr;
+      }
+
+      // 동
+      final area3 = results[0]['region']?['area3'];
+      final dong = area3 is Map ? area3['name'] as String? ?? '' : '';
+
+      // 도로명, 도로번호 (results 길이에 따라 존재할 수도, 없을 수도 있음)
+      String? doroName;
+      String? doroNumber;
+      if (results.length >= 2) {
+        final land = results[1]['land'];
+        if (land is Map) {
+          doroName = land['name'] as String?;
+          doroNumber = land['number1'] as String?;
+        }
+      }
+
+      return RegionInfo(
+        si: si,
+        gu: gu,
+        dong: dong,
+        doroName: doroName,
+        doroNumber: doroNumber,
+      );
+    } catch (e) {
+      print('RegionInfo.fromNaverJson 파싱 실패: $e');
+      return RegionInfo.empty();
+    }
   }
 
   @override

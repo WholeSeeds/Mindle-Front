@@ -107,7 +107,7 @@ class PlaceBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     // Text(place.address),
-                    FutureBuilder<RegionInfo?>(
+                    FutureBuilder<RegionInfo>(
                       future: Get.find<NaverMapsService>().reverseGeoCode(
                         place.latitude,
                         place.longitude,
