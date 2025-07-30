@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/comment.dart';
@@ -7,15 +8,15 @@ import 'package:mindle/models/user.dart';
 
 class ComplaintDetailController extends GetxController {
   // 민원 정보
-  Rx<Complaint?> complaint = Rx<Complaint?>(null);
-  Rx<User?> author = Rx<User?>(null);
-  RxString category = "".obs; // 카테고리
+  Complaint? complaint;
+  User? author;
+  String category = "";
 
   // 민원 장소 정보
-  Rx<PublicPlace?> place = Rx<PublicPlace?>(null);
+  PublicPlace? place;
 
   // 민원 이미지들
-  RxList<String> complaintImages = <String>[].obs;
+  List<String> complaintImages = [];
   RxInt currentImageIndex = 0.obs; // 현재 보고 있는 이미지 인덱스
 
   // 해결 여부 관련
@@ -34,8 +35,8 @@ class ComplaintDetailController extends GetxController {
   // 로딩 상태
   RxBool isLoading = false.obs;
 
-  // GetConnect 인스턴스
-  final GetConnect _connect = GetConnect();
+  // Dio 인스턴스
+  final Dio _dio = Dio();
 
   // API BASE URL
   static const String baseUrl = 'http://localhost:8080/api';
@@ -43,9 +44,9 @@ class ComplaintDetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //GetConnect 기본 설정
-    _connect.baseUrl = baseUrl;
-    _connect.timeout = Duration(seconds: 30);
+    _dio.options.baseUrl = baseUrl;
+    _dio.options.connectTimeout = const Duration(seconds: 30);
+    _dio.options.receiveTimeout = const Duration(seconds: 30);
   }
 
   // 민원 상세 정보 로딩(댓글 포함)
@@ -53,28 +54,35 @@ class ComplaintDetailController extends GetxController {
     try {
       isLoading.value = true;
 
-      final response = await _connect.get('/complaint/detail/$complaintId');
+      final response = await _dio.get('/complaint/detail/$complaintId');
 
-      if (response.isOk) {
-        final data = response.body;
+      if (response.statusCode == 200) {
+        final data = response.data;
 
         // 민원 기본 정보
-        if (data['complaint'] != null) {
-          complaint.value = Complaint.fromJson(data['complaint']);
-        }
+        complaint = Complaint.fromJson(data['complaint']);
 
         // 작성자 정보
-        if (data['author'] != null) {
-          author.value = User.fromJson(data['author']);
-        }
+        author = User.fromJson(data['author']);
 
         // 카테고리
-        category.value = data['category'] ?? "";
+        category = data['category'] ?? "";
 
         // 위치 정보
         if (data['place'] != null) {
-          place.value = PublicPlace.fromGoogleJson(data['place']);
+          place = PublicPlace.fromGoogleJson(data['place']);
         }
+
+        complaintImages = List<String>.from(data['images'] ?? []);
+        isResolved.value = complaint?.status == 'solved';
+        beforeImageUrl = data['beforeImage'] ?? '';
+        afterImageUrl = data['afterImage'] ?? '';
+
+        comments.value = (data['comments'] as List)
+            .map((commentJson) => Comment.fromJson(commentJson))
+            .toList();
+
+        update();
 
         // 민원 이미지들
         if (data['images'] != null) {
