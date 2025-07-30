@@ -1,125 +1,96 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/comment.dart';
-import 'package:mindle/models/complaint.dart';
-import 'package:mindle/models/public_place.dart';
-import 'package:mindle/models/user.dart';
+import 'package:mindle/models/complaint_detail.dart';
+import 'package:mindle/models/reaction.dart';
 
 class ComplaintDetailController extends GetxController {
-  // 민원 정보
-  Complaint? complaint;
-  User? author;
-  String category = "";
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: 'http://localhost:8080/api',
+      connectTimeout: const Duration(seconds: 30),
+    ),
+  );
 
-  // 민원 장소 정보
-  PublicPlace? place;
-
-  // 민원 이미지들
-  List<String> complaintImages = [];
-  RxInt currentImageIndex = 0.obs; // 현재 보고 있는 이미지 인덱스
-
-  // 해결 여부 관련
-  RxBool isResolved = false.obs;
-  RxString beforeImageUrl = "".obs;
-  RxString afterImageUrl = "".obs;
+  // 데이터 모델
+  ComplaintDetail? complaintDetail;
+  Reaction? reactionInfo;
 
   // 댓글 관련
-  RxList<Comment> comments = <Comment>[].obs;
+  List<Comment> comments = [];
   final TextEditingController commentInputController = TextEditingController();
-  RxBool isCommentInputFocused = false.obs;
+  bool isCommentInputFocused = false;
 
-  // 민원 해결 여부 확인
-  RxBool isComplaintResolvedCheckboxSelected = false.obs;
+  // UI 상태
+  int currentImageIndex = 0;
+  bool isLoading = false;
+  bool isComplaintResolvedCheckboxSelected = false;
 
-  // 로딩 상태
-  RxBool isLoading = false.obs;
-
-  // Dio 인스턴스
-  final Dio _dio = Dio();
-
-  // API BASE URL
-  static const String baseUrl = 'http://localhost:8080/api';
+  // 댓글 페이지네이션
+  String? lastCursor;
+  bool hasMoreComments = true;
 
   @override
   void onInit() {
     super.onInit();
-    _dio.options.baseUrl = baseUrl;
-    _dio.options.connectTimeout = const Duration(seconds: 30);
-    _dio.options.receiveTimeout = const Duration(seconds: 30);
   }
 
-  // 민원 상세 정보 로딩(댓글 포함)
+  // 민원 상세 정보
   Future<void> loadComplaintDetail(String complaintId) async {
     try {
-      isLoading.value = true;
+      isLoading = true;
 
       final response = await _dio.get('/complaint/detail/$complaintId');
 
       if (response.statusCode == 200) {
         final data = response.data;
-
-        // 민원 기본 정보
-        complaint = Complaint.fromJson(data['complaint']);
-
-        // 작성자 정보
-        author = User.fromJson(data['author']);
-
-        // 카테고리
-        category = data['category'] ?? "";
-
-        // 위치 정보
-        if (data['place'] != null) {
-          place = PublicPlace.fromGoogleJson(data['place']);
-        }
-
-        complaintImages = List<String>.from(data['images'] ?? []);
-        isResolved.value = complaint?.status == 'solved';
-        beforeImageUrl = data['beforeImage'] ?? '';
-        afterImageUrl = data['afterImage'] ?? '';
-
-        comments.value = (data['comments'] as List)
-            .map((commentJson) => Comment.fromJson(commentJson))
-            .toList();
-
+        complaintDetail = ComplaintDetail.fromJson(
+          data['complaintDetailWithImagesDto'],
+        );
+        reactionInfo = Reaction.fromJson(data['reactionDto']);
         update();
-
-        // 민원 이미지들
-        if (data['images'] != null) {
-          complaintImages.value = List<String>.from(data['images']);
-        }
-
-        // 해결 여부 및 해결 사진들
-        isResolved.value = complaint.value?.status == 'solved';
-        beforeImageUrl.value = data['beforeImage'] ?? '';
-        afterImageUrl.value = data['afterImage'] ?? '';
-
-        // 댓글 목록
-        if (data['comments'] != null) {
-          comments.value = (data['comments'] as List)
-              .map((commentJson) => Comment.fromJson(commentJson))
-              .toList();
-        }
       } else {
-        throw Exception("민원 상세 정보 로딩 실패: ${response.statusCode}");
+        throw Exception("민원 상세 정보 로딩 실패");
       }
     } catch (e) {
       Get.snackbar('오류', '민원 정보를 불러오는데 실패했습니다.');
     } finally {
-      isLoading.value = false;
+      isLoading = false;
+      update();
     }
   }
 
-  // 이미지 슬라이더 이동
-  void nextImage() {
-    if (currentImageIndex < complaintImages.length - 1) {
-      currentImageIndex.value++;
-    }
-  }
+  // 댓글 목록 조회
+  Future<void> loadComments(int complaintId, {int pageSize = 10}) async {
+    if (!hasMoreComments) return;
 
-  void prevImage() {
-    if (currentImageIndex > 0) {
-      currentImageIndex.value--;
+    try {
+      final response = await _dio.get(
+        '/complaint/comments',
+        queryParameters: {
+          'complaintId': complaintId,
+          'cursorCreatedAt': lastCursor ?? '',
+          'pageSize': pageSize,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> commentListJson = response.data['data'];
+        final fetchedComments = commentListJson
+            .map((json) => Comment.fromJson(json))
+            .toList();
+
+        if (fetchedComments.isNotEmpty) {
+          lastCursor = fetchedComments.last.createdAt.toIso8601String();
+          comments.addAll(fetchedComments);
+        } else {
+          hasMoreComments = false;
+        }
+        update();
+      }
+    } catch (e) {
+      Get.snackbar('오류', '댓글을 불러오는 데 실패했습니다.');
     }
   }
 
@@ -128,14 +99,43 @@ class ComplaintDetailController extends GetxController {
     if (content.trim().isEmpty) return;
 
     try {
-      // TODO: 댓글 작성 API 개발 후 연동
-      commentInputController.clear();
-      isCommentInputFocused.value = false;
+      await _dio.post(
+        '/complaint/comment',
+        data: {'complaintId': complaintId, 'content': content},
+      );
 
-      // 새로고침
+      commentInputController.clear();
+      isCommentInputFocused = false;
+
+      // 댓글 목록 초기화 후 재 업로드
+      comments.clear();
+      lastCursor = null;
+      hasMoreComments = true;
       await loadComplaintDetail(complaintId);
     } catch (e) {
       Get.snackbar('오류', '댓글 작성에 실패했습니다.');
+    }
+  }
+
+  // 댓글 입력창 포커스 설정
+  void setCommentInputFocus(bool focused) {
+    isCommentInputFocused = focused;
+    update();
+  }
+
+  // 이미지 슬라이더 이동
+  void nextImage() {
+    if (complaintDetail == null) return;
+    if (currentImageIndex < complaintDetail!.imageUrls.length - 1) {
+      currentImageIndex++;
+      update();
+    }
+  }
+
+  void prevImage() {
+    if (currentImageIndex > 0) {
+      currentImageIndex--;
+      update();
     }
   }
 
@@ -152,11 +152,6 @@ class ComplaintDetailController extends GetxController {
   // 민원 해결 확인
   Future<void> markAsResolved(String complaintId) async {
     // TODO: 민원 해겷 확인 API 개발 후 연동
-  }
-
-  // 댓글 입려창 포커스 설정
-  void setCommentInputFocus(bool focused) {
-    isCommentInputFocused.value = focused;
   }
 
   @override

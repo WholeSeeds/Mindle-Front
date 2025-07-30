@@ -1,10 +1,10 @@
 class Comment {
-  final int id; // 댓글 고유 id
-  final String content; // 댓글 내용
-  final DateTime createdAt; // 작성 시간
-  final int memberId; // 작성자 id
-  final int numLikes; // 댓글 좋아요 수
-  final String nickname; // 댓글 작성자 닉네임
+  final int id;
+  final String content;
+  final DateTime createdAt;
+  final int memberId;
+  final int numLikes;
+  final String nickname;
 
   Comment({
     required this.id,
