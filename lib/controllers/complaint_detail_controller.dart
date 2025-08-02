@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,9 @@ class ComplaintDetailController extends GetxController {
   String? lastCursor;
   bool hasMoreComments = true;
 
+  // 이미지 데이터 변수 추가
+  List<Uint8List> imagesBytesList = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -40,6 +45,7 @@ class ComplaintDetailController extends GetxController {
   Future<void> loadComplaintDetail(String complaintId) async {
     try {
       isLoading = true;
+      imagesBytesList.clear(); // 기존 이미지 초기화
 
       final response = await _dio.get('/complaint/detail/$complaintId');
 
@@ -49,6 +55,22 @@ class ComplaintDetailController extends GetxController {
           data['complaintDetailWithImagesDto'],
         );
         reactionInfo = Reaction.fromJson(data['reactionDto']);
+
+        // 이미지 URL을 통해 직접 이미지 가져오기
+        for (String url in complaintDetail?.imageUrls ?? []) {
+          try {
+            final imageResponse = await _dio.get<List<int>>(
+              url,
+              options: Options(responseType: ResponseType.bytes),
+            );
+            if (imageResponse.statusCode == 200) {
+              imagesBytesList.add(Uint8List.fromList(imageResponse.data!));
+            }
+          } catch (e) {
+            print('이미지 로딩 실패: $url');
+          }
+        }
+
         update();
       } else {
         throw Exception("민원 상세 정보 로딩 실패");
