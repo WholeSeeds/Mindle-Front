@@ -4,7 +4,9 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/public_place.dart';
+import 'package:mindle/models/region_info.dart';
 import 'package:mindle/services/google_place_service.dart';
+import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/place_bottomsheet.dart';
 
 class LocationController extends GetxController {
@@ -19,7 +21,9 @@ class LocationController extends GetxController {
   bool isSelectingLocation = false;
   // 선택된 위치 저장(해당 위치로 글 작성 위함)
   final Rx<PublicPlace?> selectedPlace = Rx<PublicPlace?>(null);
-  final Rx<NLatLng?> selectedLatLng = Rx<NLatLng?>(null);
+  final Rx<RegionInfo?> selectedRegionInfo = Rx<RegionInfo?>(null);
+  // 선택된 위치 스트링(화면에 표시 위함)
+  final RxString selectedLocationString = ''.obs;
 
   // 네이버 지도 컨트롤러
   late NaverMapController _mapController;
@@ -184,10 +188,10 @@ class LocationController extends GetxController {
     print('공공기관 마커가 추가되었습니다: ${places.length}개');
   }
 
-  // 위치 선택: 공공기관
+  // 위치 선택: PublicPlace(공공기관)
   void selectLocationToPlace(PublicPlace place) {
     selectedPlace.value = place;
-    selectedLatLng.value = null;
+    selectedRegionInfo.value = null;
 
     final latLng = NLatLng(place.latitude, place.longitude);
 
@@ -195,19 +199,20 @@ class LocationController extends GetxController {
     _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
   }
 
-  // 위치 선택: NLatLng
-  void selectLocationToLatLng(NLatLng latLng) {
+  // 위치 선택: RegionInfo(특정 좌표 -> 도로명주소)
+  Future<void> selectLocationToLatLng(NLatLng latLng) async {
     selectedPlace.value = null;
-    selectedLatLng.value = latLng;
+    selectedRegionInfo.value = await Get.find<NaverMapsService>()
+        .reverseGeoCode(latLng.latitude, latLng.longitude);
 
     // 선택된 위치로 카메라 이동
     _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
   }
 
   // 위치선택 해제
-  void clearSelectedLocation() {
+  void initSelectedLocation() {
     selectedPlace.value = null;
-    selectedLatLng.value = null;
+    selectedRegionInfo.value = null;
   }
 
   @override

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
+import 'package:mindle/models/region_info.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class ComplaintFormPage extends StatelessWidget {
-  final PublicPlace place;
+  final PublicPlace? place;
+  final RegionInfo? regionInfo;
 
-  ComplaintFormPage({super.key, required this.place});
+  ComplaintFormPage({super.key, required this.place, required this.regionInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class ComplaintFormPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            Text(place.name, style: const TextStyle(fontSize: 20)),
+            // TODO: 위치 정보 표시 수정
+            Text('위치정보', style: const TextStyle(fontSize: 20)),
             Obx(
               () => DropdownButtonFormField<String>(
                 value: controller.selectedCategory.value,
@@ -98,7 +101,9 @@ class ComplaintFormPage extends StatelessWidget {
 
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => controller.submitComplaint(place),
+              onPressed: () =>
+                  // TODO: 민원 등록 수정
+                  controller.submitComplaint(place ?? PublicPlace.empty()),
               child: const Text('등록하기'),
             ),
           ],
