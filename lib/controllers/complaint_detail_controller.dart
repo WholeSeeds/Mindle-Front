@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -17,16 +17,16 @@ class ComplaintDetailController extends GetxController {
 
   // 데이터 모델
   ComplaintDetail? complaintDetail;
-  Reaction? reactionInfo;
+  final Rx<Reaction?> reactionInfo = Rx<Reaction?>(null);
 
   // 댓글 관련
-  List<Comment> comments = [];
+  final RxList<Comment> comments = <Comment>[].obs;
   final TextEditingController commentInputController = TextEditingController();
   bool isCommentInputFocused = false;
 
   // UI 상태
   int currentImageIndex = 0;
-  bool isLoading = false;
+  final RxBool isLoading = false.obs;
   bool isComplaintResolvedCheckboxSelected = false;
 
   // 댓글 페이지네이션
@@ -36,6 +36,9 @@ class ComplaintDetailController extends GetxController {
   // 이미지 데이터 변수 추가
   List<Uint8List> imagesBytesList = [];
 
+  // 알림 설정 상태
+  final RxBool isNotificationEnabled = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -44,7 +47,7 @@ class ComplaintDetailController extends GetxController {
   // 민원 상세 정보
   Future<void> loadComplaintDetail(String complaintId) async {
     try {
-      isLoading = true;
+      isLoading.value = true;
       imagesBytesList.clear(); // 기존 이미지 초기화
 
       final response = await _dio.get('/complaint/detail/$complaintId');
@@ -54,7 +57,7 @@ class ComplaintDetailController extends GetxController {
         complaintDetail = ComplaintDetail.fromJson(
           data['complaintDetailWithImagesDto'],
         );
-        reactionInfo = Reaction.fromJson(data['reactionDto']);
+        reactionInfo.value = Reaction.fromJson(data['reactionDto']);
 
         // 이미지 URL을 통해 직접 이미지 가져오기
         for (String url in complaintDetail?.imageUrls ?? []) {
@@ -71,6 +74,8 @@ class ComplaintDetailController extends GetxController {
           }
         }
 
+        // 댓글 로딩
+        await loadComments(complaintDetail!.id);
         update();
       } else {
         throw Exception("민원 상세 정보 로딩 실패");
@@ -78,7 +83,7 @@ class ComplaintDetailController extends GetxController {
     } catch (e) {
       Get.snackbar('오류', '민원 정보를 불러오는데 실패했습니다.');
     } finally {
-      isLoading = false;
+      isLoading.value = false;
       update();
     }
   }
@@ -127,13 +132,13 @@ class ComplaintDetailController extends GetxController {
       );
 
       commentInputController.clear();
-      isCommentInputFocused = false;
+      setCommentInputFocus(false);
 
       // 댓글 목록 초기화 후 재 업로드
       comments.clear();
       lastCursor = null;
       hasMoreComments = true;
-      await loadComplaintDetail(complaintId);
+      await loadComments(int.parse(complaintId));
     } catch (e) {
       Get.snackbar('오류', '댓글 작성에 실패했습니다.');
     }
@@ -159,6 +164,16 @@ class ComplaintDetailController extends GetxController {
       currentImageIndex--;
       update();
     }
+  }
+
+  // 신고 기능
+  Future<void> reportComplaint(String complaintId, String reason) async {
+    // TODO: 신고 기능 API 개발 후 연동
+  }
+
+  // 알림 설정 토글
+  Future<void> toggleNotification(String complaintId) async {
+    // TODO: 알림 설정 API 개발 후 연동
   }
 
   // 댓글 좋아요 토클
