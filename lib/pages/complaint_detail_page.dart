@@ -52,8 +52,8 @@ class ComplaintDetailPage extends StatelessWidget {
               '민원 상세',
               style: TextStyle(
                 color: black,
-                fontSize: 20, // Subtitle 1
-                fontWeight: FontWeight.w600, // SemiBold
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
                 fontFamily: 'Pretendard',
               ),
             ),
@@ -77,7 +77,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        detail.placeName, // 이미지에서 "삼우 고등학교"로 표시
+                        detail.placeName,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: mainGreen,
@@ -190,7 +190,7 @@ class ComplaintDetailPage extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // 이미지 슬라이더 부분을 다음과 같이 수정
-                  if (detail.imageUrls.isNotEmpty)
+                  if (controller.imagesBytesList.isNotEmpty)
                     Stack(
                       children: [
                         Container(
@@ -209,8 +209,8 @@ class ComplaintDetailPage extends StatelessWidget {
                                 margin: EdgeInsets.symmetric(horizontal: 4),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    detail.imageUrls[idx],
+                                  child: Image.memory(
+                                    controller.imagesBytesList[idx],
                                     fit: BoxFit.cover,
                                     width: double.infinity,
                                     height: double.infinity,
@@ -231,7 +231,7 @@ class ComplaintDetailPage extends StatelessWidget {
                           ),
                         ),
                         // 이미지 페이지 인디케이터
-                        if (detail.imageUrls.length > 1)
+                        if (controller.imagesBytesList.length > 1)
                           Positioned(
                             bottom: 12,
                             right: 12,
@@ -280,7 +280,6 @@ class ComplaintDetailPage extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             // TODO: 민원 좋아요 API 연동 시 구현
-                            // controller.toggleComplaintLike(detail.id.toString());
                           },
                           child: Row(
                             children: [
@@ -535,7 +534,6 @@ class ComplaintDetailPage extends StatelessWidget {
                                     GestureDetector(
                                       onTap: () {
                                         // TODO: 댓글 좋아요 API 연동 시 구현
-                                        // controller.toggleCommentLike(comment.id.toString());
                                       },
                                       child: Row(
                                         children: [
