@@ -18,7 +18,7 @@ class LocationController extends GetxController {
   late StreamSubscription<Position> _positionSubscription;
 
   // 위치 선택 모드 여부
-  bool isSelectingLocation = false;
+  RxBool isSelectingLocation = false.obs;
   // 선택된 위치 저장(해당 위치로 글 작성 위함)
   final Rx<PublicPlace?> selectedPlace = Rx<PublicPlace?>(null);
   final Rx<RegionInfo?> selectedRegionInfo = Rx<RegionInfo?>(null);
@@ -159,7 +159,7 @@ class LocationController extends GetxController {
 
       // 마커 탭했을 시
       marker.setOnTapListener((overlay) {
-        if (isSelectingLocation) {
+        if (isSelectingLocation.value) {
           // 위치 선택 모드일 때는 선택된 위치로 설정
           selectLocationToPlace(place);
         } else {

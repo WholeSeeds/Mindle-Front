@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/location_controller.dart';
-import 'package:mindle/widgets/select_bottomsheet.dart';
+import 'package:mindle/widgets/location_select_panel.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
@@ -12,44 +12,53 @@ class MapPage extends StatelessWidget {
     final controller = Get.find<LocationController>();
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // 네이버 맵
-          NaverMap(
-            onMapReady: (naverMapController) {
-              print("네이버맵 준비 완료");
-              controller.setMapController(naverMapController);
-            },
-          ),
+      body: Obx(() {
+        final isSelecting = controller.isSelectingLocation.value;
 
-          // 플로팅 버튼
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                controller.isSelectingLocation = true;
-                controller.initSelectedLocation();
-                // 바텀 시트 열기
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                  ),
-                  showDragHandle: true,
-                  builder: (_) {
-                    return SelectBottomSheet();
-                  },
-                );
-              },
-              child: const Icon(Icons.edit_location_alt),
+        return Column(
+          children: [
+            // 지도 영역
+            Expanded(
+              flex: isSelecting ? 7 : 10, // true면 70%, false면 100%
+              child: NaverMap(
+                onMapReady: (naverMapController) {
+                  print("네이버맵 준비 완료");
+                  controller.setMapController(naverMapController);
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+
+            // 선택 패널
+            if (isSelecting)
+              Expanded(
+                flex: 3, // 화면 30%
+                child: LocationSelectPanel(),
+              ),
+          ],
+        );
+      }),
+
+      // 플로팅 버튼
+      floatingActionButton: Obx(() {
+        final isSelecting = controller.isSelectingLocation.value;
+
+        if (isSelecting) {
+          return FloatingActionButton(
+            onPressed: () {
+              controller.isSelectingLocation.value = false; // 닫기
+            },
+            child: const Icon(Icons.close),
+          );
+        } else {
+          return FloatingActionButton(
+            onPressed: () {
+              controller.isSelectingLocation.value = true; // 열기
+              controller.initSelectedLocation();
+            },
+            child: const Icon(Icons.edit_location_alt),
+          );
+        }
+      }),
     );
   }
 }
