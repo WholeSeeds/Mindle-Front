@@ -4,6 +4,7 @@ import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/region_info.dart';
+import 'package:mindle/widgets/icon_textbox.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class ComplaintFormPage extends StatelessWidget {
@@ -21,8 +22,16 @@ class ComplaintFormPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            // TODO: 위치 정보 표시 수정
-            Text('위치정보', style: const TextStyle(fontSize: 20)),
+            // 위치 정보 표시
+            (place != null)
+                ? IconTextBox(text: place!.name, icon: Icons.place)
+                : (regionInfo != null)
+                ? IconTextBox(
+                    text: regionInfo!.fullAddressString(),
+                    icon: Icons.place,
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(height: 15),
             Obx(
               () => DropdownButtonFormField<String>(
                 value: controller.selectedCategory.value,
