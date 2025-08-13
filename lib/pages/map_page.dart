@@ -19,7 +19,7 @@ class MapPage extends StatelessWidget {
           children: [
             // 지도 영역
             Expanded(
-              flex: isSelecting ? 7 : 10, // true면 70%, false면 100%
+              flex: isSelecting ? 65 : 100, // true면 65%, false면 100%
               child: NaverMap(
                 onMapReady: (naverMapController) {
                   print("네이버맵 준비 완료");
@@ -31,7 +31,7 @@ class MapPage extends StatelessWidget {
             // 선택 패널
             if (isSelecting)
               Expanded(
-                flex: 3, // 화면 30%
+                flex: 35, // 화면 35%
                 child: LocationSelectPanel(),
               ),
           ],

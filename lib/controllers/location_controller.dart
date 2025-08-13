@@ -188,9 +188,25 @@ class LocationController extends GetxController {
     print('공공기관 마커가 추가되었습니다: ${places.length}개');
   }
 
+  // 위치 선택 모드 활성화
+  enableSelectingLocation() {
+    isSelectingLocation.value = true;
+    initSelectedLocation(); // 선택된 위치 초기화
+  }
+
+  // 위치 선택 모드 비활성화
+  disableSelectingLocation() {
+    isSelectingLocation.value = false;
+    initSelectedLocation(); // 선택된 위치 초기화
+  }
+
   // 위치 선택: PublicPlace(공공기관)
   void selectLocationToPlace(PublicPlace place) {
     selectedPlace.value = place;
+    selectedLocationString.value = place.name.isNotEmpty
+        ? place
+              .name // + " [기관]"
+        : place.address;
     selectedRegionInfo.value = null;
 
     final latLng = NLatLng(place.latitude, place.longitude);
@@ -204,6 +220,8 @@ class LocationController extends GetxController {
     selectedPlace.value = null;
     selectedRegionInfo.value = await Get.find<NaverMapsService>()
         .reverseGeoCode(latLng.latitude, latLng.longitude);
+    selectedLocationString.value =
+        selectedRegionInfo.value?.fullAddressString() ?? '';
 
     // 선택된 위치로 카메라 이동
     _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
@@ -213,6 +231,7 @@ class LocationController extends GetxController {
   void initSelectedLocation() {
     selectedPlace.value = null;
     selectedRegionInfo.value = null;
+    selectedLocationString.value = '';
   }
 
   @override

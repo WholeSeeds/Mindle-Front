@@ -10,6 +10,9 @@ class LocationSelectPanel extends StatelessWidget {
 
   final controller = Get.find<LocationController>();
 
+  static const Color mainGreen = Color(0xFF00D482);
+  static const Color gray4 = Color(0xFFF1F3F5);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -17,7 +20,7 @@ class LocationSelectPanel extends StatelessWidget {
         // 내용
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +28,7 @@ class LocationSelectPanel extends StatelessWidget {
               const SizedBox(height: 8),
               const Text(
                 '첨부할 위치를 선택해주세요',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -33,9 +36,40 @@ class LocationSelectPanel extends StatelessWidget {
                 style: TextStyle(fontSize: 10, color: Colors.blueGrey),
               ),
               const SizedBox(height: 16),
+              const Text(
+                '선택된 위치',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                ),
+              ),
 
+              const SizedBox(height: 3),
               // 선택된 위치 정보
-              Obx(() => Text(controller.selectedLocationString.value)),
+              Obx(
+                () => Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: controller.selectedLocationString.value.isEmpty
+                          ? gray4
+                          : mainGreen,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    controller.selectedLocationString.value,
+                    style: const TextStyle(fontSize: 12, color: mainGreen),
+                    overflow: TextOverflow.ellipsis, // overflow 시 ...
+                    maxLines: 1, // 한 줄로 제한
+                  ),
+                ),
+              ),
 
               const SizedBox(height: 20),
             ],
