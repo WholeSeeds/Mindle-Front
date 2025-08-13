@@ -27,6 +27,10 @@ class MapPage extends StatelessWidget {
               Expanded(
                 flex: isSelecting ? 65 : 100,
                 child: NaverMap(
+                  options: NaverMapViewOptions(
+                    consumeSymbolTapEvents:
+                        false, // 심볼 여부와 상관없이 onMapTapped 이벤트가 trigger 되도록 설정
+                  ),
                   onMapReady: controller.setMapController,
                   onMapTapped: (npoint, nlatlng) {
                     print("지도 탭됨");
