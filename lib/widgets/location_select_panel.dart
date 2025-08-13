@@ -29,7 +29,7 @@ class LocationSelectPanel extends StatelessWidget {
               const SizedBox(height: 8),
               const Text(
                 '? 공공기관이 없어요',
-                style: TextStyle(fontSize: 10, color: Colors.blueGrey),
+                style: TextStyle(fontSize: 10, color: Colors.blue),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -43,6 +43,7 @@ class LocationSelectPanel extends StatelessWidget {
 
               const SizedBox(height: 3),
               // 선택된 위치 정보
+              // TODO: 위치정보 삭제 기능 추가
               Obx(
                 () =>
                     IconTextBox(text: controller.selectedLocationString.value),
@@ -62,6 +63,11 @@ class LocationSelectPanel extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
+                if (controller.selectedPlace.value == null &&
+                    controller.selectedRegionInfo.value == null) {
+                  // TODO: 위치 선택하지 않았을 때 경고창 추가
+                  return;
+                }
                 Get.to(
                   () => ComplaintFormPage(
                     place: controller.selectedPlace.value,
@@ -69,7 +75,14 @@ class LocationSelectPanel extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('민원 작성하기', style: TextStyle(fontSize: 16)),
+              child: Obx(
+                () => Text(
+                  (controller.selectedLocationString.value == '')
+                      ? '건너뛰기'
+                      : '다음',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
           ),
         ),

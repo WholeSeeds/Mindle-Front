@@ -11,7 +11,7 @@ class IconTextBox extends StatelessWidget {
   final EdgeInsets padding;
 
   static const Color mainGreen = Color(0xFF00D482);
-  static const Color gray4 = Color(0xFFF1F3F5);
+  static const Color gray6 = Color(0xFFEDEDED);
 
   const IconTextBox({
     super.key,
@@ -33,21 +33,21 @@ class IconTextBox extends StatelessWidget {
       padding: padding,
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: borderColor ?? (isEmpty ? gray4 : mainGreen)),
+        border: Border.all(color: borderColor ?? (isEmpty ? gray6 : mainGreen)),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Row(
         children: [
           (icon != null)
-              ? Icon(icon, color: iconColor ?? (isEmpty ? gray4 : mainGreen))
+              ? Icon(icon, color: iconColor ?? (isEmpty ? gray6 : mainGreen))
               : SizedBox.shrink(),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              isEmpty ? "내용 없음" : text,
+              isEmpty ? "" : text,
               style: TextStyle(
                 fontSize: fontSize,
-                color: textColor ?? (isEmpty ? gray4 : mainGreen),
+                color: textColor ?? (isEmpty ? gray6 : mainGreen),
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

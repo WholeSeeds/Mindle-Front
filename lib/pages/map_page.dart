@@ -45,17 +45,15 @@ class MapPage extends StatelessWidget {
           ),
 
           // 플로팅 버튼
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              if (isSelecting) {
-                controller.isSelectingLocation.value = false;
-              } else {
-                controller.isSelectingLocation.value = true;
-                controller.initSelectedLocation();
-              }
-            },
-            child: Icon(isSelecting ? Icons.close : Icons.edit_location_alt),
-          ),
+          // TODO: 플로팅버튼 디자인, 위치 수정
+          floatingActionButton: (!isSelecting)
+              ? FloatingActionButton(
+                  onPressed: () {
+                    controller.enableSelectingLocation();
+                  },
+                  child: Icon(Icons.edit_location_alt),
+                )
+              : null, // 위치 선택중일 땐 플로팅버튼 비활성화
         ),
       );
     });
