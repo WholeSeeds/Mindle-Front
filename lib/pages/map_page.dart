@@ -25,6 +25,13 @@ class MapPage extends StatelessWidget {
                   print("네이버맵 준비 완료");
                   controller.setMapController(naverMapController);
                 },
+                onMapTapped: (npoint, nlatlng) {
+                  print("지도 탭됨");
+                  if (isSelecting) {
+                    // 위치 선택 모드일 때만 동작
+                    controller.selectLocationToLatLng(nlatlng);
+                  }
+                },
               ),
             ),
 
