@@ -5,11 +5,17 @@ import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/region_info.dart';
 import 'package:mindle/widgets/icon_textbox.dart';
+import 'package:mindle/widgets/mindle_textbutton.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class ComplaintFormPage extends StatelessWidget {
   final PublicPlace? place;
   final RegionInfo? regionInfo;
+
+  static const Color mainGreen = Color(0xFF00D482);
+  static const Color gray4 = Color(0xFFF1F3F5);
+  static const Color gray5 = Color(0xFFBEBEBE);
+  static const Color gray6 = Color(0xFFEDEDED);
 
   ComplaintFormPage({super.key, required this.place, required this.regionInfo});
 
@@ -30,7 +36,13 @@ class ComplaintFormPage extends StatelessWidget {
                     text: regionInfo!.fullAddressString(),
                     icon: Icons.place,
                   )
-                : const SizedBox.shrink(),
+                : IconTextBox(
+                    text: '위치 입력',
+                    icon: Icons.place,
+                    iconColor: gray5,
+                    textColor: gray5,
+                    borderColor: gray6,
+                  ),
             const SizedBox(height: 15),
             Obx(
               () => DropdownButtonFormField<String>(
@@ -109,11 +121,25 @@ class ComplaintFormPage extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () =>
-                  // TODO: 민원 등록 수정
-                  controller.submitComplaint(place ?? PublicPlace.empty()),
-              child: const Text('등록하기'),
+            Obx(
+              () => MindleTextButton(
+                label: '민원 보내기',
+                onPressed: () =>
+                    // TODO: 민원 등록 로직 추가하기
+                    controller.submitComplaint(place ?? PublicPlace.empty()),
+                textColor:
+                    (controller.selectedCategory.value.isEmpty ||
+                        controller.title.value.isEmpty ||
+                        controller.content.value.isEmpty)
+                    ? gray5
+                    : Colors.white,
+                backgroundColor:
+                    (controller.selectedCategory.value.isEmpty ||
+                        controller.title.value.isEmpty ||
+                        controller.content.value.isEmpty)
+                    ? gray4
+                    : mainGreen,
+              ),
             ),
           ],
         ),

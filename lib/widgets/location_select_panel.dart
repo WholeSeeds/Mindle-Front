@@ -3,6 +3,8 @@ import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/pages/complaint_form_page.dart';
 import 'package:get/get.dart';
 import 'package:mindle/widgets/icon_textbox.dart';
+import 'package:mindle/widgets/mindle_dialog.dart';
+import 'package:mindle/widgets/mindle_textbutton.dart';
 
 class LocationSelectPanel extends StatelessWidget {
   LocationSelectPanel({super.key});
@@ -61,27 +63,47 @@ class LocationSelectPanel extends StatelessWidget {
           bottom: 20,
           child: SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                if (controller.selectedPlace.value == null &&
-                    controller.selectedRegionInfo.value == null) {
-                  // TODO: 위치 선택하지 않았을 때 경고창 추가
-                  return;
-                }
-                Get.to(
-                  () => ComplaintFormPage(
-                    place: controller.selectedPlace.value,
-                    regionInfo: controller.selectedRegionInfo.value,
-                  ),
-                );
-              },
-              child: Obx(
-                () => Text(
-                  (controller.selectedLocationString.value == '')
-                      ? '건너뛰기'
-                      : '다음',
-                  style: TextStyle(fontSize: 16),
-                ),
+            child: Obx(
+              () => MindleTextButton(
+                label: (controller.selectedLocationString.value == '')
+                    ? '건너뛰기'
+                    : '다음',
+                onPressed: () {
+                  if (controller.selectedPlace.value == null &&
+                      controller.selectedRegionInfo.value == null) {
+                    // 위치 선택 안 했을 때 경고창 표시
+                    showDialog(
+                      context: context,
+                      builder: (_) => MindleDialog(
+                        title: '위치 건너뛰기',
+                        content: '위치를 선택하지 않고 글을 작성할까요?',
+                        firstButton: '확인',
+                        firstButtonAction: () {
+                          Get.to(
+                            () => ComplaintFormPage(
+                              place: controller.selectedPlace.value,
+                              regionInfo: controller.selectedRegionInfo.value,
+                            ),
+                          );
+                        },
+                        secondButton: '취소',
+                        secondButtonAction: () {
+                          // 취소 시 아무것도 안 함
+                        },
+                      ),
+                    );
+                    return;
+                  }
+
+                  // 정상적으로 선택했을 때 바로 이동
+                  Get.to(
+                    () => ComplaintFormPage(
+                      place: controller.selectedPlace.value,
+                      regionInfo: controller.selectedRegionInfo.value,
+                    ),
+                  );
+                },
+                fontSize: 16,
               ),
             ),
           ),
