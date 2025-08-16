@@ -45,10 +45,26 @@ class LocationSelectPanel extends StatelessWidget {
 
               const SizedBox(height: 3),
               // 선택된 위치 정보
-              // TODO: 위치정보 삭제 기능 추가
               Obx(
-                () =>
+                () => Stack(
+                  children: [
                     IconTextBox(text: controller.selectedLocationString.value),
+
+                    // 선택된 위치가 있을 때만 삭제 버튼 표시
+                    if (controller.selectedLocationString.value != '')
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.close, size: 20),
+                          onPressed: () {
+                            controller.initSelectedLocation();
+                          },
+                        ),
+                      ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 20),
