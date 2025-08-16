@@ -11,6 +11,8 @@ class LocationSelectPanel extends StatelessWidget {
 
   final controller = Get.find<LocationController>();
 
+  static const Color gray5 = Color(0xFFBEBEBE);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -18,7 +20,7 @@ class LocationSelectPanel extends StatelessWidget {
         // 내용
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +30,7 @@ class LocationSelectPanel extends StatelessWidget {
                 '첨부할 위치를 선택해주세요',
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 3),
               const Text(
                 '? 공공기관이 없어요',
                 style: TextStyle(fontSize: 10, color: Colors.blue),
@@ -57,7 +59,7 @@ class LocationSelectPanel extends StatelessWidget {
                         top: 0,
                         bottom: 0,
                         child: IconButton(
-                          icon: const Icon(Icons.close, size: 20),
+                          icon: const Icon(Icons.close, size: 20, color: gray5),
                           onPressed: () {
                             controller.initSelectedLocation();
                           },
