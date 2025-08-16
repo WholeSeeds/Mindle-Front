@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mindle/models/public_place.dart';
+import 'package:mindle/models/region_info.dart';
 
 class ComplaintController extends GetxController {
   final categoryList = ['', '도로', '치안', '환경', '기타'];
@@ -48,7 +49,9 @@ class ComplaintController extends GetxController {
     }
   }
 
-  void submitComplaint(PublicPlace place) async {
+  // 민원 등록 서버에 요청 보내기
+  // 둘 중 하나, 혹은 둘다 null인 상태로 보내짐
+  void submitComplaint({PublicPlace? place, RegionInfo? regionInfo}) async {
     if (selectedCategory.value.isEmpty ||
         title.value.isEmpty ||
         content.value.isEmpty) {
@@ -57,6 +60,7 @@ class ComplaintController extends GetxController {
     }
 
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+    print('민원 등록 토큰: $token');
     final dio.Dio _dio = dio.Dio(
       dio.BaseOptions(
         baseUrl:
@@ -66,19 +70,24 @@ class ComplaintController extends GetxController {
     );
 
     final meta = {
-      // 'categoryId': 1, // 예시
       'categoryId': categoryList.indexOf(selectedCategory.value),
-      'memberId': 1,
-      'cityName': place.address,
-      'districtName': null,
-      'subDistrictName': null,
-      // 'placeId': 'uniqueid', // 예시
-      'placeId': place.uniqueId,
+      'subDistrictCode': null, // TODO: 하위 행정구역 코드 추가 필요
       'title': title.value,
       'content': content.value,
-      'latitude': place.latitude,
-      'longitude': place.longitude,
     };
+
+    // place가 있으면 placeId와 위치 정보 추가
+    if (place != null) {
+      meta['placeId'] = place.uniqueId;
+      // meta['placeId'] = 'uniqueid'; // 예시
+      meta['latitude'] = place.latitude;
+      meta['longitude'] = place.longitude;
+    } else if (regionInfo != null) {
+      // regionInfo가 있으면 위치 정보만 추가
+      meta['latitude'] = regionInfo.latitude;
+      meta['longitude'] = regionInfo.longitude;
+    }
+    // 아무 정보도 없으면 정보를 추가하지 않음
 
     List<dio.MultipartFile> fileList = [];
     for (var image in images) {
@@ -97,7 +106,7 @@ class ComplaintController extends GetxController {
     });
 
     final response = await _dio.post('/complaint/save', data: formData);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('민원 등록 응답: ${response.statusCode} ${response.data}');
       Get.snackbar('성공!', '민원이 등록되었습니다');
     } else {

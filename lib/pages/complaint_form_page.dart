@@ -124,9 +124,10 @@ class ComplaintFormPage extends StatelessWidget {
             Obx(
               () => MindleTextButton(
                 label: '민원 보내기',
-                onPressed: () =>
-                    // TODO: 민원 등록 로직 추가하기
-                    controller.submitComplaint(place ?? PublicPlace.empty()),
+                onPressed: () => controller.submitComplaint(
+                  place: place,
+                  regionInfo: regionInfo,
+                ), // 둘 중 하나, 혹은 둘 다 null인 상태로 submit됨
                 textColor:
                     (controller.selectedCategory.value.isEmpty ||
                         controller.title.value.isEmpty ||
