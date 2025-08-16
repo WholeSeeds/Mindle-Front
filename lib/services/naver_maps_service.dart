@@ -32,7 +32,11 @@ class NaverMapsService extends GetxService {
       );
 
       if (response.statusCode == 200) {
-        final region = RegionInfo.fromNaverJson(response.data);
+        final region = RegionInfo.fromNaverJson(
+          response.data,
+          latitude: latitude,
+          longitude: longitude,
+        );
         return region;
       } else {
         print('도로명 주소 변환 실패: ${response.statusCode} ${response.statusMessage}');

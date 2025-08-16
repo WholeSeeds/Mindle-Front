@@ -4,6 +4,8 @@ class RegionInfo {
   final String dong; // 동 (필수)
   final String? doroName; // 도로명 (nullable)
   final String? doroNumber; // 도로명 번호 (nullable)
+  final double latitude; // 위도 (필수)
+  final double longitude; // 경도 (필수)
 
   RegionInfo({
     required this.si,
@@ -11,6 +13,8 @@ class RegionInfo {
     this.gu,
     this.doroName,
     this.doroNumber,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory RegionInfo.empty() {
@@ -20,10 +24,16 @@ class RegionInfo {
       dong: '',
       doroName: null,
       doroNumber: null,
+      latitude: 0.0,
+      longitude: 0.0,
     );
   }
 
-  factory RegionInfo.fromNaverJson(Map<String, dynamic> data) {
+  factory RegionInfo.fromNaverJson(
+    Map<String, dynamic> data, {
+    required double latitude,
+    required double longitude,
+  }) {
     try {
       final results = data['results'];
       if (results is! List || results.isEmpty) {
@@ -63,6 +73,8 @@ class RegionInfo {
         dong: dong,
         doroName: doroName,
         doroNumber: doroNumber,
+        latitude: latitude,
+        longitude: longitude,
       );
     } catch (e) {
       print('RegionInfo.fromNaverJson 파싱 실패: $e');
@@ -72,7 +84,7 @@ class RegionInfo {
 
   @override
   String toString() {
-    return 'RegionInfo(si: $si, gu: $gu, dong: $dong, doroName: $doroName, doroNumber: $doroNumber)';
+    return 'RegionInfo(si: $si, gu: $gu, dong: $dong, doroName: $doroName, doroNumber: $doroNumber, latitude: $latitude, longitude: $longitude)';
   }
 
   String fullAddressString() {
