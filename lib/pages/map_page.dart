@@ -7,6 +7,8 @@ import 'package:mindle/widgets/location_select_panel.dart';
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
 
+  static const Color gray7 = Color(0xFF474747);
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<LocationController>();
@@ -45,13 +47,37 @@ class MapPage extends StatelessWidget {
           ),
 
           // 플로팅 버튼
-          // TODO: 플로팅버튼 디자인, 위치 수정
           floatingActionButton: (!isSelecting)
-              ? FloatingActionButton(
-                  onPressed: () {
-                    controller.enableSelectingLocation();
-                  },
-                  child: Icon(Icons.edit_location_alt),
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 50,
+                    right: 5,
+                  ), // 버튼 위치 조정
+                  child: FloatingActionButton(
+                    foregroundColor: Colors.white,
+                    backgroundColor: gray7.withValues(alpha: 0.85),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    onPressed: () {
+                      controller.enableSelectingLocation();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/write_icon.png',
+                          width: 23,
+                          height: 23,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          '글쓰기',
+                          style: TextStyle(fontSize: 9, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               : null, // 위치 선택중일 땐 플로팅버튼 비활성화
         ),
