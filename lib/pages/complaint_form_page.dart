@@ -3,12 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
+import 'package:mindle/models/region_info.dart';
+import 'package:mindle/widgets/icon_textbox.dart';
+import 'package:mindle/widgets/mindle_textbutton.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class ComplaintFormPage extends StatelessWidget {
-  final PublicPlace place;
+  final PublicPlace? place;
+  final RegionInfo? regionInfo;
 
-  ComplaintFormPage({super.key, required this.place});
+  static const Color mainGreen = Color(0xFF00D482);
+  static const Color gray4 = Color(0xFFF1F3F5);
+  static const Color gray5 = Color(0xFFBEBEBE);
+  static const Color gray6 = Color(0xFFEDEDED);
+
+  ComplaintFormPage({super.key, required this.place, required this.regionInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,22 @@ class ComplaintFormPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            Text(place.name, style: const TextStyle(fontSize: 20)),
+            // 위치 정보 표시
+            (place != null)
+                ? IconTextBox(text: place!.name, icon: Icons.place)
+                : (regionInfo != null)
+                ? IconTextBox(
+                    text: regionInfo!.fullAddressString(),
+                    icon: Icons.place,
+                  )
+                : IconTextBox(
+                    text: '위치 입력',
+                    icon: Icons.place,
+                    iconColor: gray5,
+                    textColor: gray5,
+                    borderColor: gray6,
+                  ),
+            const SizedBox(height: 15),
             Obx(
               () => DropdownButtonFormField<String>(
                 value: controller.selectedCategory.value,
@@ -97,9 +121,26 @@ class ComplaintFormPage extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => controller.submitComplaint(place),
-              child: const Text('등록하기'),
+            Obx(
+              () => MindleTextButton(
+                label: '민원 보내기',
+                onPressed: () => controller.submitComplaint(
+                  place: place,
+                  regionInfo: regionInfo,
+                ), // 둘 중 하나, 혹은 둘 다 null인 상태로 submit됨
+                textColor:
+                    (controller.selectedCategory.value.isEmpty ||
+                        controller.title.value.isEmpty ||
+                        controller.content.value.isEmpty)
+                    ? gray5
+                    : Colors.white,
+                backgroundColor:
+                    (controller.selectedCategory.value.isEmpty ||
+                        controller.title.value.isEmpty ||
+                        controller.content.value.isEmpty)
+                    ? gray4
+                    : mainGreen,
+              ),
             ),
           ],
         ),

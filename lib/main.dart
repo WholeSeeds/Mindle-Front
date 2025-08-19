@@ -76,11 +76,14 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<BottomNavController>();
+    final locationController = Get.find<LocationController>();
 
     return Obx(
       () => Scaffold(
         body: bottomNavItems[controller.currentIndex.value].page,
-        bottomNavigationBar: MindleBottomNavigationBar(controller: controller),
+        bottomNavigationBar: locationController.isSelectingLocation.value
+            ? null
+            : MindleBottomNavigationBar(controller: controller),
       ),
     );
   }
