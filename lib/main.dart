@@ -11,6 +11,7 @@ import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/controllers/complaint_controller.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/services/naver_maps_service.dart';
@@ -61,9 +62,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'WholeSeeds',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: MindleThemes.lightTheme,
       // initialRoute는 명시하지 않으면 자동으로 '/'로 지정됨
       initialRoute: "/init",
       getPages: allPages,
