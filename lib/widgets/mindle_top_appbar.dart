@@ -9,6 +9,11 @@ class MindleTopAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      foregroundColor: Theme.of(context).colorScheme.onSurface,
+      shadowColor: Colors.transparent,
+      titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () => Get.back(),
