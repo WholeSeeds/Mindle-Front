@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // 색상
-// 사용 예시: color: MindleColors.mainGreen
+// 사용 예시: Text('asdf', style: TextStyle(color: MindleColors.mainGreen))
 class MindleColors {
   static const Color mainGreen = Color(0xFF00D482);
   static const Color sudYellow = Color(0xFFFDD130);
@@ -26,80 +26,82 @@ class MindleColors {
 }
 
 // 텍스트 스타일
-// 사용 예시: style: MindleTextStyles.headline1
+// 사용 예시: Text('asdf', style: MindleTextStyles.headline1())
+// 사용 예시: Text('asdf', style: MindleTextStyles.headline1(color: MindleColors.mainGreen))
+
 class MindleTextStyles {
-  static const TextStyle headline1 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle headline1({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 24,
     fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle subtitle1 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle subtitle1({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 20,
     fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle subtitle2 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle subtitle2({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 18,
     fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle subtitle3 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle subtitle3({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 16,
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle body1 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle body1({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle body2 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle body2({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 14,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w300,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle body3 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle body3({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w300,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle body4 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle body4({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle body5 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle body5({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 10,
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle number1 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle number1({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 24,
     fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
-  static const TextStyle number2 = TextStyle(
-    color: MindleColors.black,
+  static TextStyle number2({Color? color}) => TextStyle(
+    color: color ?? MindleColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
@@ -107,7 +109,7 @@ class MindleTextStyles {
 }
 
 // 테마
-// 사용 예시: theme: MindleThemes.lightTheme
+// 사용 예시: GetMaterialApp(theme: MindleThemes.lightTheme)
 class MindleThemes {
   // 라이트 테마(기본)
   static final ThemeData lightTheme = ThemeData(
@@ -123,7 +125,7 @@ class MindleThemes {
       onSurface: MindleColors.black,
     ),
     fontFamily: 'Pretendard',
-    textTheme: const TextTheme(
+    textTheme: TextTheme(
       displayLarge: TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w600,
@@ -136,19 +138,19 @@ class MindleThemes {
         fontFamily: 'Pretendard',
         color: MindleColors.black,
       ),
-      displaySmall: MindleTextStyles.headline1,
+      displaySmall: MindleTextStyles.headline1(),
 
-      headlineLarge: MindleTextStyles.headline1,
-      headlineMedium: MindleTextStyles.subtitle1,
-      headlineSmall: MindleTextStyles.subtitle2,
+      headlineLarge: MindleTextStyles.headline1(),
+      headlineMedium: MindleTextStyles.subtitle1(),
+      headlineSmall: MindleTextStyles.subtitle2(),
 
-      bodyLarge: MindleTextStyles.body1,
-      bodyMedium: MindleTextStyles.body2,
-      bodySmall: MindleTextStyles.body3,
+      bodyLarge: MindleTextStyles.body1(),
+      bodyMedium: MindleTextStyles.body2(),
+      bodySmall: MindleTextStyles.body3(),
 
-      labelLarge: MindleTextStyles.body2,
-      labelMedium: MindleTextStyles.body4,
-      labelSmall: MindleTextStyles.body5,
+      labelLarge: MindleTextStyles.body2(),
+      labelMedium: MindleTextStyles.body4(),
+      labelSmall: MindleTextStyles.body5(),
     ),
   );
 
