@@ -31,77 +31,77 @@ class MindleTextStyles {
   static const TextStyle headline1 = TextStyle(
     color: MindleColors.black,
     fontSize: 24,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle subtitle1 = TextStyle(
     color: MindleColors.black,
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle subtitle2 = TextStyle(
     color: MindleColors.black,
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle subtitle3 = TextStyle(
     color: MindleColors.black,
     fontSize: 16,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle body1 = TextStyle(
     color: MindleColors.black,
     fontSize: 14,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle body2 = TextStyle(
     color: MindleColors.black,
     fontSize: 14,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle body3 = TextStyle(
     color: MindleColors.black,
     fontSize: 12,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w300,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle body4 = TextStyle(
     color: MindleColors.black,
     fontSize: 12,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle body5 = TextStyle(
     color: MindleColors.black,
     fontSize: 10,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle number1 = TextStyle(
     color: MindleColors.black,
     fontSize: 24,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
   );
 
   static const TextStyle number2 = TextStyle(
     color: MindleColors.black,
     fontSize: 12,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
   );
 }
