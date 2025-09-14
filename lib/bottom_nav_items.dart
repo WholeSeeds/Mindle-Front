@@ -11,20 +11,87 @@ import 'package:mindle/pages/stats_page.dart';
 
 class BottomNavItem {
   final Widget page;
-  final IconData icon;
+  final Widget activeIcon;
+  final Widget inactiveIcon;
   final String label;
 
   const BottomNavItem({
     required this.page,
-    required this.icon,
+    required this.activeIcon,
+    required this.inactiveIcon,
     required this.label,
   });
 }
 
 final List<BottomNavItem> bottomNavItems = [
-  BottomNavItem(page: HomePage(), icon: Icons.home, label: '홈'),
-  BottomNavItem(page: StatsPage(), icon: Icons.query_stats, label: '통계'),
-  BottomNavItem(page: MapPage(), icon: Icons.back_hand, label: '민원작성'),
-  BottomNavItem(page: ListPage(), icon: Icons.list, label: '민원목록'),
-  BottomNavItem(page: ProfilePage(), icon: Icons.person, label: '내 정보'),
+  BottomNavItem(
+    page: HomePage(),
+    activeIcon: Image.asset(
+      'assets/icons/filled_home.png',
+      width: 24,
+      height: 24,
+    ),
+    inactiveIcon: Image.asset(
+      'assets/icons/empty_home.png',
+      width: 24,
+      height: 24,
+    ),
+    label: '홈',
+  ),
+  BottomNavItem(
+    page: StatsPage(),
+    activeIcon: Image.asset(
+      'assets/icons/filled_analyze.png',
+      width: 24,
+      height: 24,
+    ),
+    inactiveIcon: Image.asset(
+      'assets/icons/empty_analyze.png',
+      width: 24,
+      height: 24,
+    ),
+    label: '통계',
+  ),
+  BottomNavItem(
+    page: MapPage(),
+    activeIcon: Image.asset(
+      'assets/icons/green_empty_complain.png',
+      width: 24,
+      height: 24,
+    ),
+    inactiveIcon: Image.asset(
+      'assets/icons/empty_complain.png',
+      width: 24,
+      height: 24,
+    ),
+    label: '민원작성',
+  ),
+  BottomNavItem(
+    page: ListPage(),
+    activeIcon: Image.asset(
+      'assets/icons/filled_list.png',
+      width: 24,
+      height: 24,
+    ),
+    inactiveIcon: Image.asset(
+      'assets/icons/empty_list.png',
+      width: 24,
+      height: 24,
+    ),
+    label: '민원목록',
+  ),
+  BottomNavItem(
+    page: ProfilePage(),
+    activeIcon: Image.asset(
+      'assets/icons/filled_profile.png',
+      width: 24,
+      height: 24,
+    ),
+    inactiveIcon: Image.asset(
+      'assets/icons/empty_profile.png',
+      width: 24,
+      height: 24,
+    ),
+    label: '내 정보',
+  ),
 ];

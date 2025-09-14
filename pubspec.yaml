@@ -49,6 +49,10 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.5 
   image_picker: ^1.1.2
 
+  # 하단바 디자인
+  convex_bottom_bar: ^3.2.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,6 +79,7 @@ flutter:
     - .env
     - assets/
     - assets/images/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
