@@ -49,8 +49,6 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.5 
   image_picker: ^1.1.2
 
-  # 하단바 디자인
-  convex_bottom_bar: ^3.2.0
 
 
 dev_dependencies:
