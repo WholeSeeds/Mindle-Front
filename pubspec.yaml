@@ -49,6 +49,9 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.5 
   image_picker: ^1.1.2
 
+  # svg 이미지
+  flutter_svg: ^2.2.1
+
 
 
 dev_dependencies:
@@ -78,6 +81,8 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - assets/icons/empty/
+    - assets/icons/filled/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

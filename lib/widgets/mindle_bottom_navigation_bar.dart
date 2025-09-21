@@ -102,8 +102,8 @@ class MindleBottomNavigationBar extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: isSelected
-                                        ? item.activeIcon
-                                        : item.inactiveIcon,
+                                        ? item.activeIconBuilder(context)
+                                        : item.inactiveIconBuilder(context),
                                   ),
                                 ),
                               ],
@@ -117,8 +117,8 @@ class MindleBottomNavigationBar extends StatelessWidget {
                               width: 24,
                               height: 24,
                               child: isSelected
-                                  ? item.activeIcon
-                                  : item.inactiveIcon,
+                                  ? item.activeIconBuilder(context)
+                                  : item.inactiveIconBuilder(context),
                             ),
                           ),
                       ],
