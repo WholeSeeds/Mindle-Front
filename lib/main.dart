@@ -16,6 +16,7 @@ import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
+import 'package:mindle/pages/complaint_detail_page.dart';
 import 'package:get/get.dart';
 
 void main() async {
