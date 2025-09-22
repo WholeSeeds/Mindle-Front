@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mindle/models/complaint_status.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:mindle/models/region_info.dart';
 import 'package:mindle/pages/complaint_form_page.dart';
@@ -164,7 +165,11 @@ class PlaceBottomSheet extends StatelessWidget {
                           content: complaint["content"] as String,
                           numLikes: complaint["numLikes"] as int,
                           numComments: complaint["numComments"] as int,
-                          status: complaint["status"] as String,
+                          complaintStatus: complaint["status"] == "no"
+                              ? ComplaintStatus.waiting
+                              : complaint["status"] == "accepted"
+                              ? ComplaintStatus.solving
+                              : ComplaintStatus.solved,
                           hasImage: complaint["hasImage"] as bool,
                         );
                       }).toList(),

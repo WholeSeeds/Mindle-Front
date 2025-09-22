@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import '../models/complaint_status.dart';
+import '../designs.dart';
 
 class ComplaintCard extends StatelessWidget {
   final String title;
   final String content;
   final int numLikes;
   final int numComments;
-  final String status;
+  final ComplaintStatus complaintStatus;
   final bool hasImage;
 
   const ComplaintCard({
@@ -14,24 +16,24 @@ class ComplaintCard extends StatelessWidget {
     required this.content,
     required this.numLikes,
     required this.numComments,
-    required this.status,
+    required this.complaintStatus,
     this.hasImage = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    String statusText;
     Color statusColor;
 
-    if (status == "accepted") {
-      statusText = "접수완료";
-      statusColor = Color(0xffEB5757);
-    } else if (status == "solved") {
-      statusText = "해결완료";
-      statusColor = Color(0xff40D139);
-    } else {
-      statusText = "접수 전";
-      statusColor = Color(0xff838383);
+    switch (complaintStatus) {
+      case ComplaintStatus.waiting:
+        statusColor = MindleColors.attentionYellow;
+        break;
+      case ComplaintStatus.solving:
+        statusColor = MindleColors.infoBlue;
+        break;
+      case ComplaintStatus.solved:
+        statusColor = MindleColors.successGreen;
+        break;
     }
 
     return SizedBox(
@@ -103,7 +105,7 @@ class ComplaintCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      statusText,
+                      complaintStatus.displayName,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

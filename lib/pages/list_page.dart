@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mindle/controllers/nbhd_controller.dart';
+import 'package:mindle/models/complaint_status.dart';
 import 'package:mindle/widgets/align_options_button.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
 import 'package:mindle/widgets/complaint_card.dart';
@@ -119,7 +120,11 @@ class ListPage extends StatelessWidget {
                   content: complaint["content"] as String,
                   numLikes: complaint["numLikes"] as int,
                   numComments: complaint["numComments"] as int,
-                  status: complaint["status"] as String,
+                  complaintStatus: complaint["status"] == "no"
+                      ? ComplaintStatus.waiting
+                      : complaint["status"] == "accepted"
+                      ? ComplaintStatus.solving
+                      : ComplaintStatus.solved,
                   hasImage: complaint["hasImage"] as bool,
                 );
               },
