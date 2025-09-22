@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mindle/models/public_place.dart';
+import 'package:mindle/models/region_info.dart';
 import 'package:mindle/services/google_place_service.dart';
+import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/place_bottomsheet.dart';
 
 class LocationController extends GetxController {
@@ -13,6 +16,14 @@ class LocationController extends GetxController {
   Stream<Position> _positionStream = Stream.empty();
   // 위치 스트림 구독 저장할 변수
   late StreamSubscription<Position> _positionSubscription;
+
+  // 위치 선택 모드 여부
+  RxBool isSelectingLocation = false.obs;
+  // 선택된 위치 저장(해당 위치로 글 작성 위함)
+  final Rx<PublicPlace?> selectedPlace = Rx<PublicPlace?>(null);
+  final Rx<RegionInfo?> selectedRegionInfo = Rx<RegionInfo?>(null);
+  // 선택된 위치 스트링(화면에 표시 위함)
+  final RxString selectedLocationString = ''.obs;
 
   // 네이버 지도 컨트롤러
   late NaverMapController _mapController;
@@ -148,19 +159,25 @@ class LocationController extends GetxController {
 
       // 마커 탭했을 시
       marker.setOnTapListener((overlay) {
-        final context = Get.context!;
-        // 바텀 시트 열기
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-          ),
-          showDragHandle: true,
-          builder: (_) {
-            return PlaceBottomSheet(place: place);
-          },
-        );
+        if (isSelectingLocation.value) {
+          // 위치 선택 모드일 때는 선택된 위치로 설정
+          selectLocationToPlace(place);
+        } else {
+          // 위치 선택 모드가 아닐 때는 바텀 시트 열기
+          final context = Get.context!;
+          // 바텀 시트 열기
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            showDragHandle: true,
+            builder: (_) {
+              return PlaceBottomSheet(place: place);
+            },
+          );
+        }
       });
 
       markers.add(marker);
@@ -169,6 +186,52 @@ class LocationController extends GetxController {
     // 마커 추가
     _mapController.addOverlayAll(markers);
     print('공공기관 마커가 추가되었습니다: ${places.length}개');
+  }
+
+  // 위치 선택 모드 활성화
+  enableSelectingLocation() {
+    isSelectingLocation.value = true;
+    initSelectedLocation(); // 선택된 위치 초기화
+  }
+
+  // 위치 선택 모드 비활성화
+  disableSelectingLocation() {
+    isSelectingLocation.value = false;
+    initSelectedLocation(); // 선택된 위치 초기화
+  }
+
+  // 위치 선택: PublicPlace(공공기관)
+  void selectLocationToPlace(PublicPlace place) {
+    selectedPlace.value = place;
+    selectedLocationString.value = place.name.isNotEmpty
+        ? place
+              .name // + " [기관]"
+        : place.address;
+    selectedRegionInfo.value = null;
+
+    final latLng = NLatLng(place.latitude, place.longitude);
+
+    // 선택된 위치로 카메라 이동
+    _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
+  }
+
+  // 위치 선택: RegionInfo(특정 좌표 -> 도로명주소)
+  Future<void> selectLocationToLatLng(NLatLng latLng) async {
+    selectedPlace.value = null;
+    selectedRegionInfo.value = await Get.find<NaverMapsService>()
+        .reverseGeoCode(latLng.latitude, latLng.longitude);
+    selectedLocationString.value =
+        selectedRegionInfo.value?.fullAddressString() ?? '';
+
+    // 선택된 위치로 카메라 이동
+    _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
+  }
+
+  // 위치선택 해제
+  void initSelectedLocation() {
+    selectedPlace.value = null;
+    selectedRegionInfo.value = null;
+    selectedLocationString.value = '';
   }
 
   @override

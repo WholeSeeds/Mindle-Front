@@ -188,7 +188,12 @@ class PlaceBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // 민원 작성 로직
-                    Get.to(() => ComplaintFormPage(place: place));
+                    Get.to(
+                      () => ComplaintFormPage(
+                        place: place,
+                        regionInfo: RegionInfo.empty(),
+                      ),
+                    );
                   },
                   child: const Text('민원 작성하기', style: TextStyle(fontSize: 16)),
                 ),
