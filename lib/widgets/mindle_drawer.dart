@@ -146,9 +146,7 @@ class _DrawerItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           title,
-          style: MindleTextStyles.subtitle3(
-            color: MindleColors.gray1,
-          ).copyWith(fontWeight: FontWeight.bold),
+          style: MindleTextStyles.subtitle3(color: MindleColors.gray1),
         ),
       ),
     );
