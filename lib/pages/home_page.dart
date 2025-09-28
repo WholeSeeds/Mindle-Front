@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mindle/widgets/resolved_complaint_card.dart';
 import 'package:mindle/widgets/hero_profile_card.dart';
+import 'package:mindle/widgets/mindle_drawer.dart';
 import '../designs.dart';
 import '../widgets/mindle_chip.dart';
 import '../models/complaint.dart';
@@ -139,18 +140,23 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width * 0.07;
     return Scaffold(
+      drawer: const MindleDrawer(),
       appBar: AppBar(
         backgroundColor: MindleColors.mainGreen,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         shadowColor: Colors.transparent,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/filled/Burger.svg',
-            height: size,
-            width: size,
-            color: MindleColors.gray3,
-          ),
-          onPressed: () => {},
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: SvgPicture.asset(
+                'assets/icons/filled/Burger.svg',
+                height: size,
+                width: size,
+                color: MindleColors.gray3,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            );
+          },
         ),
         title: SvgPicture.asset(
           'assets/icons/filled/Logo.svg',

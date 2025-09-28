@@ -18,6 +18,7 @@ import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:mindle/pages/complaint_detail_page.dart';
 import 'package:get/get.dart';
+import 'package:mindle/widgets/mindle_snackbar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,12 +80,35 @@ class RootPage extends StatelessWidget {
     final controller = Get.find<BottomNavController>();
     final locationController = Get.find<LocationController>();
 
+    DateTime? backPressedTime;
+
     return Obx(
-      () => Scaffold(
-        body: bottomNavItems[controller.currentIndex.value].page,
-        bottomNavigationBar: locationController.isSelectingLocation.value
-            ? null
-            : MindleBottomNavigationBar(controller: controller),
+      () => WillPopScope(
+        // 기기의 뒤로가기 클릭 시 동작 정의
+        onWillPop: () async {
+          // 위치 선택 모드에서는 바로 뒤로가기
+          if (locationController.isSelectingLocation.value) {
+            return true;
+          }
+
+          // TODO: 드로어가 열려있으면 바로 드로어 닫기 처리하기
+
+          DateTime nowTime = DateTime.now();
+          if (backPressedTime == null ||
+              nowTime.difference(backPressedTime!) >
+                  const Duration(seconds: 2)) {
+            backPressedTime = nowTime;
+            MindleSnackbar.show(message: '한 번 더 누르시면 종료됩니다.');
+            return false; // 앱 종료 안함
+          }
+          return true; // 앱 종료
+        },
+        child: Scaffold(
+          body: bottomNavItems[controller.currentIndex.value].page,
+          bottomNavigationBar: locationController.isSelectingLocation.value
+              ? null
+              : MindleBottomNavigationBar(controller: controller),
+        ),
       ),
     );
   }
