@@ -8,6 +8,130 @@ import '../models/complaint.dart';
 import '../models/complaint_status.dart';
 import '../models/user.dart';
 
+// 임시 민원 데이터
+final List<Complaint> _complaintData = [
+  Complaint(
+    title: '도로 신호등이 고장났어요',
+    content: '우리 동네 메인 도로 신호등이 고장나서 위험해요. 빨리 수리해 주세요!',
+    numLikes: 120,
+    numComments: 45,
+    complaintStatus: ComplaintStatus.solved,
+    hasImage: true,
+    // TODO: 실제 이미지 URL로 교체 필요
+    // imageUrl: 'https://picsum.photos/120/120?random=11'
+  ),
+  Complaint(
+    title: "횡단보도 선이 거의 지워졌어요",
+    content:
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    numLikes: 45,
+    numComments: 2,
+    complaintStatus: ComplaintStatus.waiting,
+    hasImage: true,
+  ),
+  Complaint(
+    title: "횡단보도 선이 거의 지워졌어요",
+    content:
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    numLikes: 45,
+    numComments: 2,
+    complaintStatus: ComplaintStatus.solving,
+    hasImage: true,
+  ),
+  Complaint(
+    title: "횡단보도 선이 거의 지워졌어요",
+    content:
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    numLikes: 45,
+    numComments: 2,
+    complaintStatus: ComplaintStatus.waiting,
+    hasImage: true,
+  ),
+  Complaint(
+    title: "횡단보도 선이 거의 지워졌어요",
+    content:
+        "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
+    numLikes: 45,
+    numComments: 2,
+    complaintStatus: ComplaintStatus.waiting,
+    hasImage: true,
+  ),
+];
+
+// 임시 유저 데이터
+final List<User> _userData = [
+  User(
+    id: 1,
+    firebaseUid: 'firebase_uid_1',
+    email: 'minwon_king@example.com',
+    phone: '010-1234-5678',
+    provider: 'google',
+    nickname: '나는 민원왕',
+    notificationPush: true,
+    notificationInapp: true,
+    contributionScore: 1458,
+    createdAt: DateTime.now().subtract(const Duration(days: 365)),
+    updatedAt: DateTime.now(),
+    subdistrict: Subdistrict(code: '41131101', name: '처인구 김량장동', type: 'DONG'),
+  ),
+  User(
+    id: 2,
+    firebaseUid: 'firebase_uid_2',
+    email: 'hong@example.com',
+    phone: '010-2345-6789',
+    provider: 'kakao',
+    nickname: '홍길동',
+    notificationPush: true,
+    notificationInapp: false,
+    contributionScore: 1004,
+    createdAt: DateTime.now().subtract(const Duration(days: 200)),
+    updatedAt: DateTime.now(),
+    subdistrict: Subdistrict(code: '41131102', name: '처인구 역북동', type: 'DONG'),
+  ),
+  User(
+    id: 3,
+    firebaseUid: 'firebase_uid_3',
+    email: 'yongin_guardian@example.com',
+    phone: '010-3456-7890',
+    provider: 'google',
+    nickname: '용인 지킴이',
+    notificationPush: false,
+    notificationInapp: true,
+    contributionScore: 856,
+    createdAt: DateTime.now().subtract(const Duration(days: 120)),
+    updatedAt: DateTime.now(),
+    subdistrict: Subdistrict(code: '41131103', name: '처인구 삼가동', type: 'DONG'),
+  ),
+  User(
+    id: 4,
+    firebaseUid: 'firebase_uid_4',
+    email: 'citizen4135@example.com',
+    phone: '010-4567-8901',
+    provider: 'apple',
+    nickname: '시민4135',
+    notificationPush: true,
+    notificationInapp: true,
+    contributionScore: 324,
+    createdAt: DateTime.now().subtract(const Duration(days: 80)),
+    updatedAt: DateTime.now(),
+    subdistrict: Subdistrict(code: '41131104', name: '처인구 고림동', type: 'DONG'),
+  ),
+  User(
+    id: 5,
+    firebaseUid: 'firebase_uid_5',
+    email: 'kim8gwan@example.com',
+    phone: '010-5678-9012',
+    provider: 'kakao',
+    nickname: '김팔관',
+    notificationPush: false,
+    notificationInapp: false,
+    contributionScore: 45,
+    createdAt: DateTime.now().subtract(const Duration(days: 30)),
+    updatedAt: DateTime.now(),
+    subdistrict: Subdistrict(code: '41131105', name: '처인구 신갈동', type: 'DONG'),
+  ),
+];
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -205,28 +329,12 @@ class _ResolvedComplaintsSection extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                ResolvedComplaintCard(
-                  complaint: Complaint(
-                    title: '도로 신호등이 고장났어요',
-                    content: '우리 동네 메인 도로 신호등이 고장나서 위험해요. 빨리 수리해 주세요!',
-                    numLikes: 120,
-                    numComments: 45,
-                    complaintStatus: ComplaintStatus.solved,
-                    hasImage: true,
-                  ),
-                ),
-                ResolvedComplaintCard(
-                  complaint: Complaint(
-                    title: '보도블록 파손 신고',
-                    content: '아파트 앞 보도블록이 여러 곳 파손되어 있어 보행에 위험합니다.',
-                    numLikes: 89,
-                    numComments: 23,
-                    complaintStatus: ComplaintStatus.solved,
-                    hasImage: true,
-                  ),
-                ),
-              ],
+              children: _complaintData.map((complaint) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ResolvedComplaintCard(complaint: complaint),
+                );
+              }).toList(),
             ),
           ),
         ],
@@ -248,53 +356,12 @@ class _WeeklyHeroSection extends StatelessWidget {
           const SizedBox(height: 12),
           Text('이번 주 민원 히어로', style: MindleTextStyles.subtitle2()),
           const SizedBox(height: 24),
-          HeroProfileCard(
-            user: User(
-              level: 10,
-              name: '나는 민원왕',
-              profileImageUrl: 'https://picsum.photos/120/120?random=10',
-              complaintCount: 1458,
-              solvedComplaintCount: 324,
-            ),
-          ),
-          const SizedBox(height: 12),
-          HeroProfileCard(
-            user: User(
-              level: 7,
-              name: '홍길동',
-              profileImageUrl: 'https://picsum.photos/120/120?random=11',
-              complaintCount: 1004,
-              solvedComplaintCount: 145,
-            ),
-          ),
-          const SizedBox(height: 12),
-          HeroProfileCard(
-            user: User(
-              level: 6,
-              name: '용인 지킴이',
-              profileImageUrl: '', // 빈 이미지로 기본 아이콘 표시
-              complaintCount: 9,
-              solvedComplaintCount: 4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          HeroProfileCard(
-            user: User(
-              level: 5,
-              name: '시민4135',
-              profileImageUrl: 'https://picsum.photos/120/120?random=13',
-              complaintCount: 1,
-              solvedComplaintCount: 1,
-            ),
-          ),
-          const SizedBox(height: 12),
-          HeroProfileCard(
-            user: User(
-              level: 1,
-              name: '김팔관',
-              profileImageUrl: 'https://picsum.photos/120/120?random=14',
-              complaintCount: 1,
-              solvedComplaintCount: 0,
+          ..._userData.map(
+            (user) => Column(
+              children: [
+                HeroProfileCard(user: user),
+                const SizedBox(height: 12),
+              ],
             ),
           ),
         ],

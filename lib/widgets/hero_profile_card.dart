@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../designs.dart';
@@ -10,11 +12,13 @@ class HeroProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final level = user.level ?? 1;
-    final name = user.name ?? '이름 없음';
-    final profileImageUrl = user.profileImageUrl ?? '';
-    final complaintCount = user.complaintCount ?? 0;
-    final solvedComplaintCount = user.solvedComplaintCount ?? 0;
+    final level = min(user.contributionScore ~/ 100, 9);
+    final name = user.nickname;
+    // TODO: 아래의 하드코딩된 부분들 api 들어오면 수정
+    final profileImageUrl = 'https://picsum.photos/120/120?random=100';
+    // final profileImageUrl = user.profileImageUrl ?? '';
+    final complaintCount = 5;
+    final solvedComplaintCount = 10;
 
     final badgePathList = [
       'assets/icons/Badge1.svg',
@@ -36,7 +40,7 @@ class HeroProfileCard extends StatelessWidget {
       child: Row(
         children: [
           // 레벨 배지
-          SvgPicture.asset(badgePathList[level - 1], width: size, height: size),
+          SvgPicture.asset(badgePathList[level], width: size, height: size),
           const SizedBox(width: 20),
           // 프로필 이미지
           CircleAvatar(

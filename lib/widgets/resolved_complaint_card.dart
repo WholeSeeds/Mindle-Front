@@ -10,7 +10,7 @@ class ResolvedComplaintCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 하드코딩된 이미지 URL과 기타 정보
+    // TODO: 이미지 URL과 기타 정보 하드코딩된 부분을 실제 데이터로 교체
     const String afterImageUrl = 'https://picsum.photos/280/120?random=3';
     const location = '서울시 강남구';
     final status = complaint.complaintStatus;
