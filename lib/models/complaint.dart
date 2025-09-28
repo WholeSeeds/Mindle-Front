@@ -1,9 +1,11 @@
+import 'complaint_status.dart';
+
 class Complaint {
   final String title;
   final String content;
   final int numLikes;
   final int numComments;
-  final String status; // 'no', 'solved', 'accepted'
+  final ComplaintStatus complaintStatus;
   final bool hasImage;
 
   Complaint({
@@ -11,7 +13,7 @@ class Complaint {
     required this.content,
     required this.numLikes,
     required this.numComments,
-    required this.status,
+    required this.complaintStatus,
     required this.hasImage,
   });
 
@@ -21,8 +23,19 @@ class Complaint {
       content: json['content'],
       numLikes: json['numLikes'],
       numComments: json['numComments'],
-      status: json['status'],
+      complaintStatus: ComplaintStatus.fromJson(json['complaintStatus'] ?? json['status']),
       hasImage: json['hasImage'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'content': content,
+      'numLikes': numLikes,
+      'numComments': numComments,
+      'complaintStatus': complaintStatus.toJson(),
+      'hasImage': hasImage,
+    };
   }
 }

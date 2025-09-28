@@ -12,4 +12,8 @@ List<GetPage> allPages = [
   GetPage(name: '/init', page: () => const InitPage()),
   GetPage(name: '/', page: () => const RootPage()),
   GetPage(name: '/inside', page: () => const InsidePage()),
+  GetPage(
+    name: '/detail',
+    page: () => const ComplaintDetailPage(complaintId: 1),
+  ),
 ];

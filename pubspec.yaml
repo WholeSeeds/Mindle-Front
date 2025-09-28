@@ -49,6 +49,11 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.5 
   image_picker: ^1.1.2
 
+  # svg 이미지
+  flutter_svg: ^2.2.1
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -59,6 +64,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -75,6 +81,9 @@ flutter:
     - .env
     - assets/
     - assets/images/
+    - assets/icons/
+    - assets/icons/empty/
+    - assets/icons/filled/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -101,3 +110,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# dart run flutter_native_splash:create
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+  image: "assets/icons/filled/Logo_512.png"
+  background_image: "assets/images/Splash_Background.png"
+  android_12:
+    # image: "assets/icons/filled/Logo_960.png"
+    # color: "#00D482"

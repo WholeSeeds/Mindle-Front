@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:label="mindle"
+        android:label="민들레"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
