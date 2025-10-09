@@ -5,6 +5,7 @@ import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/region_info.dart';
 import 'package:mindle/widgets/icon_textbox.dart';
+import 'package:mindle/widgets/mindle_dropdown.dart';
 import 'package:mindle/widgets/mindle_textbutton.dart';
 import 'package:mindle/widgets/mindle_textfield.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
@@ -48,18 +49,13 @@ class ComplaintFormPage extends StatelessWidget {
                       ),
                 const SizedBox(height: 15),
                 Obx(
-                  () => DropdownButtonFormField<String>(
+                  () => MindleDropdown<String>(
+                    hint: '카테고리 선택',
                     value: controller.selectedCategory.value,
                     items: controller.categoryList
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e.isEmpty ? '카테고리 선택' : e),
-                          ),
-                        )
+                        .map((e) => MindleDropdownItem(value: e, label: e))
                         .toList(),
-                    onChanged: (v) =>
-                        controller.selectedCategory.value = v ?? '',
+                    onChanged: (v) => controller.selectedCategory.value = v,
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -135,13 +131,13 @@ class ComplaintFormPage extends StatelessWidget {
                     regionInfo: regionInfo,
                   ), // 둘 중 하나, 혹은 둘 다 null인 상태로 submit됨
                   textColor:
-                      (controller.selectedCategory.value.isEmpty ||
+                      (controller.selectedCategory.value != null ||
                           controller.title.value.isEmpty ||
                           controller.content.value.isEmpty)
                       ? gray5
                       : Colors.white,
                   backgroundColor:
-                      (controller.selectedCategory.value.isEmpty ||
+                      (controller.selectedCategory.value != null ||
                           controller.title.value.isEmpty ||
                           controller.content.value.isEmpty)
                       ? gray4

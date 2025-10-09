@@ -9,8 +9,8 @@ import 'package:mindle/models/public_place.dart';
 import 'package:mindle/models/region_info.dart';
 
 class ComplaintController extends GetxController {
-  final categoryList = ['', '도로', '치안', '환경', '기타'];
-  final selectedCategory = ''.obs;
+  final categoryList = ['도로', '치안', '환경', '기타'];
+  final selectedCategory = RxnString(); // 카테고리를 선택하지 않을 수도 있음: Rx<String?>으로 관리
 
   final title = ''.obs;
   final content = ''.obs;
@@ -52,7 +52,7 @@ class ComplaintController extends GetxController {
   // 민원 등록 서버에 요청 보내기
   // 둘 중 하나, 혹은 둘다 null인 상태로 보내짐
   void submitComplaint({PublicPlace? place, RegionInfo? regionInfo}) async {
-    if (selectedCategory.value.isEmpty ||
+    if (selectedCategory.value != null ||
         title.value.isEmpty ||
         content.value.isEmpty) {
       Get.snackbar('오류!', '모든 항목을 입력해주세요');
@@ -70,7 +70,7 @@ class ComplaintController extends GetxController {
     );
 
     final meta = {
-      'categoryId': categoryList.indexOf(selectedCategory.value),
+      'categoryId': categoryList.indexOf(selectedCategory.value!),
       'subDistrictCode': null, // TODO: 하위 행정구역 코드 추가 필요
       'title': title.value,
       'content': content.value,
