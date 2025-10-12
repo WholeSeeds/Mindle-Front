@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mindle/designs.dart';
 
 class IconTextBox extends StatelessWidget {
   final String text;
@@ -45,8 +46,7 @@ class IconTextBox extends StatelessWidget {
           Expanded(
             child: Text(
               isEmpty ? "" : text,
-              style: TextStyle(
-                fontSize: fontSize,
+              style: MindleTextStyles.body1(
                 color: textColor ?? (isEmpty ? gray6 : mainGreen),
               ),
               overflow: TextOverflow.ellipsis,
