@@ -1,5 +1,4 @@
 import java.util.Properties
-import java.io.File
 
 fun loadDotEnv(): Properties {
     val env = Properties()
@@ -38,7 +37,7 @@ dependencies {
 }
 
 android {
-    namespace = "com.example.mindle"
+    namespace = "com.wholeseeds.mindle"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -53,7 +52,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.mindle"
+        applicationId = "com.wholeseeds.mindle"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
@@ -67,11 +66,29 @@ android {
             dotenv.getProperty("KAKAO_NATIVE_APP_KEY") ?: ""
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(dotenv.getProperty("KEYSTORE_PATH") ?: "")
+            storePassword = dotenv.getProperty("KEYSTORE_PASSWORD") ?: ""
+            keyAlias = dotenv.getProperty("KEY_ALIAS") ?: ""
+            keyPassword = dotenv.getProperty("KEY_PASSWORD") ?: ""
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
