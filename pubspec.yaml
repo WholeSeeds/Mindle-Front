@@ -51,6 +51,11 @@ dependencies:
 
   # svg 이미지
   flutter_svg: ^2.2.1
+  
+  # LiveKit for real-time audio/video
+  livekit_client: ^2.5.2
+  permission_handler: ^11.0.0
+  crypto: ^3.0.6
 
 
 

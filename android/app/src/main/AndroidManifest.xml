@@ -8,6 +8,11 @@
     <!-- 네트워크로 위치 체크 권한 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    <!-- 마이크 권한 (음성 인식용) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- 오디오 포커스 권한 (선택적) -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
     <application
         android:label="민들레"
         android:name="${applicationName}"

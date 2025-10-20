@@ -1,0 +1,6 @@
+# LiveKit Agents (최신 버전 with OpenAI Realtime)
+livekit-agents[openai]~=1.2
+livekit-plugins-noise-cancellation~=0.2
+
+# 유틸리티
+python-dotenv

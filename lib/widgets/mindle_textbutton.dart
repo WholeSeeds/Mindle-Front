@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MindleTextButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
+  final VoidCallback? onLongPress;
   final Color textColor;
   final Color backgroundColor;
   final double fontSize;
@@ -13,6 +14,7 @@ class MindleTextButton extends StatelessWidget {
     Key? key,
     required this.label,
     this.onPressed,
+    this.onLongPress,
     this.textColor = Colors.white,
     this.backgroundColor = mainGreen,
     this.fontSize = 15,
@@ -23,6 +25,7 @@ class MindleTextButton extends StatelessWidget {
     return Expanded(
       child: TextButton(
         onPressed: onPressed,
+        onLongPress: onLongPress,
         style: TextButton.styleFrom(
           foregroundColor: textColor,
           backgroundColor: backgroundColor,

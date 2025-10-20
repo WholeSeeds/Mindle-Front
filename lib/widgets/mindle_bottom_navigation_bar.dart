@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
 import 'package:mindle/bottom_nav_items.dart';
 import 'package:mindle/designs.dart';
+import 'package:mindle/pages/stt_page.dart';
 
 class MindleBottomNavigationBar extends StatelessWidget {
   final BottomNavController controller;
@@ -54,6 +55,13 @@ class MindleBottomNavigationBar extends StatelessWidget {
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () => controller.changeIndex(index),
+                  onLongPress: () {
+                    // 민원작성 버튼(centerIndex)을 길게 누르면 STT 페이지로 이동
+                    if (index == centerIndex) {
+                      print('✅ 민원작성 버튼 길게 누름 - STT 페이지로 이동!');
+                      Get.to(() => const SttPage());
+                    }
+                  },
                   child: SizedBox(
                     width: tabWidth,
                     height: 90,
