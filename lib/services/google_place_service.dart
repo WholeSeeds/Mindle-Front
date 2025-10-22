@@ -1,21 +1,25 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/public_place.dart';
 
 // google place api로 주변 공공기관 검색
 class GooglePlaceService extends GetxService {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://places.googleapis.com/v1/',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'X-Goog-Api-Key': dotenv.env['GOOGLE_MAPS_PLATFORM_API_KEY']!,
-        'X-Goog-FieldMask':
-            'places.displayName,places.id,places.types,places.location,places.formattedAddress,places.photos',
-      },
-    ),
-  );
+  final String apiKey;
+  late final Dio _dio;
+
+  GooglePlaceService({required this.apiKey}) {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://places.googleapis.com/v1/',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'X-Goog-Api-Key': apiKey,
+          'X-Goog-FieldMask':
+              'places.displayName,places.id,places.types,places.location,places.formattedAddress,places.photos',
+        },
+      ),
+    );
+  }
 
   Future<List<PublicPlace>> searchPlace(
     double latitude,

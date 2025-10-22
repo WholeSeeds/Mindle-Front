@@ -2,21 +2,26 @@
 
 // naver maps geocoding으로 좌표 -> 도로명주소로 변환
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/region_info.dart';
 
 class NaverMapsService extends GetxService {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://maps.apigw.ntruss.com/map-reversegeocode/v2',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'x-ncp-apigw-api-key-id': dotenv.env['NAVER_MAP_CLIENT_ID']!,
-        'x-ncp-apigw-api-key': dotenv.env['NAVER_MAP_CLIENT_SECRET']!,
-      },
-    ),
-  );
+  final String clientId;
+  final String clientSecret;
+  late final Dio _dio;
+
+  NaverMapsService({required this.clientId, required this.clientSecret}) {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://maps.apigw.ntruss.com/map-reversegeocode/v2',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'x-ncp-apigw-api-key-id': clientId,
+          'x-ncp-apigw-api-key': clientSecret,
+        },
+      ),
+    );
+  }
 
   Future<RegionInfo> reverseGeoCode(double latitude, double longitude) async {
     final coordsStr = '$longitude,$latitude';

@@ -47,6 +47,46 @@ class MapPage extends StatelessWidget {
                   bottom: 0,
                   child: _PanelLikeBottomSheet(),
                 ),
+
+              // 팁 메시지 - 지도 위 중앙에 표시
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.8,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: const Color(0xFF00D482),
+                        width: 2,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      '꼭 눌러 AI 음성 챗봇을 사용해보세요!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
 

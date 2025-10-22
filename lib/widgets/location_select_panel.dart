@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/pages/complaint_form_page.dart';
+import 'package:mindle/pages/stt_page.dart';
 import 'package:get/get.dart';
 import 'package:mindle/widgets/icon_textbox.dart';
 import 'package:mindle/widgets/mindle_dialog.dart';
@@ -86,6 +87,7 @@ class LocationSelectPanel extends StatelessWidget {
                 label: (controller.selectedLocationString.value == '')
                     ? '건너뛰기'
                     : '다음',
+
                 onPressed: () {
                   if (controller.selectedPlace.value == null &&
                       controller.selectedRegionInfo.value == null) {
@@ -120,6 +122,11 @@ class LocationSelectPanel extends StatelessWidget {
                       regionInfo: controller.selectedRegionInfo.value,
                     ),
                   );
+                },
+                onLongPress: () {
+                  // 길게 누르면 STT 페이지로 이동
+                  print('✅ 버튼 길게 누름 - STT 페이지로 이동!');
+                  Get.to(() => const SttPage());
                 },
                 fontSize: 16,
               ),
