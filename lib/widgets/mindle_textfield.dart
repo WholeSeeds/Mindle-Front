@@ -26,6 +26,7 @@ class MindleTextField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hint,
+        hintStyle: MindleTextStyles.body1(color: MindleColors.gray8),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 10,

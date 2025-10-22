@@ -313,6 +313,20 @@ class _TopComplaintSection extends StatelessWidget {
           Text('우리 동네 공감 1등 민원', style: MindleTextStyles.subtitle2()),
           const SizedBox(height: 12),
           // TODO: 공감 1등 민원 콘텐츠 추가
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.construction,
+                  size: 30,
+                  color: MindleColors.gray5,
+                ),
+                const SizedBox(height: 2),
+                Text('서비스 준비중입니다.', style: MindleTextStyles.body5()),
+              ],
+            ),
+          ),
         ],
       ),
     );
