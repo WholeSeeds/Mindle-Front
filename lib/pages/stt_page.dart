@@ -9,6 +9,7 @@ import 'package:mindle/designs.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:mindle/main.dart';
 import 'package:mindle/services/naver_maps_service.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:mindle/config/livekit_config.dart';
 import 'package:mindle/services/livekit_token_service.dart';
@@ -489,22 +490,24 @@ class SttPageState extends State<SttPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false, // 자동 뒤로가기 버튼 제거
-        title: Text(
-          'AI 음성 챗봇',
-          style: MindleTextStyles.headline1(color: Colors.black),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close, color: Colors.black, size: 28),
-            onPressed: () => Get.back(),
-          ),
-        ],
-      ),
+      // TODO: 커스텀 AppBar에도 X버튼 포함하도록 수정하기
+      appBar: MindleTopAppBar(title: 'AI 음성 챗봇'),
+      // AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   automaticallyImplyLeading: false, // 자동 뒤로가기 버튼 제거
+      //   title: Text(
+      //     'AI 음성 챗봇',
+      //     style: MindleTextStyles.headline1(color: Colors.black),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.close, color: Colors.black, size: 28),
+      //       onPressed: () => Get.back(),
+      //     ),
+      //   ],
+      // ),
       body: Column(
         children: [
           const SizedBox(height: 40),
@@ -513,7 +516,7 @@ class SttPageState extends State<SttPage> with SingleTickerProviderStateMixin {
           Text(
             '반가워요.\n어떤 불편사항을 겪고 계신가요?',
             textAlign: TextAlign.center,
-            style: MindleTextStyles.headline1(color: Colors.black),
+            style: MindleTextStyles.subtitle1(color: Colors.black),
           ),
           const Spacer(),
 

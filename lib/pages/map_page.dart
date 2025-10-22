@@ -3,6 +3,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/widgets/location_select_panel.dart';
+import 'package:mindle/designs.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
@@ -74,14 +75,12 @@ class MapPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Text(
-                      '꼭 눌러 AI 음성 챗봇을 사용해보세요!',
+                    child: Text(
+                      '꾹 눌러 AI 음성 챗봇을 사용해보세요!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                      style: MindleTextStyles.body5().copyWith(
                         fontWeight: FontWeight.w500,
-                        height: 1.3,
+                        color: MindleColors.gray7,
                       ),
                     ),
                   ),
