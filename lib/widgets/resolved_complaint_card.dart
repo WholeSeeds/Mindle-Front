@@ -67,7 +67,7 @@ class ResolvedComplaintCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                Spacing.vertical12,
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: Column(
@@ -80,7 +80,7 @@ class ResolvedComplaintCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      Spacing.vertical4,
                       Row(
                         children: [
                           Icon(
@@ -88,7 +88,7 @@ class ResolvedComplaintCard extends StatelessWidget {
                             color: MindleColors.gray5,
                             size: 14,
                           ),
-                          const SizedBox(width: 4),
+                          Spacing.horizontal4,
                           Expanded(
                             child: Text(
                               location,
@@ -100,7 +100,7 @@ class ResolvedComplaintCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 8),
+                      Spacing.horizontal8,
                       Align(
                         alignment: Alignment.centerRight, // Column의 오른쪽 끝으로 이동
                         child: status.icon,
@@ -108,7 +108,7 @@ class ResolvedComplaintCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                Spacing.vertical20,
               ],
             ),
           ],

@@ -230,13 +230,13 @@ class _ContentContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 4),
+            Spacing.vertical4,
             _TodayIssuesSection(),
-            SizedBox(height: 24),
+            Spacing.vertical20,
             _TopComplaintSection(),
-            SizedBox(height: 24),
+            Spacing.vertical20,
             _ResolvedComplaintsSection(),
-            SizedBox(height: 24),
+            Spacing.vertical20,
             _WeeklyHeroSection(),
           ],
         ),
@@ -256,7 +256,7 @@ class _TodayIssuesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('오늘 동네 이슈는?', style: MindleTextStyles.subtitle2()),
-          const SizedBox(height: 12),
+          Spacing.vertical12,
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -267,28 +267,28 @@ class _TodayIssuesSection extends StatelessWidget {
                   borderColor: MindleColors.mainGreen,
                   textColor: MindleColors.mainGreen,
                 ),
-                const SizedBox(width: 8),
+                Spacing.horizontal8,
                 MindleChip(
                   label: '도로 맨홀',
                   backgroundColor: MindleColors.gray3,
                   borderColor: MindleColors.mainGreen,
                   textColor: MindleColors.mainGreen,
                 ),
-                const SizedBox(width: 8),
+                Spacing.horizontal8,
                 MindleChip(
                   label: '자전거 방치',
                   backgroundColor: MindleColors.gray3,
                   borderColor: MindleColors.mainGreen,
                   textColor: MindleColors.mainGreen,
                 ),
-                const SizedBox(width: 8),
+                Spacing.horizontal8,
                 MindleChip(
                   label: '오토바이 소음',
                   backgroundColor: MindleColors.gray3,
                   borderColor: MindleColors.mainGreen,
                   textColor: MindleColors.mainGreen,
                 ),
-                const SizedBox(width: 8),
+                Spacing.horizontal8,
                 MindleChip(
                   label: '신호등 고장',
                   backgroundColor: MindleColors.gray3,
@@ -314,9 +314,9 @@ class _TopComplaintSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12),
+          Spacing.vertical12,
           Text('우리 동네 공감 1등 민원', style: MindleTextStyles.subtitle2()),
-          const SizedBox(height: 12),
+          Spacing.vertical12,
           // TODO: 공감 1등 민원 콘텐츠 추가
           Center(
             child: Column(
@@ -348,9 +348,9 @@ class _ResolvedComplaintsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12),
+          Spacing.vertical12,
           Text('해결 완료! 이렇게 바뀌었어요', style: MindleTextStyles.subtitle2()),
-          const SizedBox(height: 20),
+          Spacing.vertical20,
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -378,9 +378,9 @@ class _WeeklyHeroSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12),
+          Spacing.vertical12,
           Text('이번 주 민원 히어로', style: MindleTextStyles.subtitle2()),
-          const SizedBox(height: 24),
+          Spacing.vertical20,
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -389,7 +389,7 @@ class _WeeklyHeroSection extends StatelessWidget {
               return Column(
                 children: [
                   HeroProfileCard(user: _userData[index]),
-                  const SizedBox(height: 12),
+                  Spacing.vertical12,
                 ],
               );
             },

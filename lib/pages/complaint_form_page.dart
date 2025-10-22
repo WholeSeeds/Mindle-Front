@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/complaint_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:get/get.dart';
 import 'package:mindle/models/region_info.dart';
@@ -48,17 +49,19 @@ class ComplaintFormPage extends StatelessWidget {
                           textColor: gray5,
                           borderColor: gray6,
                         ),
-                  const SizedBox(height: 15),
+                  Spacing.vertical16,
                   // 메인 카테고리 선택
                   Obx(
                     () => MindleDropdown<String>(
                       hint: '대분류 선택',
                       value: controller.selectedMainCategory.value?.name,
                       items: controller.categories
-                          .map((category) => MindleDropdownItem(
-                                value: category.name,
-                                label: category.name,
-                              ))
+                          .map(
+                            (category) => MindleDropdownItem(
+                              value: category.name,
+                              label: category.name,
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         final selectedCategory = controller.categories
@@ -67,30 +70,45 @@ class ComplaintFormPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  Spacing.vertical16,
                   // 서브 카테고리 선택
                   Obx(
-                    () => controller.selectedMainCategory.value != null &&
-                            controller.selectedMainCategory.value!.children.isNotEmpty
+                    () =>
+                        controller.selectedMainCategory.value != null &&
+                            controller
+                                .selectedMainCategory
+                                .value!
+                                .children
+                                .isNotEmpty
                         ? Column(
                             children: [
                               MindleDropdown<String>(
                                 hint: '세부분류 선택',
-                                value: controller.selectedSubCategory.value?.name,
-                                items: controller.selectedMainCategory.value!.children
-                                    .map((subCategory) => MindleDropdownItem(
-                                          value: subCategory.name,
-                                          label: subCategory.name,
-                                        ))
+                                value:
+                                    controller.selectedSubCategory.value?.name,
+                                items: controller
+                                    .selectedMainCategory
+                                    .value!
+                                    .children
+                                    .map(
+                                      (subCategory) => MindleDropdownItem(
+                                        value: subCategory.name,
+                                        label: subCategory.name,
+                                      ),
+                                    )
                                     .toList(),
                                 onChanged: (value) {
                                   final selectedSubCategory = controller
-                                      .selectedMainCategory.value!.children
+                                      .selectedMainCategory
+                                      .value!
+                                      .children
                                       .firstWhere((sub) => sub.name == value);
-                                  controller.selectSubCategory(selectedSubCategory);
+                                  controller.selectSubCategory(
+                                    selectedSubCategory,
+                                  );
                                 },
                               ),
-                              const SizedBox(height: 15),
+                              Spacing.vertical16,
                             ],
                           )
                         : Container(),
@@ -106,7 +124,7 @@ class ComplaintFormPage extends StatelessWidget {
                     maxLength: 200,
                     onChanged: (v) => controller.content.value = v,
                   ),
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
 
                   // 이미지 업로드 영역
                   SizedBox(
@@ -152,7 +170,7 @@ class ComplaintFormPage extends StatelessWidget {
                       );
                     }),
                   ),
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
                 ],
               ),
             ),

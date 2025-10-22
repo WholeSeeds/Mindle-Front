@@ -42,7 +42,7 @@ class IconTextBox extends StatelessWidget {
           (icon != null)
               ? Icon(icon, color: iconColor ?? (isEmpty ? gray6 : mainGreen))
               : SizedBox.shrink(),
-          const SizedBox(width: 8),
+          Spacing.horizontal8,
           Expanded(
             child: Text(
               isEmpty ? "" : text,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/pages/init/set_nbhd_page.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
@@ -16,7 +17,7 @@ class SetNicknamePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('앱에서 사용할 닉네임을 설정해주세요.', style: TextStyle(fontSize: 16)),
-            const SizedBox(height: 24),
+            Spacing.vertical24,
             Row(
               children: [
                 Expanded(
@@ -33,7 +34,7 @@ class SetNicknamePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 15),
+                Spacing.horizontal16,
                 ElevatedButton(
                   onPressed: () {
                     // 중복확인 로직 추가

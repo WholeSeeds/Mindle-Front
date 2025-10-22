@@ -83,7 +83,7 @@ class ComplaintStatCard extends StatelessWidget {
               label,
               style: MindleTextStyles.body2(color: MindleColors.gray1),
             ),
-            const SizedBox(height: 5),
+            Spacing.vertical4,
             Text(
               count.toString(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -131,7 +131,7 @@ class PlaceBottomSheet extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 8),
+                          Spacing.vertical8,
                           // Text(place.address),
                           FutureBuilder<RegionInfo>(
                             future: Get.find<NaverMapsService>().reverseGeoCode(
@@ -211,7 +211,7 @@ class PlaceBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                Spacing.vertical20,
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: (place.photoUrl.isEmpty)
@@ -232,7 +232,7 @@ class PlaceBottomSheet extends StatelessWidget {
                           fit: BoxFit.cover, // 비율 변경 X, 설정한 크기를 덮는다
                         ),
                 ),
-                const SizedBox(height: 15),
+                Spacing.vertical16,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const <Widget>[
@@ -256,7 +256,7 @@ class PlaceBottomSheet extends StatelessWidget {
                             Get.toNamed('/complaint_detail/${complaint.id}');
                           },
                         ),
-                        const SizedBox(height: 12),
+                        Spacing.vertical12,
                       ],
                     );
                   },

@@ -95,9 +95,9 @@ class CommentedComplaintsPage extends StatelessWidget {
                     width: 80,
                     height: 80,
                   ),
-                  SizedBox(height: 4),
+                  Spacing.vertical4,
                   Text("내가 작성한 댓글", style: MindleTextStyles.subtitle2()),
-                  SizedBox(height: 4),
+                  Spacing.vertical4,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -135,7 +135,7 @@ class CommentedComplaintsPage extends StatelessWidget {
                               );
                             },
                           ),
-                          const SizedBox(height: 12),
+                          Spacing.vertical12,
                         ],
                       );
                     },

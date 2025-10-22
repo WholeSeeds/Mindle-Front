@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mindle/controllers/nbhd_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/models/complaint.dart';
 import 'package:mindle/models/complaint_status.dart';
 import 'package:mindle/widgets/align_options_button.dart';
@@ -141,7 +142,7 @@ class ListPage extends StatelessWidget {
                           Get.toNamed('/complaint_detail/${complaint.id}');
                         },
                       ),
-                      const SizedBox(height: 12),
+                      Spacing.vertical12,
                     ],
                   );
                 },

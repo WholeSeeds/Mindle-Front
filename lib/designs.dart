@@ -156,3 +156,25 @@ class MindleThemes {
 
   // 다크 테마는 필요시 추가
 }
+
+// 앱 전체에서 사용할 공통 spacing 위젯들
+// 사용 예시: Spacing.vertical12, Spacing.horizontal8
+class Spacing {
+  // Vertical Spacing
+  static const SizedBox vertical4 = SizedBox(height: 4);
+  static const SizedBox vertical8 = SizedBox(height: 8);
+  static const SizedBox vertical12 = SizedBox(height: 12);
+  static const SizedBox vertical16 = SizedBox(height: 16);
+  static const SizedBox vertical20 = SizedBox(height: 20);
+  static const SizedBox vertical24 = SizedBox(height: 24);
+  static const SizedBox vertical30 = SizedBox(height: 30);
+
+  // Horizontal Spacing
+  static const SizedBox horizontal4 = SizedBox(width: 4);
+  static const SizedBox horizontal8 = SizedBox(width: 8);
+  static const SizedBox horizontal12 = SizedBox(width: 12);
+  static const SizedBox horizontal16 = SizedBox(width: 16);
+  static const SizedBox horizontal20 = SizedBox(width: 20);
+  static const SizedBox horizontal24 = SizedBox(width: 24);
+  static const SizedBox horizontal30 = SizedBox(width: 30);
+}

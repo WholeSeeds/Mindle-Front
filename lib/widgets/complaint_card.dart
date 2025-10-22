@@ -50,7 +50,7 @@ class ComplaintCard extends StatelessWidget {
                       ).copyWith(fontWeight: FontWeight.w800),
                     )
                   : const SizedBox.shrink(),
-              if (location != null) const SizedBox(height: 8),
+              if (location != null) Spacing.vertical8,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,7 +76,7 @@ class ComplaintCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                  const SizedBox(width: 12),
+                  Spacing.horizontal12,
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,7 @@ class ComplaintCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: MindleTextStyles.subtitle3(),
                         ),
-                        const SizedBox(height: 4),
+                        Spacing.vertical4,
                         Text(
                           content,
                           maxLines: 4,
@@ -99,7 +99,7 @@ class ComplaintCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              Spacing.vertical4,
               Divider(color: MindleColors.gray6, thickness: 1),
               Row(
                 children: [

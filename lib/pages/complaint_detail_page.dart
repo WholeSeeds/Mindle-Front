@@ -61,7 +61,7 @@ class ComplaintDetailPage extends StatelessWidget {
                         height: 20,
                         color: mainGreen,
                       ),
-                      const SizedBox(width: 4),
+                      Spacing.horizontal4,
                       Text(
                         detail.placeName,
                         style: TextStyle(
@@ -73,7 +73,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  Spacing.vertical4,
 
                   // 카테고리
                   Row(
@@ -84,7 +84,7 @@ class ComplaintDetailPage extends StatelessWidget {
                         height: 20,
                         color: mainGreen,
                       ),
-                      const SizedBox(width: 4),
+                      Spacing.horizontal4,
                       Text(
                         detail.categoryName,
                         style: TextStyle(
@@ -96,7 +96,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  Spacing.vertical12,
 
                   // 작성자 및 날짜
                   Row(
@@ -148,7 +148,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
 
                   // 제목과 처리완료 배지
                   Row(
@@ -165,7 +165,7 @@ class ComplaintDetailPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      Spacing.horizontal8,
                       Image.asset(
                         'assets/images/Property 1=Default.png',
                         width: 120,
@@ -173,7 +173,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  Spacing.vertical16,
 
                   // 이미지 슬라이더 부분을 다음과 같이 수정
                   if (controller.imagesBytesList.isNotEmpty)
@@ -244,7 +244,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ],
                     ),
 
-                  SizedBox(height: 16),
+                  Spacing.vertical16,
                   // 본문 내용
                   Text(
                     detail.content,
@@ -256,7 +256,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
 
                   // 좋아요 & 댓글 수
                   if (reaction != null)
@@ -275,7 +275,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                 height: 16,
                                 color: gray1,
                               ),
-                              SizedBox(width: 4),
+                              Spacing.horizontal4,
                               Text(
                                 '${controller.comments.length}',
                                 style: TextStyle(
@@ -292,14 +292,14 @@ class ComplaintDetailPage extends StatelessWidget {
                         Row(
                           children: [
                             Image.asset(
-                              reaction?.reacted == true
+                              reaction.reacted == true
                                   ? 'assets/images/Heart.png'
                                   : 'assets/images/Heart.png',
                               width: 16,
                               height: 16,
                               color: reaction.reacted ? mainGreen : gray1,
                             ),
-                            SizedBox(width: 4),
+                            Spacing.horizontal4,
                             Text(
                               '${reaction.reactionCount}',
                               style: TextStyle(
@@ -314,7 +314,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ],
                     ),
 
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
 
                   // 해결된 민원 이미지 Before/After 섹션
                   // TODO: 해결완료여부 필요
@@ -340,7 +340,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                   color: white,
                                 ),
 
-                                SizedBox(width: 8),
+                                Spacing.horizontal8,
                                 Text(
                                   '해결된 민원이에요!',
                                   style: TextStyle(
@@ -389,7 +389,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              SizedBox(height: 8),
+                                              Spacing.vertical8,
                                               Text(
                                                 'Before',
                                                 style: TextStyle(
@@ -401,7 +401,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(width: 16),
+                                        Spacing.horizontal16,
                                         Expanded(
                                           child: Column(
                                             children: [
@@ -415,7 +415,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              SizedBox(height: 8),
+                                              Spacing.vertical8,
                                               Text(
                                                 'After',
                                                 style: TextStyle(
@@ -443,9 +443,9 @@ class ComplaintDetailPage extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  Spacing.vertical24,
                   Divider(color: gray4, thickness: 1),
-                  const SizedBox(height: 16),
+                  Spacing.vertical16,
 
                   // 댓글 리스트
                   if (controller.comments.isEmpty)
@@ -486,7 +486,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                   color: gray5,
                                 ),
                               ),
-                              SizedBox(width: 12),
+                              Spacing.horizontal12,
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,7 +548,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                               fontFamily: 'Pretendard',
                                             ),
                                           ),
-                                          SizedBox(width: 8),
+                                          Spacing.horizontal8,
                                           Text(
                                             '답글',
                                             style: TextStyle(
@@ -570,7 +570,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       },
                     ),
 
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
 
                   // 댓글 입력창
                   Container(
@@ -617,7 +617,7 @@ class ComplaintDetailPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  Spacing.vertical20,
                 ],
               ),
             ),

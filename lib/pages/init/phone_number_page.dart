@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/pages/init/code_input_page.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
@@ -34,7 +35,7 @@ class PhoneNumberPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("인증코드를 받을 전화번호를 입력해주세요.", style: TextStyle(fontSize: 18)),
-              SizedBox(height: 24),
+              Spacing.vertical24,
               TextFormField(
                 keyboardType: TextInputType.phone,
                 validator: (value) => controller.validator(value),

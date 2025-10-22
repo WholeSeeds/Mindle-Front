@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/mindle_textbutton.dart';
 
 class MindleDialog extends StatelessWidget {
@@ -42,7 +43,7 @@ class MindleDialog extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(content),
-            const SizedBox(height: 24),
+            Spacing.vertical24,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

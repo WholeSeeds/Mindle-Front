@@ -124,14 +124,14 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 4),
+                            Spacing.vertical4,
 
                             Row(
                               children: [
                                 SvgPicture.asset(
                                   'assets/icons/empty/Green_Location.svg',
                                 ),
-                                const SizedBox(width: 4),
+                                Spacing.horizontal4,
                                 Text(
                                   user.subdistrict?.name ?? '동네설정 필요',
                                   style: MindleTextStyles.body3(
@@ -144,7 +144,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    Spacing.vertical24,
 
                     // 경험치 표시
                     Column(
@@ -158,7 +158,7 @@ class ProfilePage extends StatelessWidget {
                           color: MindleColors.mainGreen,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        SizedBox(height: 8),
+                        Spacing.vertical8,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -185,11 +185,11 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              Spacing.vertical24,
 
               // 통계 카드
               _buildStatsContainer(),
-              const SizedBox(height: 24),
+              Spacing.vertical24,
 
               // 메뉴 리스트
               Container(
@@ -291,13 +291,13 @@ class ProfilePage extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-            const SizedBox(height: 8),
+            Spacing.vertical8,
             Text(
               title,
               style: MindleTextStyles.body4(color: MindleColors.gray2),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 4),
+            Spacing.vertical4,
             Text(count, style: MindleTextStyles.subtitle1()),
           ],
         ),

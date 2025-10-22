@@ -22,14 +22,14 @@ class SetNbhdPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
+            Spacing.vertical30,
             Text('거주하고 계신 동네를\n선택해주세요', style: MindleTextStyles.headline1()),
-            SizedBox(height: 8),
+            Spacing.vertical8,
             Text(
               '현재 거주하시는 동네를 선택해주세요',
               style: MindleTextStyles.body1(color: MindleColors.gray1),
             ),
-            SizedBox(height: 30),
+            Spacing.vertical30,
             Text('경기도', style: TextStyle(fontSize: 16)),
             Obx(
               () => SizedBox(
@@ -80,7 +80,7 @@ class SetNbhdPage extends StatelessWidget {
                 onPressed: () => Get.toNamed('/'),
               ),
             ),
-            SizedBox(height: 20), // 👈 버튼과 화면 하단 간격
+            Spacing.vertical20, // 👈 버튼과 화면 하단 간격
           ],
         ),
       ),

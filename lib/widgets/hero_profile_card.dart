@@ -41,7 +41,7 @@ class HeroProfileCard extends StatelessWidget {
         children: [
           // 레벨 배지
           SvgPicture.asset(badgePathList[level], width: size, height: size),
-          const SizedBox(width: 20),
+          Spacing.horizontal20,
           // 프로필 이미지
           CircleAvatar(
             radius: 28,
@@ -53,7 +53,7 @@ class HeroProfileCard extends StatelessWidget {
                 ? Icon(Icons.person, size: 30, color: MindleColors.gray2)
                 : null,
           ),
-          const SizedBox(width: 16),
+          Spacing.horizontal16,
           // 이름 및 통계
           Expanded(
             child: Row(

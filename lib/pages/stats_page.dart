@@ -14,7 +14,7 @@ class StatsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.construction, size: 50, color: MindleColors.gray5),
-            const SizedBox(height: 8),
+            Spacing.vertical8,
             Text('서비스 준비중입니다.', style: MindleTextStyles.body2()),
           ],
         ),

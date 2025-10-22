@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindle/controllers/location_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/pages/complaint_form_page.dart';
 import 'package:mindle/pages/stt_page.dart';
 import 'package:get/get.dart';
@@ -26,17 +27,17 @@ class LocationSelectPanel extends StatelessWidget {
             // mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
+              Spacing.vertical8,
               const Text(
                 '첨부할 위치를 선택해주세요',
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 3),
+              Spacing.vertical4,
               const Text(
                 '? 공공기관이 없어요',
                 style: TextStyle(fontSize: 10, color: Colors.blue),
               ),
-              const SizedBox(height: 16),
+              Spacing.vertical16,
               const Text(
                 '선택된 위치',
                 style: TextStyle(
@@ -46,7 +47,7 @@ class LocationSelectPanel extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 3),
+              Spacing.vertical4,
               // 선택된 위치 정보
               Obx(
                 () => Stack(
@@ -70,7 +71,7 @@ class LocationSelectPanel extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              Spacing.vertical20,
             ],
           ),
         ),

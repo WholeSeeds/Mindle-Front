@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class LinkedAccountInfo {
@@ -31,7 +32,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
+            Spacing.vertical20,
 
             // 제목
             Text(
@@ -43,7 +44,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 30),
+            Spacing.vertical30,
 
             // 기존 연동된 계정들
             Text(
@@ -54,7 +55,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
                 color: Colors.grey[800],
               ),
             ),
-            SizedBox(height: 15),
+            Spacing.vertical16,
 
             // 기존 계정 리스트
             Expanded(
@@ -96,11 +97,11 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            Spacing.vertical20,
 
             // 구분선
             Divider(thickness: 1, color: Colors.grey[300]),
-            SizedBox(height: 20),
+            Spacing.vertical20,
 
             // 새로 추가하려던 계정
             Text(
@@ -111,7 +112,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
                 color: Colors.grey[800],
               ),
             ),
-            SizedBox(height: 15),
+            Spacing.vertical16,
 
             Card(
               color: Colors.amber[50],
@@ -137,7 +138,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
                       _getProviderName(currentSocialUser['providerId']),
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(width: 8),
+                    Spacing.horizontal8,
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
@@ -164,7 +165,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 30),
+            Spacing.vertical30,
 
             // 안내 메시지
             Container(
@@ -184,7 +185,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
                         color: Colors.blue[600],
                         size: 20,
                       ),
-                      SizedBox(width: 8),
+                      Spacing.horizontal8,
                       Text(
                         '계정 정보 확인',
                         style: TextStyle(
@@ -194,7 +195,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  Spacing.vertical8,
                   Text(
                     '이 전화번호에는 이미 여러 계정이 연동되어 있습니다.\n어떻게 처리할지 결정해주세요.',
                     style: TextStyle(
@@ -207,7 +208,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            Spacing.vertical20,
 
             // 🔥 단순한 확인 버튼만
             ElevatedButton(
@@ -233,7 +234,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            Spacing.vertical20,
           ],
         ),
       ),
