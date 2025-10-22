@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/models/complaint.dart';
 import 'package:mindle/models/complaint_status.dart';
@@ -10,6 +11,7 @@ import 'package:mindle/widgets/complaint_card.dart';
 // 임시 민원 데이터
 final List<Complaint> _complaintData = [
   Complaint(
+    id: 1,
     title: '도로 신호등이 고장났어요',
     content: '우리 동네 메인 도로 신호등이 고장나서 위험해요. 빨리 수리해 주세요!',
     numLikes: 120,
@@ -18,6 +20,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 2,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -27,6 +30,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 3,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -36,6 +40,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 4,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -45,6 +50,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 5,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -117,7 +123,12 @@ class MyComplaintsPage extends StatelessWidget {
                     _complaintData.length,
                     (index) => Column(
                       children: [
-                        ComplaintCard(complaint: _complaintData[index]),
+                        ComplaintCard(
+                          complaint: _complaintData[index],
+                          onTap: () {
+                            Get.toNamed('/complaint_detail/${_complaintData[index].id}');
+                          },
+                        ),
                         const SizedBox(height: 12),
                       ],
                     ),

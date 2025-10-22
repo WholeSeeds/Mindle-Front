@@ -102,7 +102,8 @@ class ComplaintDetailController extends GetxController {
           }
         }
 
-        await loadComments(complaintDetail!.id);
+        // TODO: 댓글 로딩 api 에러 고쳐지면 반영
+        // await loadComments(complaintDetail!.id);
         update();
       } else {
         throw Exception("민원 상세 정보 로딩 실패");
@@ -130,6 +131,7 @@ class ComplaintDetailController extends GetxController {
           'pageSize': pageSize,
         },
       );
+      print('댓글 응답 데이터: ${response.data}');
 
       if (response.statusCode == 200) {
         final List<dynamic> commentListJson = response.data['data'];

@@ -1,6 +1,7 @@
 import 'complaint_status.dart';
 
 class Complaint {
+  final int id;
   final String title;
   final String content;
   final int numLikes;
@@ -9,6 +10,7 @@ class Complaint {
   final bool hasImage;
 
   Complaint({
+    required this.id,
     required this.title,
     required this.content,
     required this.numLikes,
@@ -19,6 +21,7 @@ class Complaint {
 
   factory Complaint.fromJson(Map<String, dynamic> json) {
     return Complaint(
+      id: json['id'],
       title: json['title'],
       content: json['content'],
       numLikes: json['numLikes'],
@@ -30,6 +33,7 @@ class Complaint {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'content': content,
       'numLikes': numLikes,

@@ -13,7 +13,15 @@ List<GetPage> allPages = [
   GetPage(name: '/', page: () => const RootPage()),
   GetPage(name: '/inside', page: () => const InsidePage()),
   GetPage(
+    // detail 페이지를 확인하기 위한 임시 경로
     name: '/detail',
     page: () => const ComplaintDetailPage(complaintId: 1),
+  ),
+  GetPage(
+    name: '/complaint_detail/:id',
+    page: () {
+      final complaintId = int.parse(Get.parameters['id'] ?? '1');
+      return ComplaintDetailPage(complaintId: complaintId);
+    },
   ),
 ];

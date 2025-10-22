@@ -12,6 +12,7 @@ import '../models/user.dart';
 // 임시 민원 데이터
 final List<Complaint> _complaintData = [
   Complaint(
+    id: 1,
     title: '도로 신호등이 고장났어요',
     content: '우리 동네 메인 도로 신호등이 고장나서 위험해요. 빨리 수리해 주세요!',
     numLikes: 120,
@@ -22,6 +23,7 @@ final List<Complaint> _complaintData = [
     // imageUrl: 'https://picsum.photos/120/120?random=11'
   ),
   Complaint(
+    id: 2,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -31,6 +33,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 3,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -40,6 +43,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 4,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
@@ -49,6 +53,7 @@ final List<Complaint> _complaintData = [
     hasImage: true,
   ),
   Complaint(
+    id: 5,
     title: "횡단보도 선이 거의 지워졌어요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
