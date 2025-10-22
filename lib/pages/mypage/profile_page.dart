@@ -11,6 +11,7 @@ import 'package:mindle/pages/mypage/liked_complaints_page.dart';
 import 'package:mindle/pages/mypage/commented_complaints_page.dart';
 import 'package:mindle/pages/mypage/settings_page.dart';
 import 'package:mindle/pages/init/set_nbhd_page.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 final badgePathList = [
   'assets/icons/Badge1.svg',
@@ -33,12 +34,9 @@ class ProfilePage extends StatelessWidget {
     final UserController userController = Get.put(UserController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        // TODO: MindleTopAppBar로 통일하기: 위젯에 우측 아이콘 추가 필요
-        title: Text('마이페이지', style: MindleTextStyles.subtitle2()),
-        centerTitle: true,
+      appBar: MindleTopAppBar(
+        title: '마이페이지',
+        showBackButton: false,
         actions: [
           IconButton(
             onPressed: () {

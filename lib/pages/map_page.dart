@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/location_controller.dart';
 import 'package:mindle/widgets/location_select_panel.dart';
 import 'package:mindle/designs.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({super.key});
@@ -26,6 +27,18 @@ class MapPage extends StatelessWidget {
           }
         },
         child: Scaffold(
+          appBar: (isSelecting)
+              ? MindleTopAppBar(
+                  title: '위치 선택',
+                  showBackButton: false,
+                  customLeading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      controller.disableSelectingLocation();
+                    },
+                  ),
+                )
+              : null,
           body: Stack(
             children: [
               NaverMap(

@@ -491,7 +491,16 @@ class SttPageState extends State<SttPage> with SingleTickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Colors.white,
       // TODO: 커스텀 AppBar에도 X버튼 포함하도록 수정하기
-      appBar: MindleTopAppBar(title: 'AI 음성 챗봇'),
+      appBar: MindleTopAppBar(
+        title: 'AI 음성 챗봇',
+        showBackButton: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close).paddingOnly(right: 5),
+            onPressed: () => Get.back(),
+          ),
+        ],
+      ),
       // AppBar(
       //   backgroundColor: Colors.white,
       //   elevation: 0,

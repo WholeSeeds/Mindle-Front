@@ -7,6 +7,7 @@ import 'package:mindle/models/complaint_status.dart';
 
 import 'package:mindle/widgets/align_options_button.dart';
 import 'package:mindle/widgets/complaint_card.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 // 임시 민원 데이터
 final List<Complaint> _complaintData = [
@@ -67,7 +68,7 @@ class LikedComplaintsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("내가 공감한 민원"), centerTitle: true),
+      appBar: MindleTopAppBar(title: '내가 공감한 민원'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +127,9 @@ class LikedComplaintsPage extends StatelessWidget {
                         ComplaintCard(
                           complaint: _complaintData[index],
                           onTap: () {
-                            Get.toNamed('/complaint_detail/${_complaintData[index].id}');
+                            Get.toNamed(
+                              '/complaint_detail/${_complaintData[index].id}',
+                            );
                           },
                         ),
                         const SizedBox(height: 12),

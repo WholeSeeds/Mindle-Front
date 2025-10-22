@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class LinkedAccountInfo {
   final String providerId;
@@ -24,7 +25,7 @@ class ListOfLinkedAccountsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('연동된 계정 확인'), centerTitle: true),
+      appBar: MindleTopAppBar(title: '연동된 계정 확인'),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(

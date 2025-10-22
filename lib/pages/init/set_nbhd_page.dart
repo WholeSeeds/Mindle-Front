@@ -5,6 +5,7 @@ import 'package:mindle/controllers/nbhd_controller.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/dropdown_field.dart';
 import 'package:mindle/widgets/mindle_textbutton.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 // 동네 설정 페이지
 class SetNbhdPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class SetNbhdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('동네 설정'), centerTitle: true),
+      appBar: MindleTopAppBar(title: '동네 설정'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(

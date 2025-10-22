@@ -8,7 +8,7 @@ class StatsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MindleTopAppBar(title: '통계'),
+      appBar: MindleTopAppBar(title: '통계', showBackButton: false),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

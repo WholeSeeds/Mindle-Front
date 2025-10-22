@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/pages/init/set_nbhd_page.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class SetNicknamePage extends StatelessWidget {
   const SetNicknamePage({super.key});
@@ -8,7 +9,7 @@ class SetNicknamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('닉네임 설정'), centerTitle: true),
+      appBar: MindleTopAppBar(title: '닉네임 설정'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

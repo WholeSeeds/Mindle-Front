@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mindle/controllers/auth_controller.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -11,7 +12,7 @@ class SettingsPage extends StatelessWidget {
     final controller = Get.find<AuthController>();
 
     return Scaffold(
-      appBar: AppBar(title: Text("설정"), centerTitle: true),
+      appBar: MindleTopAppBar(title: '설정'),
       body: ListView(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

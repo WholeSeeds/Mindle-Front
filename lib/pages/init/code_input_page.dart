@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class CodeInputPage extends StatelessWidget {
   const CodeInputPage({super.key});
@@ -23,7 +24,7 @@ class CodeInputPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('코드 입력'), centerTitle: true),
+      appBar: MindleTopAppBar(title: '코드 입력'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

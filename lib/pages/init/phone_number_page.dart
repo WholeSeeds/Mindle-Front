@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
 import 'package:mindle/pages/init/code_input_page.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class PhoneNumberPage extends StatelessWidget {
   const PhoneNumberPage({super.key});
@@ -24,7 +25,7 @@ class PhoneNumberPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('전화번호 인증'), centerTitle: true),
+      appBar: MindleTopAppBar(title: '전화번호 인증'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
