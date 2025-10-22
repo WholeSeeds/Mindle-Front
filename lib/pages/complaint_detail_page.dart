@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/complaint_detail_controller.dart';
+import 'package:mindle/designs.dart';
+import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class ComplaintDetailPage extends StatelessWidget {
   final int complaintId;
@@ -8,6 +10,7 @@ class ComplaintDetailPage extends StatelessWidget {
     : super(key: key);
 
   // 디자인 가이드 컬러 팔레트
+  // TODO: designs.dart 에서 디자인 사용하기
   static const Color mainGreen = Color(0xFF00D482);
   static const Color sudYellow = Color(0xFFFDD130);
   static const Color black = Color(0xFF111111);
@@ -41,24 +44,7 @@ class ComplaintDetailPage extends StatelessWidget {
 
         return Scaffold(
           backgroundColor: white,
-          appBar: AppBar(
-            backgroundColor: white,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: black, size: 24),
-              onPressed: () => Get.back(),
-            ),
-            title: Text(
-              '민원 상세',
-              style: TextStyle(
-                color: black,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Pretendard',
-              ),
-            ),
-            centerTitle: true,
-          ),
+          appBar: MindleTopAppBar(title: '민원 상세'),
           body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: SingleChildScrollView(
@@ -330,6 +316,8 @@ class ComplaintDetailPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
+                  // 해결된 민원 이미지 Before/After 섹션
+                  // TODO: 해결완료여부 필요
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -385,63 +373,70 @@ class ComplaintDetailPage extends StatelessWidget {
                             child: Container(
                               color: white,
                               padding: EdgeInsets.all(16),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
+                              child: detail.imageUrls.length >= 2
+                                  ? Row(
                                       children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          child: Image.network(
-                                            detail.imageUrls[0],
-                                            height: 140,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  detail.imageUrls[0],
+                                                  height: 140,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                'Before',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: black,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        SizedBox(height: 8),
-                                        Text(
-                                          'Before',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: black,
+                                        SizedBox(width: 16),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  detail.imageUrls[1],
+                                                  height: 140,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                'After',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: black,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          child: Image.network(
-                                            detail.imageUrls[1],
-                                            height: 140,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          ),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        '이미지를 불러올 수 없습니다.',
+                                        style: MindleTextStyles.body4(
+                                          color: gray1,
                                         ),
-                                        SizedBox(height: 8),
-                                        Text(
-                                          'After',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: black,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
                             ),
                           ),
                       ],
