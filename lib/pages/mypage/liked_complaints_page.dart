@@ -120,21 +120,25 @@ class LikedComplaintsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AlignOptionsButton(),
-                  ...List.generate(
-                    _complaintData.length,
-                    (index) => Column(
-                      children: [
-                        ComplaintCard(
-                          complaint: _complaintData[index],
-                          onTap: () {
-                            Get.toNamed(
-                              '/complaint_detail/${_complaintData[index].id}',
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                      ],
-                    ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _complaintData.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          ComplaintCard(
+                            complaint: _complaintData[index],
+                            onTap: () {
+                              Get.toNamed(
+                                '/complaint_detail/${_complaintData[index].id}',
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),

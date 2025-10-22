@@ -381,13 +381,18 @@ class _WeeklyHeroSection extends StatelessWidget {
           const SizedBox(height: 12),
           Text('이번 주 민원 히어로', style: MindleTextStyles.subtitle2()),
           const SizedBox(height: 24),
-          ..._userData.map(
-            (user) => Column(
-              children: [
-                HeroProfileCard(user: user),
-                const SizedBox(height: 12),
-              ],
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _userData.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  HeroProfileCard(user: _userData[index]),
+                  const SizedBox(height: 12),
+                ],
+              );
+            },
           ),
         ],
       ),
