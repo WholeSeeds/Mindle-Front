@@ -23,7 +23,7 @@ class ComplaintFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ComplaintController>();
+    final controller = Get.put(ComplaintController());
     return Scaffold(
       appBar: MindleTopAppBar(title: "민원 작성"),
       body: Padding(
@@ -49,17 +49,52 @@ class ComplaintFormPage extends StatelessWidget {
                           borderColor: gray6,
                         ),
                   const SizedBox(height: 15),
+                  // 메인 카테고리 선택
                   Obx(
                     () => MindleDropdown<String>(
-                      hint: '카테고리 선택',
-                      value: controller.selectedCategory.value,
-                      items: controller.categoryList
-                          .map((e) => MindleDropdownItem(value: e, label: e))
+                      hint: '대분류 선택',
+                      value: controller.selectedMainCategory.value?.name,
+                      items: controller.categories
+                          .map((category) => MindleDropdownItem(
+                                value: category.name,
+                                label: category.name,
+                              ))
                           .toList(),
-                      onChanged: (v) => controller.selectedCategory.value = v,
+                      onChanged: (value) {
+                        final selectedCategory = controller.categories
+                            .firstWhere((cat) => cat.name == value);
+                        controller.selectMainCategory(selectedCategory);
+                      },
                     ),
                   ),
                   const SizedBox(height: 15),
+                  // 서브 카테고리 선택
+                  Obx(
+                    () => controller.selectedMainCategory.value != null &&
+                            controller.selectedMainCategory.value!.children.isNotEmpty
+                        ? Column(
+                            children: [
+                              MindleDropdown<String>(
+                                hint: '세부분류 선택',
+                                value: controller.selectedSubCategory.value?.name,
+                                items: controller.selectedMainCategory.value!.children
+                                    .map((subCategory) => MindleDropdownItem(
+                                          value: subCategory.name,
+                                          label: subCategory.name,
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  final selectedSubCategory = controller
+                                      .selectedMainCategory.value!.children
+                                      .firstWhere((sub) => sub.name == value);
+                                  controller.selectSubCategory(selectedSubCategory);
+                                },
+                              ),
+                              const SizedBox(height: 15),
+                            ],
+                          )
+                        : Container(),
+                  ),
                   MindleTextField(
                     hint: '제목을 입력해주세요',
                     onChanged: (v) => controller.title.value = v,
@@ -133,13 +168,13 @@ class ComplaintFormPage extends StatelessWidget {
                     regionInfo: regionInfo,
                   ), // 둘 중 하나, 혹은 둘 다 null인 상태로 submit됨
                   textColor:
-                      (controller.selectedCategory.value == null ||
+                      (controller.selectedMainCategory.value == null ||
                           controller.title.value.isEmpty ||
                           controller.content.value.isEmpty)
                       ? gray5
                       : Colors.white,
                   backgroundColor:
-                      (controller.selectedCategory.value == null ||
+                      (controller.selectedMainCategory.value == null ||
                           controller.title.value.isEmpty ||
                           controller.content.value.isEmpty)
                       ? gray4

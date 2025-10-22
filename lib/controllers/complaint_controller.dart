@@ -5,17 +5,48 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mindle/models/category.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:mindle/models/region_info.dart';
+import 'package:mindle/services/category_service.dart';
 
 class ComplaintController extends GetxController {
-  final categoryList = ['도로', '치안', '환경', '기타'];
-  final selectedCategory = RxnString(); // 카테고리를 선택하지 않을 수도 있음: Rx<String?>으로 관리
+  final CategoryService _categoryService = CategoryService();
+
+  final RxList<Category> categories = <Category>[].obs;
+  final Rxn<Category> selectedMainCategory = Rxn<Category>();
+  final Rxn<Category> selectedSubCategory = Rxn<Category>();
 
   final title = ''.obs;
   final content = ''.obs;
   final RxList<XFile?> images = <XFile?>[].obs;
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadCategories();
+  }
+
+  Future<void> loadCategories() async {
+    try {
+      final loadedCategories = await _categoryService.getCategories();
+      categories.value = loadedCategories;
+      print('카테고리 불러오기 성공: ${categories.length}개');
+    } catch (e) {
+      Get.snackbar('오류', '카테고리를 불러오는데 실패했습니다');
+      print(e);
+    }
+  }
+
+  void selectMainCategory(Category category) {
+    selectedMainCategory.value = category;
+    selectedSubCategory.value = null;
+  }
+
+  void selectSubCategory(Category category) {
+    selectedSubCategory.value = category;
+  }
 
   // 이미지 추가: 카메라
   Future<void> pickImageFromCamera() async {
@@ -52,16 +83,17 @@ class ComplaintController extends GetxController {
   // 민원 등록 서버에 요청 보내기
   // 둘 중 하나, 혹은 둘다 null인 상태로 보내짐
   void submitComplaint({PublicPlace? place, RegionInfo? regionInfo}) async {
-    if (selectedCategory.value == null ||
-        title.value.isEmpty ||
-        content.value.isEmpty) {
+    final categoryId =
+        selectedSubCategory.value?.id ?? selectedMainCategory.value?.id;
+
+    if (categoryId == null || title.value.isEmpty || content.value.isEmpty) {
       Get.snackbar('오류!', '모든 항목을 입력해주세요');
       return;
     }
 
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
     print('민원 등록 토큰: $token');
-    final dio.Dio _dio = dio.Dio(
+    final dio.Dio dioClient = dio.Dio(
       dio.BaseOptions(
         baseUrl:
             "http://${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
@@ -70,11 +102,13 @@ class ComplaintController extends GetxController {
     );
 
     final meta = {
-      'categoryId': categoryList.indexOf(selectedCategory.value!),
+      'categoryId': categoryId,
       'subDistrictCode': null, // TODO: 하위 행정구역 코드 추가 필요
       'title': title.value,
       'content': content.value,
     };
+
+    print('민원 등록 place: $place, regionInfo: $regionInfo');
 
     // place가 있으면 placeId와 위치 정보 추가
     if (place != null) {
@@ -89,6 +123,8 @@ class ComplaintController extends GetxController {
     }
     // 아무 정보도 없으면 정보를 추가하지 않음
 
+    print('민원 등록 이미지 개수: ${images.length}');
+
     List<dio.MultipartFile> fileList = [];
     for (var image in images) {
       if (image != null) {
@@ -100,12 +136,15 @@ class ComplaintController extends GetxController {
       }
     }
 
+    print('민원 등록 메타데이터: $meta');
     final formData = dio.FormData.fromMap({
       'meta': jsonEncode(meta),
       'files': fileList,
     });
 
-    final response = await _dio.post('/complaint/save', data: formData);
+    final response = await dioClient.post('/complaint/save', data: formData);
+
+    print('민원 등록 응답 전체: ${response.statusCode} ${response.data}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('민원 등록 응답: ${response.statusCode} ${response.data}');
       Get.snackbar('성공!', '민원이 등록되었습니다');
