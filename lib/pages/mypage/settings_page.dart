@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mindle/controllers/auth_controller.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -18,15 +19,15 @@ class SettingsPage extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         children: [
           ListTile(
-            title: Text("알림 설정"),
+            title: Text("알림 설정", style: MindleTextStyles.subtitle3()),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
           ListTile(
-            title: Text("공지사항"),
+            title: Text("공지사항", style: MindleTextStyles.subtitle3()),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
           ListTile(
-            title: Text("로그아웃"),
+            title: Text("로그아웃", style: MindleTextStyles.subtitle3()),
             onTap: () {
               controller.signOut();
             },

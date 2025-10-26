@@ -71,7 +71,7 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MindleTopAppBar(title: "민원목록"),
+      appBar: MindleTopAppBar(title: "민원목록", showBackButton: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
