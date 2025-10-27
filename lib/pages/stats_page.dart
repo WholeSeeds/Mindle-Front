@@ -25,6 +25,10 @@ class StatsPage extends StatelessWidget {
                 '* 예시 페이지입니다.',
                 style: MindleTextStyles.body1(color: MindleColors.errorRed),
               ),
+              Text(
+                '* 해당 통계는 정부 기관을 통한 실제 데이터가 아님을 알려드립니다.',
+                style: MindleTextStyles.body1(color: MindleColors.errorRed),
+              ),
               SizedBox(height: 20),
               // RegionTop5Section(),
               // SizedBox(height: 40),

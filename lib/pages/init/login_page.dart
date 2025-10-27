@@ -53,6 +53,13 @@ class LoginPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      '* 민들레는 정부 기관을 대표하지 않습니다.',
+                      style: MindleTextStyles.body3(
+                        color: MindleColors.errorRed,
+                      ),
+                    ),
+                    Spacing.vertical12,
                     SizedBox(
                       height: 60,
                       child: ElevatedButton(
