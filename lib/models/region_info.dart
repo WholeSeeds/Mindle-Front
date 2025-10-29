@@ -6,6 +6,7 @@ class RegionInfo {
   final String? doroNumber; // 도로명 번호 (nullable)
   final double latitude; // 위도 (필수)
   final double longitude; // 경도 (필수)
+  final String subdistrictCode; // 동네 코드 (필수)
 
   RegionInfo({
     required this.si,
@@ -15,6 +16,7 @@ class RegionInfo {
     this.doroNumber,
     required this.latitude,
     required this.longitude,
+    required this.subdistrictCode,
   });
 
   factory RegionInfo.empty() {
@@ -26,6 +28,7 @@ class RegionInfo {
       doroNumber: null,
       latitude: 0.0,
       longitude: 0.0,
+      subdistrictCode: '',
     );
   }
 
@@ -39,6 +42,9 @@ class RegionInfo {
       if (results is! List || results.isEmpty) {
         return RegionInfo.empty();
       }
+      print('네이버 지도 API 응답: $data');
+      // 동네 코드
+      final subdistrictCode = results[0]['code']?['id'];
       // 시/구
       final area2 = results[0]['region']?['area2'];
       final siguStr = area2 is Map ? area2['name'] as String? : null;
@@ -75,6 +81,7 @@ class RegionInfo {
         doroNumber: doroNumber,
         latitude: latitude,
         longitude: longitude,
+        subdistrictCode: subdistrictCode,
       );
     } catch (e) {
       print('RegionInfo.fromNaverJson 파싱 실패: $e');
@@ -84,7 +91,7 @@ class RegionInfo {
 
   @override
   String toString() {
-    return 'RegionInfo(si: $si, gu: $gu, dong: $dong, doroName: $doroName, doroNumber: $doroNumber, latitude: $latitude, longitude: $longitude)';
+    return 'RegionInfo(si: $si, gu: $gu, dong: $dong, doroName: $doroName, doroNumber: $doroNumber, latitude: $latitude, longitude: $longitude, subdistrictCode: $subdistrictCode)';
   }
 
   String fullAddressString() {

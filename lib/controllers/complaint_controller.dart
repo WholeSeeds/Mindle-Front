@@ -81,7 +81,7 @@ class ComplaintController extends GetxController {
   }
 
   // 민원 등록 서버에 요청 보내기
-  // 둘 중 하나, 혹은 둘다 null인 상태로 보내짐
+  // 둘 다 있음 / regionInfo만 있음 / 둘다 null
   void submitComplaint({PublicPlace? place, RegionInfo? regionInfo}) async {
     final categoryId =
         selectedSubCategory.value?.id ?? selectedMainCategory.value?.id;
@@ -103,23 +103,23 @@ class ComplaintController extends GetxController {
 
     final meta = {
       'categoryId': categoryId,
-      'subDistrictCode': null, // TODO: 하위 행정구역 코드 추가 필요
+      'subDistrictCode': null,
       'title': title.value,
       'content': content.value,
     };
 
     print('민원 등록 place: $place, regionInfo: $regionInfo');
 
-    // place가 있으면 placeId와 위치 정보 추가
-    if (place != null) {
-      meta['placeId'] = place.uniqueId;
-      // meta['placeId'] = 'uniqueid'; // 예시
-      meta['latitude'] = place.latitude;
-      meta['longitude'] = place.longitude;
-    } else if (regionInfo != null) {
-      // regionInfo가 있으면 위치 정보만 추가
+    if (regionInfo != null) {
+      // place가 있으면 placeId와 위치 정보 추가
+      if (place != null) {
+        meta['placeId'] = place.uniqueId; // 예시: meta['placeId'] = 'uniqueid';
+        meta['placeType'] = place.type[0]; // string으로 보내야함. 임시로 첫번째 요소 사용
+        meta['placeName'] = place.name;
+      }
       meta['latitude'] = regionInfo.latitude;
       meta['longitude'] = regionInfo.longitude;
+      meta['subdistrictCode'] = regionInfo.subdistrictCode;
     }
     // 아무 정보도 없으면 정보를 추가하지 않음
 

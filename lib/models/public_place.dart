@@ -43,7 +43,7 @@ class PublicPlace {
           ? json['displayName']['text'] ?? ''
           : '';
 
-      final uniqueId = json['placeId'] ?? '';
+      final uniqueId = json['id'] ?? '';
 
       final types = json['types'] is List
           ? List<String>.from(json['types'])

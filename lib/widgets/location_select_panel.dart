@@ -90,6 +90,10 @@ class LocationSelectPanel extends StatelessWidget {
                     : '다음',
 
                 onPressed: () {
+                  print('✅ 버튼 클릭 - 민원 작성 페이지로 이동!');
+                  print(
+                    '   선택된 장소: ${controller.selectedPlace.value?.name}, 선택된 지역 정보: ${controller.selectedRegionInfo.value}',
+                  );
                   if (controller.selectedPlace.value == null &&
                       controller.selectedRegionInfo.value == null) {
                     // 위치 선택 안 했을 때 경고창 표시

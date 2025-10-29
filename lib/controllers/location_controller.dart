@@ -149,6 +149,11 @@ class LocationController extends GetxController {
     );
 
     for (final place in places) {
+      final regionInfo = await Get.find<NaverMapsService>().reverseGeoCode(
+        place.latitude,
+        place.longitude,
+      );
+
       final markerId = 'marker_${place.latitude}_${place.longitude}';
       // print('마커 ID: $markerId, 이름: ${place.name}, 주소: ${place.address}');
 
@@ -174,7 +179,7 @@ class LocationController extends GetxController {
             ),
             showDragHandle: true,
             builder: (_) {
-              return PlaceBottomSheet(place: place);
+              return PlaceBottomSheet(place: place, regionInfo: regionInfo);
             },
           );
         }
@@ -200,7 +205,7 @@ class LocationController extends GetxController {
     initSelectedLocation(); // 선택된 위치 초기화
   }
 
-  // 위치 선택: PublicPlace(공공기관)
+  // 위치 선택: PublicPlace(공공기관): RegionInfo도 같이 설정함
   void selectLocationToPlace(PublicPlace place) {
     selectedPlace.value = place;
     selectedLocationString.value = place.name.isNotEmpty
@@ -210,6 +215,7 @@ class LocationController extends GetxController {
     selectedRegionInfo.value = null;
 
     final latLng = NLatLng(place.latitude, place.longitude);
+    selectLocationToLatLng(latLng);
 
     // 선택된 위치로 카메라 이동
     _mapController.updateCamera(NCameraUpdate.withParams(target: latLng));
@@ -217,7 +223,6 @@ class LocationController extends GetxController {
 
   // 위치 선택: RegionInfo(특정 좌표 -> 도로명주소)
   Future<void> selectLocationToLatLng(NLatLng latLng) async {
-    selectedPlace.value = null;
     selectedRegionInfo.value = await Get.find<NaverMapsService>()
         .reverseGeoCode(latLng.latitude, latLng.longitude);
     selectedLocationString.value =

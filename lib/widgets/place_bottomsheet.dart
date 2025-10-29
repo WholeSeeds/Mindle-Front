@@ -97,8 +97,13 @@ class ComplaintStatCard extends StatelessWidget {
 
 class PlaceBottomSheet extends StatelessWidget {
   final PublicPlace place;
+  final RegionInfo regionInfo;
 
-  const PlaceBottomSheet({super.key, required this.place});
+  const PlaceBottomSheet({
+    super.key,
+    required this.place,
+    required this.regionInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +180,7 @@ class PlaceBottomSheet extends StatelessWidget {
                         Get.to(
                           () => ComplaintFormPage(
                             place: place,
-                            regionInfo: RegionInfo.empty(),
+                            regionInfo: regionInfo,
                           ),
                         );
                       },
