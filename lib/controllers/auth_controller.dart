@@ -2,88 +2,133 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
-
-import 'package:mindle/main.dart';
+import 'package:mindle/services/token_service.dart';
 import 'package:mindle/pages/init/login_page.dart';
 import 'package:mindle/pages/init/phone_number_page.dart';
 import 'package:mindle/pages/init/set_nickname_page.dart';
 import 'package:mindle/pages/init/List_of_linked_accounts_page.dart';
-
-class ProviderInfo {
-  final String id;
-  final String name;
-  final String displayName;
-  final String iconPath;
-  final Function credential;
-
-  const ProviderInfo({
-    required this.id,
-    required this.name,
-    required this.displayName,
-    required this.iconPath,
-    required this.credential,
-  });
-}
+import 'package:mindle/main.dart';
 
 class AuthController extends GetxController {
-  late Rx<User?> _user; // FirebaseAuth로 로그인한 User 객체
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TokenService _tokenService = Get.find<TokenService>();
+
   FirebaseAuth authentication = FirebaseAuth.instance;
+  Rx<User?> _user = Rx<User?>(FirebaseAuth.instance.currentUser);
+
+  // UserController에서 사용할 수 있도록 public getter 추가
+  Rx<User?> get user => _user;
 
   @override
   void onReady() {
     super.onReady();
-    _user = Rx<User?>(authentication.currentUser);
-    _user.bindStream(authentication.userChanges());
+    _user = Rx<User?>(_auth.currentUser);
+    _user.bindStream(_auth.userChanges());
     ever(_user, _handleUserChange);
   }
 
-  _handleUserChange(User? user) async {
-    print("⚠️ user changed !!!");
-    print("User: ${user?.email}");
-    print(
-      "Provider data: ${user?.providerData.map((p) => p.providerId).toList()}",
-    );
+  /// 🔄 유저 상태 변경 감지
+  Future<void> _handleUserChange(User? user) async {
+    print("⚠️ Firebase user changed: ${user?.email}");
 
     if (user == null) {
-      // 0. 로그아웃
       Get.offAll(() => LoginPage());
-    } else if (user.providerData.any((p) => p.providerId == 'phone')) {
-      // 1. 전화번호 인증으로 로그인
-      if (user.providerData.length == 1) {
-        // 전화번호만 있는 경우
-        Get.to(() => SetNicknamePage());
-      } else {
-        // 이미 연동된 계정들이 있는 경우 - AccountLinking 성공
-        print("Account Linking 완료 - 동일 UID: ${user.uid}");
-        Get.offAll(() => RootPage());
-      }
-    } else {
-      // 2. 소셜 계정으로 로그인 - 전화번호 인증 필요
-      final creation = user.metadata.creationTime!;
-      final lastSignIn = user.metadata.lastSignInTime!;
-      final isFirstLogin = creation.difference(lastSignIn).inSeconds.abs() < 1;
+      return;
+    }
 
-      if (isFirstLogin) {
-        Get.to(() => PhoneNumberPage());
-      } else {
-        Get.offAll(() => RootPage());
-      }
+    try {
+      // Firebase → 서버 로그인
+      final token = await user.getIdToken();
+      await _tokenService.loginWithToken(token);
+
+      // 로그인 성공 후 다음 페이지로
+      _navigateAfterLogin(user);
+    } catch (e) {
+      print("❌ 서버 로그인 실패: $e");
+      Get.snackbar('로그인 실패', '서버 인증 중 오류가 발생했습니다.');
+      signOut();
     }
   }
 
-  // Account Linking 시도
+  /// 📍 로그인 후 페이지 전환
+  void _navigateAfterLogin(User user) {
+    print(
+      " navigateAfterLogin${(user.metadata.creationTime!.difference(user.metadata.lastSignInTime!).inSeconds)}",
+    );
+    final isFirstLogin =
+        (user.metadata.creationTime!
+                .difference(user.metadata.lastSignInTime!)
+                .inSeconds)
+            .abs() <
+        10;
+    if (isFirstLogin) {
+      if (user.providerData.length == 1) {
+        Get.to(() => SetNicknamePage());
+      } else {
+        Get.to(() => PhoneNumberPage());
+      }
+    } else {
+      Get.offAll(() => RootPage());
+    }
+  }
+
+  /// ✅ 공통 소셜 로그인 진입점
+  Future<void> signInWithProvider(String providerId) async {
+    try {
+      final credential = await _getSocialCredential(providerId);
+      if (credential == null) return;
+
+      final userCredential = await _auth.signInWithCredential(credential);
+      final idToken = await userCredential.user?.getIdToken();
+
+      if (idToken != null) {
+        _tokenService.setToken(idToken);
+        await _tokenService.loginWithToken(idToken);
+      }
+    } catch (e) {
+      print("🔥 $providerId 로그인 실패: $e");
+      Get.snackbar("로그인 실패", "다시 시도해주세요.");
+    }
+  }
+
+  /// 🔐 providerId 기반 credential 발급
+  Future<AuthCredential?> _getSocialCredential(String providerId) async {
+    switch (providerId) {
+      case 'google.com':
+        final googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) return null;
+        final googleAuth = await googleUser.authentication;
+        return GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+      case 'oidc.kakao':
+        final provider = OAuthProvider('oidc.kakao');
+        final kakao.OAuthToken token = await (await kakao.isKakaoTalkInstalled()
+            ? kakao.UserApi.instance.loginWithKakaoTalk()
+            : kakao.UserApi.instance.loginWithKakaoAccount());
+        return provider.credential(
+          idToken: token.idToken,
+          accessToken: token.accessToken,
+        );
+
+      default:
+        return null;
+    }
+  }
+
+  /// 🔗 계정 연동
   Future<bool> tryAccountLinking(PhoneAuthCredential phoneCredential) async {
     try {
-      User? currentUser = authentication.currentUser;
+      final currentUser = _auth.currentUser;
       if (currentUser == null) return false;
 
       await currentUser.linkWithCredential(phoneCredential);
-
       return true;
     } catch (e) {
       if (e.toString().contains('already-exists') ||
           e.toString().contains('credential-already-in-use')) {
-        // 이미 해당 전화번호로 등록된 계정이 있는 경우 - 계정 선택 페이지로
         await _handleExistingPhoneAccount(phoneCredential);
         return false;
       } else {
@@ -93,7 +138,6 @@ class AuthController extends GetxController {
     }
   }
 
-  // 이미 존재하는 전화번호 계정 처리
   Future<void> _handleExistingPhoneAccount(
     PhoneAuthCredential phoneCredential,
   ) async {
@@ -220,8 +264,11 @@ class AuthController extends GetxController {
     return null;
   }
 
-  // 로그아웃
-  void signOut() {
-    authentication.signOut();
+  /// 🚪 로그아웃
+  Future<void> signOut() async {
+    _tokenService.clearToken();
+    await _auth.signOut();
+    await GoogleSignIn().signOut();
+    Get.offAll(() => LoginPage());
   }
 }

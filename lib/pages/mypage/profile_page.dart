@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Get.put(UserController());
+    final UserController userController = Get.find<UserController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MindleTopAppBar(
@@ -89,7 +89,6 @@ class ProfilePage extends StatelessWidget {
                           "${user.nickname} 님\n안녕하세요!",
                           style: MindleTextStyles.headline1(),
                         ),
-
                         Column(
                           children: [
                             Stack(

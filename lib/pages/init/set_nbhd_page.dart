@@ -77,7 +77,10 @@ class SetNbhdPage extends StatelessWidget {
               width: double.infinity,
               child: MindleTextButton(
                 label: '완료',
-                onPressed: () => Get.toNamed('/'),
+                onPressed: () {
+                  controller.setNeighborhood();
+                  Get.toNamed('/');
+                },
               ),
             ),
             Spacing.vertical20, // 👈 버튼과 화면 하단 간격
