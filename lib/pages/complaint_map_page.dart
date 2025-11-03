@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/complaint_list_controller.dart';
 import 'package:mindle/models/complaint.dart';
 import 'package:mindle/widgets/complaint_card.dart';
-import 'package:mindle/widgets/complaint_marker.dart';
-import 'package:mindle/widgets/simple_complaint_card.dart';
 
 class ComplaintBottomSheet extends StatelessWidget {
   final List<Complaint> complaints;

@@ -5,7 +5,6 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:mindle/controllers/stats_controller.dart';
 import 'package:mindle/controllers/user_controller.dart';
 import 'firebase_options.dart';
-
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:mindle/controllers/bottom_nav_controller.dart';
 import 'package:mindle/controllers/auth_controller.dart';

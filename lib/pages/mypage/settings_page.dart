@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-
 import 'package:mindle/controllers/auth_controller.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/main.dart';

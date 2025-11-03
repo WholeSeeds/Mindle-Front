@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/models/complaint.dart';
 import 'package:mindle/models/complaint_status.dart';
-
 import 'package:mindle/widgets/align_options_button.dart';
 import 'package:mindle/widgets/complaint_card.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';

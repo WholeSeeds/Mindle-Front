@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/services/svg_cache_service.dart';
@@ -76,7 +75,7 @@ class ComplaintMarkerPainter extends CustomPainter {
       height: markerSize,
       color: MindleColors.gray5,
     );
-    
+
     if (shadowPicture != null) {
       canvas.save();
       canvas.translate(1, 1); // 그림자 오프셋
@@ -90,7 +89,7 @@ class ComplaintMarkerPainter extends CustomPainter {
       width: markerSize,
       height: markerSize,
     );
-    
+
     if (mainPicture != null) {
       canvas.drawPicture(mainPicture);
     }
@@ -102,7 +101,7 @@ class ComplaintMarkerPainter extends CustomPainter {
   void _drawCountBadge(Canvas canvas, Size size) {
     const badgeSize = 20.0;
     const badgeRadius = badgeSize / 2;
-    
+
     // 뱃지 위치 계산 (우상단)
     final badgeCenter = Offset(
       size.width - 3 - badgeRadius,
@@ -113,7 +112,7 @@ class ComplaintMarkerPainter extends CustomPainter {
     final badgePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-    
+
     canvas.drawCircle(badgeCenter, badgeRadius, badgePaint);
 
     // 뱃지 테두리 그리기
@@ -121,7 +120,7 @@ class ComplaintMarkerPainter extends CustomPainter {
       ..color = levelColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
-    
+
     canvas.drawCircle(badgeCenter, badgeRadius, borderPaint);
 
     // 텍스트 그리기
@@ -136,22 +135,22 @@ class ComplaintMarkerPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     );
-    
+
     textPainter.layout();
-    
+
     final textOffset = Offset(
       badgeCenter.dx - textPainter.width / 2,
       badgeCenter.dy - textPainter.height / 2,
     );
-    
+
     textPainter.paint(canvas, textOffset);
   }
 
   @override
   bool shouldRepaint(ComplaintMarkerPainter oldDelegate) {
     return oldDelegate.iconPath != iconPath ||
-           oldDelegate.complaintCount != complaintCount ||
-           oldDelegate.levelColor != levelColor ||
-           oldDelegate.markerSize != markerSize;
+        oldDelegate.complaintCount != complaintCount ||
+        oldDelegate.levelColor != levelColor ||
+        oldDelegate.markerSize != markerSize;
   }
 }

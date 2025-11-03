@@ -11,7 +11,6 @@ import 'package:mindle/services/naver_maps_service.dart';
 import 'package:mindle/services/svg_cache_service.dart';
 import 'package:mindle/widgets/place_bottomsheet.dart';
 import 'package:mindle/widgets/place_marker_label.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LocationController extends GetxController {
   // 현재 위치를 저장할 변수

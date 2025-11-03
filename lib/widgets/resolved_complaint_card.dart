@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mindle/models/complaint.dart';
 import '../designs.dart';

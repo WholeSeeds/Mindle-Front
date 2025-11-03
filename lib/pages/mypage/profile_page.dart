@@ -1,11 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mindle/controllers/user_controller.dart';
 import 'package:mindle/designs.dart';
-
 import 'package:mindle/pages/mypage/my_complaints_page.dart';
 import 'package:mindle/pages/mypage/liked_complaints_page.dart';
 import 'package:mindle/pages/mypage/commented_complaints_page.dart';
