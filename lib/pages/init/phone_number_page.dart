@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/phone_auth_controller.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/pages/init/code_input_page.dart';
+import 'package:mindle/widgets/mindle_textbutton.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
 
 class PhoneNumberPage extends StatelessWidget {
@@ -26,43 +27,54 @@ class PhoneNumberPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: MindleTopAppBar(title: '전화번호 인증'),
+      appBar: MindleTopAppBar(title: '휴대폰 번호 인증'),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: controller.formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("인증코드를 받을 전화번호를 입력해주세요.", style: TextStyle(fontSize: 18)),
-              Spacing.vertical24,
+              Spacing.vertical12,
+              Text("휴대폰 번호 인증", style: MindleTextStyles.headline1()),
+              Spacing.vertical12,
+              Text(
+                "인증코드를 받을 전화번호를 입력해주세요",
+                style: MindleTextStyles.body1(color: MindleColors.gray1),
+              ),
+              SizedBox(height: 48),
               TextFormField(
                 keyboardType: TextInputType.phone,
                 validator: (value) => controller.validator(value),
                 controller: controller.phoneNumberController,
                 decoration: InputDecoration(
-                  hintText: '전화번호 입력',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  hintText: '휴대폰 번호 입력 (예: 01012345678)',
+                  hintStyle: MindleTextStyles.body1(color: MindleColors.gray8),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12,
-                    vertical: 8,
+                    vertical: 10,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: MindleColors.gray6),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: MindleColors.mainGreen),
                   ),
                 ),
               ),
               const Spacer(),
               SizedBox(
                 width: double.infinity,
-                height: 50,
-                child: FilledButton(
-                  onPressed: handleSubmit,
-                  style: FilledButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text('인증코드 받기'),
+                child: MindleTextButton(
+                  label: '인증코드 받기',
+                  onPressed: () {
+                    handleSubmit();
+                  },
+                  textColor: Colors.white,
+                  backgroundColor: MindleColors.mainGreen,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],

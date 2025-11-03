@@ -50,7 +50,7 @@ class ComplaintDetailController extends GetxController {
     _dio = Dio(
       BaseOptions(
         baseUrl:
-            "http://${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
+            "${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
         headers: {'Authorization': 'Bearer $token'},
         connectTimeout: const Duration(seconds: 30),
       ),
@@ -68,7 +68,7 @@ class ComplaintDetailController extends GetxController {
   Future<void> loadComplaintDetail(String complaintId) async {
     await _ensureDio();
     print(
-      "Base URL: http://${dotenv.env['SERVER_HOST']}:${dotenv.env['SERVER_PORT']}/api",
+      "Base URL: ${dotenv.env['SERVER_HOST']}:${dotenv.env['SERVER_PORT']}/api",
     );
 
     try {
@@ -103,6 +103,25 @@ class ComplaintDetailController extends GetxController {
         }
 
         // TODO: 댓글 로딩 api 에러 고쳐지면 반영
+        // 임시로 댓글 넣기
+        comments.clear();
+        comments.addAll([
+          Comment(
+            id: 1,
+            nickname: '짠짜란',
+            content: '맞아요 너무 공감합니다',
+            createdAt: DateTime.now().subtract(const Duration(minutes: 10)),
+            numLikes: 2,
+          ),
+          Comment(
+            id: 2,
+            nickname: '밍들레',
+            content: '저도 어제 길가다가 봤는데 정말 심각하더라고요',
+            createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+            numLikes: 3,
+          ),
+        ]);
+
         // await loadComments(complaintDetail!.id);
         update();
       } else {
@@ -228,6 +247,26 @@ class ComplaintDetailController extends GetxController {
   void toggleExpanded() {
     isExpanded = !isExpanded;
     update();
+  }
+
+  /// 민원 삭제
+  Future<bool> deleteComplaint(String complaintId) async {
+    await _ensureDio();
+
+    try {
+      final response = await _dio!.delete('/complaint/$complaintId');
+
+      if (response.statusCode == 200) {
+        Get.snackbar('성공', '민원이 삭제되었습니다');
+        return true;
+      } else {
+        throw Exception('민원 삭제 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('민원 삭제 에러: $e');
+      Get.snackbar('오류', '민원 삭제에 실패했습니다');
+      return false;
+    }
   }
 
   @override

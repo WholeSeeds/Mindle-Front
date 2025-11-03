@@ -27,12 +27,108 @@ class ComplaintFormPage extends StatelessWidget {
     final controller = Get.put(ComplaintController());
     return Scaffold(
       appBar: MindleTopAppBar(title: "민원 작성"),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 🔴 부적절한 단어 경고 말풍선
+            Obx(() {
+              final hasWarning =
+                  controller.titleProfanityWarning.value.isNotEmpty ||
+                  controller.contentProfanityWarning.value.isNotEmpty;
+              if (!hasWarning) return const SizedBox.shrink();
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.red, width: 2),
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  '부적절한 단어가 포함되어있어요!',
+                  style: MindleTextStyles.body4(
+                    color: MindleColors.black,
+                  ).copyWith(fontWeight: FontWeight.w600),
+                ),
+              );
+            }),
+
+            // ✅ 민원 보내기 버튼
+            Obx(
+              () => SizedBox(
+                width: double.infinity, // 💡 좌우 꽉 채우기
+                child: MindleTextButton(
+                  label: '민원 보내기',
+                  onPressed: () async {
+                    final navigator = Navigator.of(context);
+                    try {
+                      print('민원 제출 시작');
+                      final isSuccess = await controller.submitComplaint(
+                        place: place,
+                        regionInfo: regionInfo,
+                      );
+                      print('isSuccess: $isSuccess');
+                      if (isSuccess) {
+                        print('화면 닫기 시도');
+                        if (navigator.canPop()) {
+                          print('Navigator에서 pop 가능 - Navigator.pop() 사용');
+                          navigator.pop();
+                          print('Navigator.pop() 완료');
+                        } else {
+                          print('Navigator에서 pop 불가능');
+                        }
+                      } else {
+                        print('민원 제출 실패 - isSuccess가 false');
+                      }
+                      print('민원 제출 완료');
+                    } catch (e) {
+                      print('민원 제출 중 오류: $e');
+                      Get.snackbar('오류', '민원 제출 중 오류가 발생했습니다.');
+                    }
+                  },
+                  textColor:
+                      (controller.selectedMainCategory.value == null ||
+                          controller.title.value.isEmpty ||
+                          controller.content.value.isEmpty ||
+                          controller.titleProfanityWarning.value.isNotEmpty ||
+                          controller.contentProfanityWarning.value.isNotEmpty)
+                      ? gray5
+                      : Colors.white,
+                  backgroundColor:
+                      (controller.selectedMainCategory.value == null ||
+                          controller.title.value.isEmpty ||
+                          controller.content.value.isEmpty ||
+                          controller.titleProfanityWarning.value.isNotEmpty ||
+                          controller.contentProfanityWarning.value.isNotEmpty)
+                      ? gray4
+                      : mainGreen,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Stack(
           children: [
             SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   // 위치 정보 표시
                   (place != null)
@@ -113,16 +209,55 @@ class ComplaintFormPage extends StatelessWidget {
                           )
                         : Container(),
                   ),
-                  MindleTextField(
-                    hint: '제목을 입력해주세요',
-                    onChanged: (v) => controller.title.value = v,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MindleTextField(
+                        hint: '제목을 입력해주세요',
+                        onChanged: (v) => controller.updateTitle(v),
+                      ),
+                      // Obx(
+                      //   () => controller.titleProfanityWarning.value.isNotEmpty
+                      //       ? Padding(
+                      //           padding: const EdgeInsets.only(top: 4.0),
+                      //           child: Text(
+                      //             controller.titleProfanityWarning.value,
+                      //             style: const TextStyle(
+                      //               color: Colors.red,
+                      //               fontSize: 12,
+                      //             ),
+                      //           ),
+                      //         )
+                      //       : Container(),
+                      // ),
+                    ],
                   ),
                   const SizedBox(height: 10),
-                  MindleTextField(
-                    hint: '어떤 점이 불편하셨나요?',
-                    maxLines: 5,
-                    maxLength: 200,
-                    onChanged: (v) => controller.content.value = v,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MindleTextField(
+                        hint: '어떤 점이 불편하셨나요?',
+                        maxLines: 5,
+                        maxLength: 200,
+                        onChanged: (v) => controller.updateContent(v),
+                      ),
+                      // Obx(
+                      //   () =>
+                      //       controller.contentProfanityWarning.value.isNotEmpty
+                      //       ? Padding(
+                      //           padding: const EdgeInsets.only(top: 4.0),
+                      //           child: Text(
+                      //             controller.contentProfanityWarning.value,
+                      //             style: const TextStyle(
+                      //               color: Colors.red,
+                      //               fontSize: 12,
+                      //             ),
+                      //           ),
+                      //         )
+                      //       : Container(),
+                      // ),
+                    ],
                   ),
                   Spacing.vertical20,
 
@@ -172,35 +307,6 @@ class ComplaintFormPage extends StatelessWidget {
                   ),
                   Spacing.vertical20,
                 ],
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 20,
-              child: Obx(
-                () => MindleTextButton(
-                  label: '민원 보내기',
-                  onPressed: () {
-                    controller.submitComplaint(
-                      place: place,
-                      regionInfo: regionInfo,
-                    ); // 둘 중 하나, 혹은 둘 다 null인 상태로 submit됨
-                    Get.back();
-                  },
-                  textColor:
-                      (controller.selectedMainCategory.value == null ||
-                          controller.title.value.isEmpty ||
-                          controller.content.value.isEmpty)
-                      ? gray5
-                      : Colors.white,
-                  backgroundColor:
-                      (controller.selectedMainCategory.value == null ||
-                          controller.title.value.isEmpty ||
-                          controller.content.value.isEmpty)
-                      ? gray4
-                      : mainGreen,
-                ),
               ),
             ),
           ],

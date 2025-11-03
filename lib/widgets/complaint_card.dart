@@ -19,7 +19,7 @@ class ComplaintCard extends StatelessWidget {
     final hasImage = complaint.hasImage;
 
     // TODO: complaint 모델 필드에 위치정보 추가해서 사용하기
-    final String? location = "의정부시 호원동"; // 임시 위치 정보
+    final String? location = "의정부시 의정부2동"; // 임시 위치 정보
     // final String? location = null; // 임시 위치 정보
 
     return Container(
@@ -68,10 +68,13 @@ class ComplaintCard extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Icon(
-                          Icons.image,
-                          size: 32,
-                          color: Colors.grey.shade400,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            'assets/icons/filled/Logo.svg',
+                            width: 24, // SVG 본래 크기 유지
+                            height: 24, // SVG 본래 크기 유지
+                            color: MindleColors.gray5,
+                          ),
                         ),
                       ),
                     ),
@@ -85,7 +88,9 @@ class ComplaintCard extends StatelessWidget {
                           title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: MindleTextStyles.subtitle3(),
+                          style: MindleTextStyles.body1().copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         Spacing.vertical4,
                         Text(
@@ -104,17 +109,6 @@ class ComplaintCard extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(
-                    'assets/icons/empty/Heart.svg',
-                    width: 18,
-                    height: 18,
-                  ),
-                  const SizedBox(width: 2),
-                  Text(
-                    '$numLikes',
-                    style: MindleTextStyles.body2(color: MindleColors.gray1),
-                  ),
-                  const SizedBox(width: 10),
-                  SvgPicture.asset(
                     'assets/icons/empty/Message_square.svg',
                     width: 18,
                     height: 18,
@@ -122,6 +116,18 @@ class ComplaintCard extends StatelessWidget {
                   const SizedBox(width: 2),
                   Text(
                     '$numComments',
+                    style: MindleTextStyles.body2(color: MindleColors.gray1),
+                  ),
+                  const SizedBox(width: 10),
+
+                  SvgPicture.asset(
+                    'assets/icons/empty/Heart.svg',
+                    width: 18,
+                    height: 18,
+                  ),
+                  const SizedBox(width: 2),
+                  Text(
+                    '$numLikes',
                     style: MindleTextStyles.body2(color: MindleColors.gray1),
                   ),
                   const Spacer(),

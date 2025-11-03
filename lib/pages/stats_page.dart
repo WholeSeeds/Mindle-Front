@@ -23,11 +23,11 @@ class StatsPage extends StatelessWidget {
             children: [
               Text(
                 '* 예시 페이지입니다.',
-                style: MindleTextStyles.body1(color: MindleColors.errorRed),
+                style: MindleTextStyles.body3(color: MindleColors.errorRed),
               ),
               Text(
                 '* 해당 통계는 정부 기관을 통한 실제 데이터가 아님을 알려드립니다.',
-                style: MindleTextStyles.body1(color: MindleColors.errorRed),
+                style: MindleTextStyles.body3(color: MindleColors.errorRed),
               ),
               SizedBox(height: 20),
               // RegionTop5Section(),
@@ -454,12 +454,7 @@ class PieChartSection extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          '최다민원신청',
-                          style: MindleTextStyles.body1().copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        Text('최다민원신청', style: MindleTextStyles.body5()),
                         Text(
                           '${controller.pieChartData.first['word']}시',
                           style: MindleTextStyles.subtitle2(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mindle/designs.dart';
 
 class MindleTextButton extends StatelessWidget {
   final String label;
@@ -7,6 +8,8 @@ class MindleTextButton extends StatelessWidget {
   final Color textColor;
   final Color backgroundColor;
   final double fontSize;
+  final FontWeight fontWeight;
+  final bool hasBorder;
 
   static const Color mainGreen = Color(0xFF00D482);
 
@@ -18,6 +21,8 @@ class MindleTextButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.backgroundColor = mainGreen,
     this.fontSize = 15,
+    this.fontWeight = FontWeight.w500,
+    this.hasBorder = false,
   }) : super(key: key);
 
   @override
@@ -29,10 +34,16 @@ class MindleTextButton extends StatelessWidget {
         style: TextButton.styleFrom(
           foregroundColor: textColor,
           backgroundColor: backgroundColor,
+          side: (hasBorder)
+              ? const BorderSide(color: MindleColors.gray6, width: 1.0)
+              : BorderSide.none,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text(label, style: TextStyle(fontSize: fontSize)),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+          ),
         ),
       ),
     );

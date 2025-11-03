@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mindle/widgets/resolved_complaint_card.dart';
 import 'package:mindle/widgets/hero_profile_card.dart';
 import 'package:mindle/widgets/mindle_drawer.dart';
+import 'package:mindle/widgets/simple_complaint_card.dart';
 import '../designs.dart';
 import '../widgets/mindle_chip.dart';
 import '../models/complaint.dart';
@@ -20,7 +21,11 @@ final List<Complaint> _complaintData = [
     complaintStatus: ComplaintStatus.solved,
     hasImage: true,
     // TODO: 실제 이미지 URL로 교체 필요
-    // imageUrl: 'https://picsum.photos/120/120?random=11'
+    imageUrl: 'https://picsum.photos/120/120?random=11',
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 2,
@@ -29,28 +34,40 @@ final List<Complaint> _complaintData = [
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
     numLikes: 45,
     numComments: 2,
-    complaintStatus: ComplaintStatus.waiting,
+    complaintStatus: ComplaintStatus.solved,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 3,
-    title: "횡단보도 선이 거의 지워졌어요",
+    title: "판교역 가로등이 쓰러졌습니다",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
     numLikes: 45,
     numComments: 2,
-    complaintStatus: ComplaintStatus.solving,
+    complaintStatus: ComplaintStatus.solved,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 4,
-    title: "횡단보도 선이 거의 지워졌어요",
+    title: "하수구 냄새때문에 미쳐요",
     content:
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
     numLikes: 45,
     numComments: 2,
-    complaintStatus: ComplaintStatus.waiting,
+    complaintStatus: ComplaintStatus.solved,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 5,
@@ -59,8 +76,12 @@ final List<Complaint> _complaintData = [
         "근처 초등학교 앞 횡단보도의 흰색 선이 다 닳아 없어졌습니다. 아이들 통학길인데 매우 위험해 보여요. 빠른 재도색 요청드립니다.",
     numLikes: 45,
     numComments: 2,
-    complaintStatus: ComplaintStatus.waiting,
+    complaintStatus: ComplaintStatus.solved,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
 ];
 
@@ -318,19 +339,28 @@ class _TopComplaintSection extends StatelessWidget {
           Text('우리 동네 공감 1등 민원', style: MindleTextStyles.subtitle2()),
           Spacing.vertical12,
           // TODO: 공감 1등 민원 콘텐츠 추가
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.construction,
-                  size: 30,
-                  color: MindleColors.gray5,
-                ),
-                const SizedBox(height: 2),
-                Text('서비스 준비중입니다.', style: MindleTextStyles.body5()),
-              ],
-            ),
+          SimpleComplaintCard(
+            label1: '도시환경 / 공원시설물 점검 요청',
+            label2: '놀이터 미끄럼틀이 부러져있어서 위험해 보여요',
+            regionLabel: '성남시 수정구',
+            commentCount: 45,
+            likeCount: 230,
+          ),
+          Spacing.vertical4,
+          SimpleComplaintCard(
+            label1: '주거환경 / 생활소음신고',
+            label2: '밤마다 들리는 공사장 소리에 잠을 못 자요ㅠㅠ',
+            regionLabel: '수원시 장안구',
+            commentCount: 24,
+            likeCount: 44,
+          ),
+          Spacing.vertical4,
+          SimpleComplaintCard(
+            label1: '주거환경 / 청소 및 방역 요청',
+            label2: '하수구에서 악취가 계속 올라와요',
+            regionLabel: '용인시 처인구',
+            commentCount: 12,
+            likeCount: 24,
           ),
         ],
       ),

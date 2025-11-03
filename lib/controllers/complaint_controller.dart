@@ -9,9 +9,11 @@ import 'package:mindle/models/category.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:mindle/models/region_info.dart';
 import 'package:mindle/services/category_service.dart';
+import 'package:mindle/services/profanity_service.dart';
 
 class ComplaintController extends GetxController {
   final CategoryService _categoryService = CategoryService();
+  final ProfanityService _profanityService = ProfanityService();
 
   final RxList<Category> categories = <Category>[].obs;
   final Rxn<Category> selectedMainCategory = Rxn<Category>();
@@ -21,6 +23,9 @@ class ComplaintController extends GetxController {
   final content = ''.obs;
   final RxList<XFile?> images = <XFile?>[].obs;
   final ImagePicker _picker = ImagePicker();
+
+  final titleProfanityWarning = ''.obs;
+  final contentProfanityWarning = ''.obs;
 
   @override
   void onInit() {
@@ -46,6 +51,54 @@ class ComplaintController extends GetxController {
 
   void selectSubCategory(Category category) {
     selectedSubCategory.value = category;
+  }
+
+  void updateTitle(String value) {
+    title.value = value;
+    _checkTitleProfanity(value);
+  }
+
+  void updateContent(String value) {
+    content.value = value;
+    _checkContentProfanity(value);
+  }
+
+  void _checkTitleProfanity(String text) async {
+    if (text.isEmpty) {
+      titleProfanityWarning.value = '';
+      return;
+    }
+
+    try {
+      final result = await _profanityService.checkProfanity(text);
+      if (!result.passed) {
+        final profanities = result.hits.map((hit) => hit.profanity).join(', ');
+        titleProfanityWarning.value = '부적절한 표현: $profanities';
+      } else {
+        titleProfanityWarning.value = '';
+      }
+    } catch (e) {
+      titleProfanityWarning.value = '';
+    }
+  }
+
+  void _checkContentProfanity(String text) async {
+    if (text.isEmpty) {
+      contentProfanityWarning.value = '';
+      return;
+    }
+
+    try {
+      final result = await _profanityService.checkProfanity(text);
+      if (!result.passed) {
+        final profanities = result.hits.map((hit) => hit.profanity).join(', ');
+        contentProfanityWarning.value = '부적절한 표현: $profanities';
+      } else {
+        contentProfanityWarning.value = '';
+      }
+    } catch (e) {
+      contentProfanityWarning.value = '';
+    }
   }
 
   // 이미지 추가: 카메라
@@ -82,13 +135,43 @@ class ComplaintController extends GetxController {
 
   // 민원 등록 서버에 요청 보내기
   // 둘 다 있음 / regionInfo만 있음 / 둘다 null
-  void submitComplaint({PublicPlace? place, RegionInfo? regionInfo}) async {
+  Future<bool> submitComplaint({
+    PublicPlace? place,
+    RegionInfo? regionInfo,
+  }) async {
     final categoryId =
         selectedSubCategory.value?.id ?? selectedMainCategory.value?.id;
 
     if (categoryId == null || title.value.isEmpty || content.value.isEmpty) {
       Get.snackbar('오류!', '모든 항목을 입력해주세요');
-      return;
+      return false;
+    }
+
+    try {
+      final titleCheck = await _profanityService.checkProfanity(title.value);
+      final contentCheck = await _profanityService.checkProfanity(
+        content.value,
+      );
+
+      if (!titleCheck.passed) {
+        final profanities = titleCheck.hits
+            .map((hit) => hit.profanity)
+            .join(', ');
+        Get.snackbar('부적절한 내용', '제목에 부적절한 표현이 포함되어 있습니다.');
+        return false;
+      }
+
+      if (!contentCheck.passed) {
+        final profanities = contentCheck.hits
+            .map((hit) => hit.profanity)
+            .join(', ');
+        Get.snackbar('부적절한 내용', '내용에 부적절한 표현이 포함되어 있습니다.');
+        return false;
+      }
+    } catch (e) {
+      print('비속어 검사 실패: $e');
+      Get.snackbar('오류', '내용 검사 중 오류가 발생했습니다. 다시 시도해주세요.');
+      return false;
     }
 
     final token = await FirebaseAuth.instance.currentUser?.getIdToken();
@@ -96,7 +179,7 @@ class ComplaintController extends GetxController {
     final dio.Dio dioClient = dio.Dio(
       dio.BaseOptions(
         baseUrl:
-            "http://${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
+            "${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
         headers: {'Authorization': 'Bearer $token'},
       ),
     );
@@ -148,9 +231,11 @@ class ComplaintController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('민원 등록 응답: ${response.statusCode} ${response.data}');
       Get.snackbar('성공!', '민원이 등록되었습니다');
+      return true;
     } else {
       print('민원 등록 실패: ${response.statusCode} ${response.data}');
       Get.snackbar('오류!', '민원 등록에 실패했습니다');
+      return false;
     }
   }
 }

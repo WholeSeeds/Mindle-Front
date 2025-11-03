@@ -19,6 +19,10 @@ final List<Complaint> _complaintData = [
     numComments: 45,
     complaintStatus: ComplaintStatus.solved,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 2,
@@ -29,6 +33,10 @@ final List<Complaint> _complaintData = [
     numComments: 2,
     complaintStatus: ComplaintStatus.waiting,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 3,
@@ -39,6 +47,10 @@ final List<Complaint> _complaintData = [
     numComments: 2,
     complaintStatus: ComplaintStatus.solving,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 4,
@@ -49,6 +61,10 @@ final List<Complaint> _complaintData = [
     numComments: 2,
     complaintStatus: ComplaintStatus.waiting,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
   Complaint(
     id: 5,
@@ -59,6 +75,10 @@ final List<Complaint> _complaintData = [
     numComments: 2,
     complaintStatus: ComplaintStatus.waiting,
     hasImage: true,
+    createdAt: DateTime.now().subtract(const Duration(days: 10)),
+    resolved: false,
+    latitude: 37.123456,
+    longitude: 127.123456,
   ),
 ];
 
@@ -119,7 +139,12 @@ class LikedComplaintsPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AlignOptionsButton(),
+                  Spacing.vertical20,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Spacer(), AlignOptionsButton()],
+                  ),
+                  Spacing.vertical12,
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

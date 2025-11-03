@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mindle/models/complaint.dart';
 import '../designs.dart';
@@ -11,7 +13,10 @@ class ResolvedComplaintCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: 이미지 URL과 기타 정보 하드코딩된 부분을 실제 데이터로 교체
-    const String afterImageUrl = 'https://picsum.photos/280/120?random=3';
+    final random = Random();
+    final afterImageUrl =
+        'https://picsum.photos/120/120?random=${random.nextInt(1000)}';
+    // const String afterImageUrl = 'https://picsum.photos/280/120?random=3';
     const location = '서울시 강남구';
     final status = complaint.complaintStatus;
 

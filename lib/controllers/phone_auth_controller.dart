@@ -19,10 +19,25 @@ class PhoneAuthController extends GetxController {
   );
   final List<FocusNode> focusNodes = List.generate(6, (_) => FocusNode());
 
+  // 추가: RxString으로 입력 상태 감시
+  final List<RxString> codeTexts = List.generate(6, (_) => ''.obs);
+
   // 계정 연동 관련
   final isGoogleLinked = false.obs;
   final isKakaoLinked = false.obs;
   final isNaverLinked = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    // 각 TextEditingController에 listener 연결
+    for (int i = 0; i < codeControllers.length; i++) {
+      codeControllers[i].addListener(() {
+        codeTexts[i].value = codeControllers[i].text;
+      });
+    }
+  }
 
   @override
   void onClose() {

@@ -5,6 +5,7 @@
 import 'package:get/get.dart';
 import 'package:mindle/main.dart';
 import 'package:mindle/pages/complaint_detail_page.dart';
+import 'package:mindle/pages/complaint_map_page.dart';
 import 'package:mindle/pages/inside_page.dart';
 import 'package:mindle/pages/init/init_page.dart';
 
@@ -24,4 +25,5 @@ List<GetPage> allPages = [
       return ComplaintDetailPage(complaintId: complaintId);
     },
   ),
+  GetPage(name: '/complaint_map', page: () => const ComplaintMapPage()),
 ];

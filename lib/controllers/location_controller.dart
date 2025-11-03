@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mindle/designs.dart';
 import 'package:mindle/models/public_place.dart';
 import 'package:mindle/models/region_info.dart';
 import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/services/naver_maps_service.dart';
+import 'package:mindle/services/svg_cache_service.dart';
 import 'package:mindle/widgets/place_bottomsheet.dart';
+import 'package:mindle/widgets/place_marker_label.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LocationController extends GetxController {
   // 현재 위치를 저장할 변수
@@ -31,6 +35,19 @@ class LocationController extends GetxController {
   late NLocationOverlay _locationOverlay;
   // 네이버 지도 준비 상태
   bool _isMapReady = false;
+
+  final SvgCacheService _svgCache = SvgCacheService();
+  // ✅ 미리 캐싱할 SVG 경로
+  static const String _clusterSvgPath = 'assets/icons/place-marker.svg';
+
+  @override
+  void onInit() {
+    super.onInit();
+    // 앱 시작 시 미리 캐싱
+    _svgCache.preloadSvgs([
+      const SvgPreloadConfig(assetPath: _clusterSvgPath, width: 70, height: 70),
+    ]);
+  }
 
   // 권한 여부를 반환하는 메소드
   Future<bool> _handlePermission() async {
@@ -76,6 +93,15 @@ class LocationController extends GetxController {
   void setMapController(NaverMapController controller) async {
     _mapController = controller;
     _locationOverlay = _mapController.getLocationOverlay();
+
+    // 위치 오버레이 스타일 설정
+    _locationOverlay.setCircleColor(MindleColors.mainGreen.withOpacity(0.3));
+    _locationOverlay.setCircleRadius(65);
+    _locationOverlay.setCircleOutlineColor(
+      MindleColors.mainGreen.withOpacity(0.1),
+    );
+    _locationOverlay.setCircleOutlineWidth(50.0);
+
     _isMapReady = true;
 
     // 이거 없애면 위치 오버레이가 안 보임...
@@ -104,8 +130,8 @@ class LocationController extends GetxController {
     _positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.best,
-        // distanceFilter: 10, // 10미터 이상 이동 시 업데이트
-        distanceFilter: 0, // 테스트용: 이동 여부와 관계없이 일정 초마다 업데이트
+        distanceFilter: 10, // 10미터 이상 이동 시 업데이트
+        // distanceFilter: 10, // 테스트용: 이동 여부와 관계없이 일정 초마다 업데이트
       ),
     );
 
@@ -160,10 +186,16 @@ class LocationController extends GetxController {
       final marker = NClusterableMarker(
         id: markerId,
         position: NLatLng(place.latitude, place.longitude),
+        icon: await NOverlayImage.fromWidget(
+          widget: PlaceMarkerLabel(key: UniqueKey(), name: place.name),
+          size: const Size(150, 50),
+          context: Get.context!,
+        ),
       );
 
       // 마커 탭했을 시
       marker.setOnTapListener((overlay) {
+        print(marker.info);
         if (isSelectingLocation.value) {
           // 위치 선택 모드일 때는 선택된 위치로 설정
           selectLocationToPlace(place);

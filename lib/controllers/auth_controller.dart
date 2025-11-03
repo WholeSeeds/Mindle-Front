@@ -60,15 +60,18 @@ class AuthController extends GetxController {
                 .difference(user.metadata.lastSignInTime!)
                 .inSeconds)
             .abs() <
-        10;
+        11111111;
     if (isFirstLogin) {
-      if (user.providerData.length == 1) {
-        Get.to(() => SetNicknamePage());
-      } else {
-        Get.to(() => PhoneNumberPage());
-      }
-    } else {
+      // if (user.providerData.length == 1) {
+      //   Get.to(() => SetNicknamePage());
+      // } else {
+      //   Get.to(() => PhoneNumberPage());
+      // }
+      // TODO: 수정할 로직
       Get.offAll(() => RootPage());
+      if (user.phoneNumber == null || user.phoneNumber!.isEmpty) {
+        Get.to(() => PhoneNumberPage());
+      } else {}
     }
   }
 

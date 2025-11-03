@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:mindle/controllers/stats_controller.dart';
+import 'package:mindle/controllers/user_controller.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -16,6 +18,7 @@ import 'package:mindle/designs.dart';
 import 'package:mindle/route_pages.dart';
 import 'package:mindle/services/google_place_service.dart';
 import 'package:mindle/services/naver_maps_service.dart';
+import 'package:mindle/services/token_service.dart';
 import 'package:mindle/widgets/mindle_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 import 'package:mindle/widgets/mindle_snackbar.dart';
@@ -26,7 +29,7 @@ void main() async {
   try {
     await dotenv.load(fileName: ".env");
     print('✅ .env 파일 로드 성공');
-    
+
     // LiveKit 설정 확인
     print('📡 LiveKit 설정:');
     print('   SERVER_URL: ${dotenv.env['LIVEKIT_SERVER_URL']}');
@@ -38,6 +41,7 @@ void main() async {
   // 구글 로그인을 위한 Firebase 초기화
   try {
     await Firebase.initializeApp(
+      name: 'WholeSeedsApp',
       options: DefaultFirebaseOptions.currentPlatform,
     );
     print('✅ Firebase 초기화 성공');
@@ -45,6 +49,9 @@ void main() async {
     print('❌ Firebase 초기화 실패: $e');
     print('Firebase 없이 앱을 계속 진행합니다.');
   }
+
+  // 토큰 서비스 초기화 (AuthController보다 먼저)
+  Get.put(TokenService());
 
   // Firebase 초기화 여부와 관계없이 컨트롤러는 항상 생성
   // (Firebase 초기화 실패 시 AuthController 내부에서 null 체크로 처리)
@@ -80,7 +87,11 @@ void main() async {
   Get.put(BottomNavController());
   Get.put(LocationController());
   Get.put(NbhdController());
-  Get.put(ComplaintController());
+  Get.lazyPut(() => ComplaintController());
+  Get.put(StatsController());
+
+  // UserController는 AuthController와 TokenService가 초기화된 후에 생성
+  Get.put(UserController());
   Get.put(
     NaverMapsService(
       clientId: dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '',

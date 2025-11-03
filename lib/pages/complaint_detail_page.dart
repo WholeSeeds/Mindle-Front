@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mindle/controllers/complaint_detail_controller.dart';
 import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/mindle_top_appbar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ComplaintDetailPage extends StatelessWidget {
   final int complaintId;
@@ -28,6 +29,18 @@ class ComplaintDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final badgePathList = [
+      'assets/icons/Badge1.svg',
+      'assets/icons/Badge2.svg',
+      'assets/icons/Badge3.svg',
+      'assets/icons/Badge4.svg',
+      'assets/icons/Badge5.svg',
+      'assets/icons/Badge6.svg',
+      'assets/icons/Badge7.svg',
+      'assets/icons/Badge8.svg',
+      'assets/icons/Badge9.svg',
+      'assets/icons/Badge10.svg',
+    ];
     return GetBuilder<ComplaintDetailController>(
       init: ComplaintDetailController()
         ..loadComplaintDetail(complaintId.toString()),
@@ -102,16 +115,16 @@ class ComplaintDetailPage extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 20,
+                        radius: 22,
                         backgroundColor: gray3,
                         child: Image.asset(
                           'assets/images/Group 1707485733.png',
-                          width: 20,
-                          height: 20,
+                          width: 22,
+                          height: 22,
                           color: gray5,
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
 
                       // 닉네임 + 날짜를 Column으로 묶음
                       Column(
@@ -140,16 +153,45 @@ class ComplaintDetailPage extends StatelessWidget {
                       ),
 
                       const Spacer(),
-                      Image.asset(
-                        "assets/images/dots-vertical.png",
-                        width: 24,
-                        height: 24,
-                        color: gray1,
+                      PopupMenuButton<String>(
+                        icon: SvgPicture.asset(
+                          "assets/icons/dots-vertical.svg",
+                          width: 22,
+                          height: 22,
+                        ),
+                        onSelected: (value) {
+                          if (value == 'delete') {
+                            _showDeleteConfirmDialog(
+                              context,
+                              controller,
+                              complaintId,
+                            );
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem<String>(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete, color: errorRed, size: 20),
+                                SizedBox(width: 8),
+                                Text(
+                                  '삭제하기',
+                                  style: MindleTextStyles.body3(
+                                    color: errorRed,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Spacing.vertical20,
 
+                  Spacing.vertical8,
+                  Divider(color: gray4, thickness: 1),
+                  Spacing.vertical8,
                   // 제목과 처리완료 배지
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,14 +208,10 @@ class ComplaintDetailPage extends StatelessWidget {
                         ),
                       ),
                       Spacing.horizontal8,
-                      Image.asset(
-                        'assets/images/Property 1=Default.png',
-                        width: 120,
-                        height: 36,
-                      ),
+                      SvgPicture.asset('assets/icons/State1.svg'),
                     ],
                   ),
-                  Spacing.vertical16,
+                  Spacing.vertical8,
 
                   // 이미지 슬라이더 부분을 다음과 같이 수정
                   if (controller.imagesBytesList.isNotEmpty)
@@ -244,73 +282,43 @@ class ComplaintDetailPage extends StatelessWidget {
                       ],
                     ),
 
-                  Spacing.vertical16,
+                  Spacing.vertical8,
                   // 본문 내용
-                  Text(
-                    detail.content,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: black,
-                      fontFamily: 'Pretendard',
-                      height: 1.5,
-                    ),
-                  ),
+                  Text(detail.content, style: MindleTextStyles.body1()),
                   Spacing.vertical20,
+                  Divider(color: gray4, thickness: 1),
 
                   // 좋아요 & 댓글 수
                   if (reaction != null)
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            // TODO: 민원 좋아요 API 연동 시 구현
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/Message square.png',
-                                width: 16,
-                                height: 16,
-                                color: gray1,
-                              ),
-                              Spacing.horizontal4,
-                              Text(
-                                '${controller.comments.length}',
-                                style: TextStyle(
-                                  color: gray1,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'Pretendard',
-                                ),
-                              ),
-                            ],
+                        Spacer(),
+                        SvgPicture.asset(
+                          'assets/icons/empty/Message_square.svg',
+                          width: 18,
+                          height: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${controller.comments.length}',
+                          style: MindleTextStyles.body2(
+                            color: MindleColors.gray1,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SvgPicture.asset(
+                          'assets/icons/empty/Heart.svg',
+                          width: 18,
+                          height: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          '${reaction.reactionCount}',
+                          style: MindleTextStyles.body2(
+                            color: MindleColors.gray1,
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Row(
-                          children: [
-                            Image.asset(
-                              reaction.reacted == true
-                                  ? 'assets/images/Heart.png'
-                                  : 'assets/images/Heart.png',
-                              width: 16,
-                              height: 16,
-                              color: reaction.reacted ? mainGreen : gray1,
-                            ),
-                            Spacing.horizontal4,
-                            Text(
-                              '${reaction.reactionCount}',
-                              style: TextStyle(
-                                color: reaction.reacted ? mainGreen : gray1,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Pretendard',
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
 
@@ -373,7 +381,9 @@ class ComplaintDetailPage extends StatelessWidget {
                             child: Container(
                               color: white,
                               padding: EdgeInsets.all(16),
-                              child: detail.imageUrls.length >= 2
+                              child:
+                                  detail.imageUrls.length >
+                                      2 // 이미지 2장 이상일 때만 표시
                                   ? Row(
                                       children: [
                                         Expanded(
@@ -393,7 +403,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                               Text(
                                                 'Before',
                                                 style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: black,
                                                 ),
@@ -419,7 +429,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                               Text(
                                                 'After',
                                                 style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: black,
                                                 ),
@@ -476,15 +486,27 @@ class ComplaintDetailPage extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundColor: gray3,
-                                child: Image.asset(
-                                  'assets/images/Group 1707485733.png',
-                                  width: 20,
-                                  height: 20,
-                                  color: gray5,
-                                ),
+                              Stack(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: gray3,
+                                    child: Image.asset(
+                                      'assets/images/Group 1707485733.png',
+                                      width: 20,
+                                      height: 20,
+                                      color: gray5,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    child: SvgPicture.asset(
+                                      badgePathList[7],
+                                      width: 15,
+                                      height: 15,
+                                    ),
+                                  ),
+                                ],
                               ),
                               Spacing.horizontal12,
                               Expanded(
@@ -496,8 +518,8 @@ class ComplaintDetailPage extends StatelessWidget {
                                         Text(
                                           comment.nickname,
                                           style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
                                             color: gray1,
                                             fontFamily: 'Pretendard',
                                           ),
@@ -507,13 +529,7 @@ class ComplaintDetailPage extends StatelessWidget {
                                     SizedBox(height: 6),
                                     Text(
                                       comment.content,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: black,
-                                        fontFamily: 'Pretendard',
-                                        height: 1.4,
-                                      ),
+                                      style: MindleTextStyles.body1(),
                                     ),
                                     SizedBox(height: 6),
                                     Text(
@@ -532,11 +548,10 @@ class ComplaintDetailPage extends StatelessWidget {
                                       },
                                       child: Row(
                                         children: [
-                                          Image.asset(
-                                            "assets/images/Heart.png",
-                                            width: 20,
-                                            height: 20,
-                                            color: black,
+                                          SvgPicture.asset(
+                                            'assets/icons/empty/Heart.svg',
+                                            width: 18,
+                                            height: 18,
                                           ),
                                           SizedBox(width: 2),
                                           Text(
@@ -622,6 +637,77 @@ class ComplaintDetailPage extends StatelessWidget {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmDialog(
+    BuildContext context,
+    ComplaintDetailController controller,
+    int complaintId,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            '민원 삭제',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: black,
+              fontFamily: 'Pretendard',
+            ),
+          ),
+          content: Text(
+            '이 민원을 삭제하시겠습니까?\n삭제된 민원은 복구할 수 없습니다.',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: gray1,
+              fontFamily: 'Pretendard',
+              height: 1.5,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                '취소',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: gray1,
+                  fontFamily: 'Pretendard',
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                final success = await controller.deleteComplaint(
+                  complaintId.toString(),
+                );
+                if (success) {
+                  Get.back(); // 민원 상세 화면에서 나가기
+                }
+              },
+              child: Text(
+                '삭제',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: errorRed,
+                  fontFamily: 'Pretendard',
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

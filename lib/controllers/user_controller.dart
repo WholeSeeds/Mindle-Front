@@ -15,6 +15,11 @@ class UserController extends GetxController {
   final Rx<User?> currentUser = Rx<User?>(null);
   final RxBool isLoading = false.obs;
 
+  final int myComplaintCount = 5;
+  final int myComplaintSolvedCount = 3;
+  final int myLikesCount = 14;
+  final int myCommentsCount = 9;
+
   @override
   void onInit() {
     super.onInit();
@@ -42,7 +47,7 @@ class UserController extends GetxController {
     _dio = Dio(
       BaseOptions(
         baseUrl:
-            "http://${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
+            "${dotenv.env['SERVER_HOST']!}:${dotenv.env['SERVER_PORT']!}/api",
         connectTimeout: const Duration(seconds: 30),
       ),
     );

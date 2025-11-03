@@ -15,7 +15,9 @@ class HeroProfileCard extends StatelessWidget {
     final level = min(user.contributionScore ~/ 100, 9);
     final name = user.nickname;
     // TODO: 아래의 하드코딩된 부분들 api 들어오면 수정
-    final profileImageUrl = 'https://picsum.photos/120/120?random=100';
+    final random = Random();
+    final profileImageUrl =
+        'https://picsum.photos/120/120?random=${random.nextInt(1000)}';
     // final profileImageUrl = user.profileImageUrl ?? '';
     final complaintCount = 5;
     final solvedComplaintCount = 10;

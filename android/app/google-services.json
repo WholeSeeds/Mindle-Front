@@ -9,10 +9,47 @@
       "client_info": {
         "mobilesdk_app_id": "1:438878395174:android:23f3e4cc9d1dbd5d683fe7",
         "android_client_info": {
-          "package_name": "com.wholeseeds.mindle"
+          "package_name": "com.example.mindle"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "438878395174-1mjsgiko7mu4e2o657ottj8vcdvnbb1s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mindle",
+            "certificate_hash": "54d241d3f571d60ddbc7eb7506410d306a55f369"
+          }
+        },
+        {
+          "client_id": "438878395174-5p6qc8qmikjrap8b44uv7m3opcsfclsj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mindle",
+            "certificate_hash": "b9646eca10193e71b157d5de252388f70cd50691"
+          }
+        },
+        {
+          "client_id": "438878395174-ia8gdqt1pifppq2297o5gpqg09q2pqgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mindle",
+            "certificate_hash": "b0949f8b3270fe0487cf9c9045e4edbd1df32456"
+          }
+        },
+        {
+          "client_id": "438878395174-u3pjpm1b98lb03kmo06nh4aeck8kn08r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mindle",
+            "certificate_hash": "f181e9d677c966d69255e35119878c9a64a3ef67"
+          }
+        },
+        {
+          "client_id": "438878395174-papi66l69ddub4edtjornes351o3j9pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBwKRs-aipWWPtig4BGjsi47v5eXCiRiCo"
@@ -20,7 +57,71 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438878395174-papi66l69ddub4edtjornes351o3j9pt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "438878395174-ji11u33momoi959gi50a3fd554m7l84r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ethanpark.mindle"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438878395174:android:e91063d46885c249683fe7",
+        "android_client_info": {
+          "package_name": "com.wholeseeds.mindle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438878395174-madshsbtpb93bfusr0ss8vi4lq9iu140.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wholeseeds.mindle",
+            "certificate_hash": "bc0f4e0d3c0c8bbc57352c760ab4c55fa98ac57e"
+          }
+        },
+        {
+          "client_id": "438878395174-uv8i6rafkqmfae5c55ot31neo00r8lso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wholeseeds.mindle",
+            "certificate_hash": "b0949f8b3270fe0487cf9c9045e4edbd1df32456"
+          }
+        },
+        {
+          "client_id": "438878395174-papi66l69ddub4edtjornes351o3j9pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwKRs-aipWWPtig4BGjsi47v5eXCiRiCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438878395174-papi66l69ddub4edtjornes351o3j9pt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "438878395174-ji11u33momoi959gi50a3fd554m7l84r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ethanpark.mindle"
+              }
+            }
+          ]
         }
       }
     }

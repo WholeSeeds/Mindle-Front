@@ -3,8 +3,8 @@ import 'package:mindle/designs.dart';
 import 'package:mindle/widgets/mindle_textbutton.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AlignOptionsButton extends StatelessWidget {
-  const AlignOptionsButton({super.key});
+class ResolvedStatusButton extends StatelessWidget {
+  const ResolvedStatusButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AlignOptionsButton extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '정렬',
+            '처리상태',
             style: MindleTextStyles.body2(
               color: MindleColors.gray8,
             ).copyWith(fontWeight: FontWeight.w500),
@@ -48,7 +48,7 @@ class _SortOptionsBottomSheet extends StatelessWidget {
       children: [
         Spacing.vertical30,
         Text(
-          '정렬',
+          '처리 상태',
           style: MindleTextStyles.subtitle2(
             color: MindleColors.black,
           ).copyWith(fontWeight: FontWeight.w600),
@@ -60,9 +60,9 @@ class _SortOptionsBottomSheet extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               title: Center(
                 child: Text(
-                  '최신순',
+                  '처리 완료',
                   style: MindleTextStyles.body1(
-                    color: MindleColors.mainGreen,
+                    color: MindleColors.black,
                   ).copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
@@ -75,7 +75,7 @@ class _SortOptionsBottomSheet extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               title: Center(
                 child: Text(
-                  '공감순',
+                  '처리중',
                   style: MindleTextStyles.body1(
                     color: MindleColors.black,
                   ).copyWith(fontWeight: FontWeight.w500),
@@ -90,7 +90,7 @@ class _SortOptionsBottomSheet extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               title: Center(
                 child: Text(
-                  '댓글순',
+                  '대기',
                   style: MindleTextStyles.body1(
                     color: MindleColors.black,
                   ).copyWith(fontWeight: FontWeight.w500),

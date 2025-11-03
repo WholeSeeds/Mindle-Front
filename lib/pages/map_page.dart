@@ -46,6 +46,15 @@ class MapPage extends StatelessWidget {
                   consumeSymbolTapEvents:
                       false, // 심볼 여부와 상관없이 onMapTapped 이벤트가 trigger 되도록 설정
                 ),
+                clusterOptions: NaverMapClusteringOptions(
+                  clusterMarkerBuilder: (info, clusterMarker) {
+                    clusterMarker.setIcon(
+                      NOverlayImage.fromAssetImage(
+                        'assets/icons/place-marker.png',
+                      ),
+                    );
+                  },
+                ),
                 onMapReady: controller.setMapController,
                 onMapTapped: (npoint, nlatlng) {
                   print("지도 탭됨");

@@ -61,6 +61,10 @@ class ProfilePage extends StatelessWidget {
         }
 
         final level = min(user.contributionScore ~/ 100, 9);
+        final rate = userController.myComplaintCount == 0
+            ? 0.0
+            : userController.myComplaintSolvedCount /
+                  userController.myComplaintCount;
 
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
@@ -108,6 +112,7 @@ class ProfilePage extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       image: AssetImage(
                                         'assets/images/profile_image.jpg',
+                                        // 'assets/images/no_image.jpg',
                                       ),
                                     ),
                                   ),
@@ -148,14 +153,49 @@ class ProfilePage extends StatelessWidget {
                     // 경험치 표시
                     Column(
                       children: [
-                        LinearProgressIndicator(
-                          value: 0.7, // 예시로 70% 진행
-                          minHeight: 10,
-                          backgroundColor: MindleColors.mainGreen.withOpacity(
-                            0.1,
-                          ),
-                          color: MindleColors.mainGreen,
-                          borderRadius: BorderRadius.circular(5),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: LinearProgressIndicator(
+                                value: rate,
+                                minHeight: 10,
+                                backgroundColor: MindleColors.mainGreen
+                                    .withOpacity(0.1),
+                                color: MindleColors.mainGreen,
+                              ),
+                            ),
+
+                            // 퍼센트 말풍선
+                            Positioned(
+                              left:
+                                  (MediaQuery.of(context).size.width - 40) *
+                                      rate -
+                                  30,
+                              top: -8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                    color: MindleColors.mainGreen,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Text(
+                                  '${(rate * 100).toInt()}%',
+                                  style: MindleTextStyles.body4(
+                                    color: MindleColors.mainGreen,
+                                  ).copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Spacing.vertical8,
                         Row(
@@ -175,7 +215,9 @@ class ProfilePage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Text('7/12'),
+                            Text(
+                              '${userController.myComplaintSolvedCount}/${userController.myComplaintCount}',
+                            ),
                           ],
                         ),
                       ],
@@ -187,7 +229,11 @@ class ProfilePage extends StatelessWidget {
               Spacing.vertical24,
 
               // 통계 카드
-              _buildStatsContainer(),
+              _buildStatsContainer(
+                userController.myComplaintCount.toString(),
+                userController.myLikesCount.toString(),
+                userController.myCommentsCount.toString(),
+              ),
               Spacing.vertical24,
 
               // 메뉴 리스트
@@ -206,7 +252,7 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildMenuItem(
-                      title: '동네 설정',
+                      title: '동네설정',
                       onTap: () => Get.to(() => SetNbhdPage()),
                       nbhd: user.subdistrict?.name ?? '설정 필요',
                       showArrow: false,
@@ -221,7 +267,11 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsContainer() {
+  Widget _buildStatsContainer(
+    String myComplaintCount,
+    String myLikedCount,
+    String myCommentedCount,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -241,7 +291,7 @@ class ProfilePage extends StatelessWidget {
             child: _buildStatItem(
               icon: 'assets/icons/filled/Document.svg',
               title: '작성한 민원',
-              count: '15',
+              count: myComplaintCount,
               onTap: () => Get.to(() => MyComplaintsPage()),
             ),
           ),
@@ -250,7 +300,7 @@ class ProfilePage extends StatelessWidget {
             child: _buildStatItem(
               icon: 'assets/icons/filled/Heart.svg',
               title: '공감한 민원',
-              count: '23',
+              count: myLikedCount,
               onTap: () => Get.to(() => LikedComplaintsPage()),
             ),
           ),
@@ -259,7 +309,7 @@ class ProfilePage extends StatelessWidget {
             child: _buildStatItem(
               icon: 'assets/icons/filled/Message_square.svg',
               title: '댓글 단 민원',
-              count: '8',
+              count: myCommentedCount,
               onTap: () => Get.to(() => CommentedComplaintsPage()),
             ),
           ),
@@ -322,7 +372,7 @@ class ProfilePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Row(
             children: [
-              Expanded(child: Text(title, style: MindleTextStyles.subtitle2())),
+              Expanded(child: Text(title, style: MindleTextStyles.subtitle3())),
               if (showArrow)
                 // SvgPicture.asset(
                 //   'assets/icons/empty/arrow_right.svg',
